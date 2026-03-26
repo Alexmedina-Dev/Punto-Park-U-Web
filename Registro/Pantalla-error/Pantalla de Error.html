@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Punto Park</title>
+    <link rel="stylesheet" href="error.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header con icono y título -->
+        <div class="header-section">
+            <div class="error-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+            </div>
+            <h1>¡Atención!</h1>
+        </div>
+
+        <!-- Contenido en 2 columnas para pantallas grandes -->
+        <div class="content-wrapper">
+            <!-- Columna Izquierda: Mensaje de error y botones -->
+            <div class="left-column">
+                <div class="error-message">
+                    <h3>❌ Error de Validación</h3>
+                    <p id="errorText">Ha ocurrido un error en el proceso. Por favor, verifica la información ingresada.</p>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="window.location.href='../Login/Login.html'">Ir al Login</button>
+            </div>
+
+            <!-- Columna Derecha: Recomendaciones -->
+            <div class="right-column">
+                <div class="info-message">
+                    <h3>💡 Recomendaciones</h3>
+                    <p>
+                        • Verifica que todos los campos estén completos<br>
+                        • Asegúrate de que el usuario y contraseña sean correctos<br>
+                        • La cédula debe contener solo números<br>
+                        • Debes ser mayor de 18 años para registrarte<br>
+                        • Revisa que la fecha de nacimiento sea correcta<br>
+                        • Intenta nuevamente en unos momentos
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <img class="logo" src="../Logo.png" alt="Logo Punto Park U">
+        </div>
+        <div>
+            <p><strong>©2025 "PUNTO PARK U" Sistema de Gestión de Parqueadero - Todos los derechos reservados</strong></p>
+        </div>
+    </footer>
+
+    <script>
+        // Obtener el mensaje de error de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMsg = urlParams.get('msg');
+        
+        if (errorMsg) {
+            document.getElementById('errorText').textContent = decodeURIComponent(errorMsg);
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

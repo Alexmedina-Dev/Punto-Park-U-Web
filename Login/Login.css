@@ -245,7 +245,7 @@
      line-height: 1.4;
  }
 
- /* Responsive */
+ /************************ RESPONSIVE  ***********************/
  @media (max-width: 768px) {
      body {
          padding: 20px 15px 100px 15px;
