@@ -1,0 +1,326 @@
+/* ============================================
+   RESPONSIVE - ADAPTACIÓN DEL MENÚ ANIMADO
+   ============================================ */
+
+@media (max-width: 768px) {
+    .logo-header img {
+        width: 86px;
+        height: 80px;
+    }
+    
+    .logo-header {
+        gap: 25px;
+    }
+    
+    .btn-nav {
+        font-size: 10px;
+    }
+    
+    .nav-buttons {
+        gap: 10px;
+    }
+
+    /* MENÚ ANIMADO MÓVIL */
+    .menu-toggle {
+        display: block;
+        position: relative;
+        width: 90%;
+        height: 70px;
+        background: white;
+        border: 2px solid #4facfe;
+        border-radius: 15px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .menu-toggle:hover {
+        box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+    }
+
+    .nav-link.active {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+    
+    /* Icono del garaje */
+    .menu-toggle::before {
+        content: '';
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 14%;
+        height: 55px;
+        background-image: url("Garaje.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: all 0.3s ease;
+    }
+    
+    /* Animación de los vehículos entrando al garaje */
+    .vehicle-car {
+        top: 25px;
+    }
+    
+    .vehicle-bike {
+        bottom: 5px;
+    }
+    
+    .vehicle-animation {
+        width: 35px;
+        height: 35px;
+    }
+    
+    @keyframes driveToLeft {
+        0% {
+            right: -50px;
+            opacity: 0;
+        }
+        5% {
+            opacity: 1;
+        }
+        45% {
+            right: calc(100% - 140px);
+            opacity: 1;
+        }
+        50% {
+            right: calc(100% - 135px);
+            opacity: 0;
+        }
+        100% {
+            right: -50px;
+            opacity: 0;
+        }
+    }
+    
+    /* Cuando el menú está activo */
+    .menu-toggle.active {
+        height: auto;
+        min-height: 70px;
+        outline: none;
+    }
+    
+    .menu-toggle.active::before {
+        display: none;
+    }
+    
+    .menu-toggle.active .vehicle-animation {
+        animation: none;
+        opacity: 0;
+    }
+    
+    .menu-toggle.active::after {
+        content: '✕ CERRAR';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 15px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #e74c3c;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 0;
+        width: calc(100% - 40px);
+        border-radius: 10px;
+        background: white;
+    }
+
+    .nav-container {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+        padding: 0;
+    }
+
+    .nav-container.active {
+        display: flex;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+        border-radius: 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .nav-link:hover {
+        transform: none;
+    }
+
+    .hero h1, h2 {
+        font-size: 32px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
+    .hero-icons {
+        gap: 20px;
+    }
+
+    .vehicle-icon {
+        width: 90px;
+        height: 90px;
+    }
+
+    .vehicle-icon svg {
+        width: 50px;
+        height: 50px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .mission-vision {
+        padding: 60px 20px;
+    }
+
+    .mission-vision-grid {
+        gap: 30px;
+    }
+
+    .mission-card,
+    .vision-card {
+        padding: 35px 30px;
+    }
+
+    .mv-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .mv-icon svg {
+        width: 45px;
+        height: 45px;
+    }
+
+    .mission-card h3,
+    .vision-card h3 {
+        font-size: 26px;
+    }
+
+    .mission-card p,
+    .vision-card p {
+        font-size: 15px;
+    }
+    
+    .whatsapp-float {
+        bottom: 170px;
+    }
+
+    .scroll-top {
+        bottom: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-header {
+        gap: 8px;
+    }
+    
+    .btn-nav {
+        font-size: 9px;
+    }
+    
+    .nav-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .menu-toggle {
+        height: 60px;
+    }
+
+    .vehicle-animation {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .menu-toggle::before {
+        width: 90px;
+        height: 80px;
+        left: 8px;
+    }
+
+    .hero {
+        padding: 50px 20px;
+    }
+
+    .hero h1, h2 {
+        font-size: 34px;
+    }
+
+    .btn-cta {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+
+    .features, .pricing, .about {
+        padding: 50px 20px;
+    }
+
+    .mission-vision {
+        padding: 50px 20px;
+    }
+
+    .mission-vision-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .mission-card,
+    .vision-card {
+        padding: 30px 25px;
+    }
+
+    .mv-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .mv-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mission-card h3,
+    .vision-card h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .mission-card p,
+    .vision-card p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 160px;
+        right: 20px;
+    }
+
+    .whatsapp-float svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .scroll-top {
+        width: 50px;
+        height: 50px;
+        bottom: 100px;
+        right: 20px;
+    }
+}

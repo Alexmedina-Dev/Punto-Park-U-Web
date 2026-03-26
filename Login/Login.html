@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <!-- Meta Información General -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Título de la Página -->
+    <title>Login "Punto Park U"</title>
+    <!-- Descripción de la Página -->
+    <meta
+      name="description"
+      content="Aplicativo Web creado para la visualización Información de
+      los usuarios de Punto Park U"
+    />
+    <!-- Autor de la Página -->
+    <meta name="author" content="Alexander Medina & Miguel Palacio" />
+    <!-- Enlaces y Estilos CSS -->
+    <link rel="stylesheet" href="Login.css" />
+    <script src="Login.js"></script>
+  </head>
+
+  <body>
+    <!-- Botón en el Header solo visible en móviles -->
+    <header class="mobile-header">
+      <a href="../index.html" class="btn-back-home">Inicio</a>
+    </header>
+    <div class="container">
+      <div class="form-section">
+        <h1>Inicio de sesión usuario</h1>
+        <div class="brand-name">"PUNTO PARK U"</div>
+        <p class="subtitle">Sistema de Gestión de Parqueadero</p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginUser">Ingrese su usuario</label>
+            <input type="text" id="loginUser" placeholder="Usuario" required />
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Ingrese su Contraseña</label>
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Contraseña"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+
+        <div class="link-text">
+          ¿No tienes cuenta?
+          <a href="../Registro/Registro.html">Regístrate aquí</a>
+        </div>
+      </div>
+
+      <div class="logo-section">
+        <div class="user-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón flotante para escritorio-->
+    <div class="back-home-container">
+      <a href="../index.html" class="btn-back-home">Inicio</a>
+    </div>
+
+    <footer>
+      <div>
+        <picture>
+          <source srcset="../Images/Logo.avif" type="image/avif" />
+          <source srcset="../Images/Logo.webp" type="image/webp" />
+          <img
+            class="logo"
+            src="../Images/Logo.png"
+            alt="Logo Punto Park U"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+      </div>
+      <div>
+        <p>
+          <strong
+            >©2025 "PUNTO PARK U" Sistema de Gestión de Parqueadero - Todos los
+            derechos reservados</strong
+          >
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

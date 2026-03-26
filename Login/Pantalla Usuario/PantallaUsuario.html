@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - Punto Park U</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-small {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .brand-small {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .btn-logout-header {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .welcome-card h2 {
+            color: #1e3c72;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e3c72;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .active-vehicle {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .vehicle-info {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .vehicle-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .vehicle-label {
+            color: #666;
+        }
+
+        .vehicle-value {
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-ok { background: #43e97b; color: white; }
+        .status-warning { background: #ffc107; color: #000; }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .history-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .history-card h3 {
+            color: #1e3c72;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .history-item {
+            background: #f8f9fa;
+            border-left: 4px solid #4facfe;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+        }
+
+        .history-date {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .history-detail {
+            color: #1e3c72;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .history-amount {
+            color: #43e97b;
+            font-weight: 700;
+            float: right;
+        }
+
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: none;
+            color: #666;
+        }
+
+        .tab-item.active { color: #4facfe; }
+        .tab-icon { font-size: 24px; }
+        .tab-label { font-size: 11px; font-weight: 600; }
+
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+
+        .btn {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .vehicles-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .vehicle-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .vehicle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .vehicle-plate {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+
+        .vehicle-type {
+            padding: 6px 12px;
+            background: #4facfe;
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .vehicle-details {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .location-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+        }
+
+        .location-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .location-icon {
+            font-size: 24px;
+            color: #4facfe;
+        }
+
+        .map-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-map {
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-google { background: #4285f4; color: white; }
+        .btn-waze { background: #33ccff; color: white; }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #1e3c72;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .profile-options {
+            display: grid;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .profile-option {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .profile-option:hover {
+            background: #e9ecef;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            color: #1e3c72;
+            font-size: 22px;
+        }
+
+        .close-modal {
+            font-size: 30px;
+            color: #666;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .no-vehicle {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .no-vehicle-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .button-group { grid-template-columns: 1fr; }
+            .map-buttons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo-small">🅿️</div>
+            <div class="brand-small">PUNTO PARK U</div>
+        </div>
+        <div class="header-right">
+            <button class="notification-btn" onclick="showNotifications()">
+                🔔
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="btn-logout-header" onclick="logout()">🚪 Salir</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- HOME -->
+        <div id="homeSection" class="content-section active">
+            <div class="welcome-card">
+                <h2>¡Hola, Juan!</h2>
+                <span class="level-badge">🥇 Nivel ORO</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🚗</div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Visitas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value">$450K</div>
+                    <div class="stat-label">Gastado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎁</div>
+                    <div class="stat-value">10%</div>
+                    <div class="stat-label">Descuento</div>
+                </div>
+            </div>
+
+            <div id="activeVehicleContainer"></div>
+
+            <div class="history-card">
+                <h3>📜 Historial Reciente</h3>
+                <div class="history-item">
+                    <div class="history-date">28 Oct, 2025 - 3h 15min</div>
+                    <div class="history-detail">
+                        ABC-123 • Espacio B2
+                        <span class="history-amount">$9.000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VEHICLES -->
+        <div id="vehiclesSection" class="content-section">
+            <div class="welcome-card">
+                <h2>🚗 Mis Vehículos</h2>
+            </div>
+            <div class="vehicles-list" id="vehiclesList"></div>
+            <button class="btn btn-primary" onclick="addVehicle()">➕ Agregar Vehículo</button>
+        </div>
+
+        <!-- RESERVE -->
+        <div id="reserveSection" class="content-section">
+            <div class="welcome-card">
+                <h2>📝 Nueva Reserva</h2>
+            </div>
+            <div class="profile-card">
+                <div class="form-group">
+                    <label>Seleccionar Vehículo:</label>
+                    <select id="reserveVehicle"></select>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Pago:</label>
+                    <select id="reservePayment">
+                        <option>Prepagar (5% descuento)</option>
+                        <option>Pagar al salir</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="makeReservation()">✅ Confirmar Reserva</button>
+            </div>
+        </div>
+
+        <!-- LOCATION -->
+        <div id="locationSection" class="content-section">
+            <div class="location-card">
+                <h3>📍 Ubicación</h3>
+                <div>
+                    <div class="location-item">
+                        <span class="location-icon">📫</span>
+                        <div><strong>Dirección:</strong><br>Calle 82 # 15-35<br>Bogotá</div>
+                    </div>
+                    <div class="location-item">
+                        <span class="location-icon">📞</span>
+                        <div><strong>Teléfono:</strong><br>(+57) 310 123 4567</div>
+                    </div>
+                </div>
+                <div class="map-buttons">
+                    <a href="#" class="btn-map btn-google" onclick="openGoogleMaps(); return false;">📍 Google Maps</a>
+                    <a href="#" class="btn-map btn-waze" onclick="openWaze(); return false;">🚗 Waze</a>
+                </div>
+                <a href="https://wa.me/573101234567" target="_blank" class="btn btn-primary" style="text-decoration: none; display: block; text-align: center;">💬 WhatsApp</a>
+            </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="profileSection" class="content-section">
+            <div class="profile-card">
+                <div class="profile-avatar">👤</div>
+                <div class="profile-info">
+                    <div class="profile-name" id="displayName">Juan Pérez</div>
+                    <div class="profile-email" id="displayEmail">juan.perez@email.com</div>
+                    <div class="profile-email" id="displayPhone">+57 310 123 4567</div>
+                </div>
+
+                <div id="profileForm" style="display: none;">
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" id="profileName" value="Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="profileEmail" value="juan.perez@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Celular:</label>
+                        <input type="tel" id="profilePhone" value="+57 310 123 4567">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button class="btn btn-secondary" onclick="cancelProfileEdit()">Cancelar</button>
+                        <button class="btn btn-primary" onclick="saveProfile()">💾 Guardar</button>
+                    </div>
+                </div>
+
+                <button id="btnEditProfile" class="btn btn-primary" onclick="showProfileEdit()">✏️ Actualizar Datos</button>
+
+                <div class="profile-options">
+                    <div class="profile-option" onclick="alert('Historial completo')">
+                        <span>📊 Mi Historial</span><span>›</span>
+                    </div>
+                    <div class="profile-option" onclick="alert('Nivel Oro - 10% descuento')">
+                        <span>🎁 Mi Nivel</span><span>›</span>
+                    </div>
+                    <div class="profile-option" onclick="showNotificationSettings()">
+                        <span>🔔 Configurar Notificaciones</span><span>›</span>
+                    </div>
+                    <div class="profile-option" onclick="changePassword()">
+                        <span>🔐 Cambiar Contraseña</span><span>›</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-item active" onclick="showSection('homeSection')">
+            <div class="tab-icon">🏠</div>
+            <div class="tab-label">Inicio</div>
+        </button>
+        <button class="tab-item" onclick="showSection('vehiclesSection')">
+            <div class="tab-icon">🚗</div>
+            <div class="tab-label">Vehículos</div>
+        </button>
+        <button class="tab-item" onclick="showSection('reserveSection')">
+            <div class="tab-icon">📝</div>
+            <div class="tab-label">Reservar</div>
+        </button>
+        <button class="tab-item" onclick="showSection('locationSection')">
+            <div class="tab-icon">📍</div>
+            <div class="tab-label">Ubicación</div>
+        </button>
+        <button class="tab-item" onclick="showSection('profileSection')">
+            <div class="tab-icon">👤</div>
+            <div class="tab-label">Perfil</div>
+        </button>
+    </div>
+
+    <!-- Modal Configuración de Notificaciones -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔔 Configurar Notificaciones</h3>
+                <button class="close-modal" onclick="closeNotificationModal()">×</button>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h4 style="color: #1e3c72; margin-bottom: 15px; font-size: 18px;">Canales de Notificación</h4>
+                
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifSMS" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72; margin-bottom: 3px;">📱 SMS</div>
+                            <div style="font-size: 13px; color: #666;">Mensajes de texto al +57 310 123 4567</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifWhatsApp" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72; margin-bottom: 3px;">💬 WhatsApp</div>
+                            <div style="font-size: 13px; color: #666;">Mensajes por WhatsApp</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifPush" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72; margin-bottom: 3px;">🔔 Notificaciones Push</div>
+                            <div style="font-size: 13px; color: #666;">Alertas en tiempo real en la app</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="background: #e3f2fd; padding: 12px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #4facfe;">
+                    <div style="font-size: 13px; color: #1e3c72;">
+                        <strong>📧 Email:</strong> Las facturas electrónicas se enviarán automáticamente al correo registrado después de cada pago.
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h4 style="color: #1e3c72; margin-bottom: 15px; font-size: 18px;">¿Cuándo recibir notificaciones?</h4>
+                
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifIngreso" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72;">🚗 Confirmación de ingreso</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifTiempo" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72;">⏰ Tiempo por vencer (15 min antes)</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="background: #ffe0e0; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifVencido" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72;">🚨 Tiempo vencido</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="background: #d4edda; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifPago" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72;">✅ Confirmación de pago</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="background: #f0e5ff; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifNivel" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72;">🎁 Subida de nivel/Beneficios</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="background: #ffe4f0; padding: 15px; border-radius: 10px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="notifPromo" style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 600; color: #1e3c72;">💰 Promociones y descuentos</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <div style="font-size: 13px; color: #666; line-height: 1.6;">
+                    <strong style="color: #1e3c72;">💡 Recomendación:</strong><br>
+                    Mantén activas las notificaciones de tiempo y pago para evitar cargos adicionales.
+                    <br><br>
+                    <strong style="color: #1e3c72;">📱 Costos:</strong><br>
+                    Los SMS y WhatsApp son gratuitos. Se envían solo cuando hay cambios importantes.
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="saveNotificationSettings()">💾 Guardar Configuración</button>
+        </div>
+    </div>
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Editar Vehículo</h3>
+                <button class="close-modal" onclick="closeEditModal()">×</button>
+            </div>
+            <div class="form-group">
+                <label>Placa/Código:</label>
+                <input type="text" id="editPlate" readonly style="background: #e9ecef;">
+            </div>
+            <div class="form-group">
+                <label>Marca:</label>
+                <input type="text" id="editBrand">
+            </div>
+            <div class="form-group">
+                <label>Color:</label>
+                <input type="text" id="editColor">
+            </div>
+            <div class="form-group">
+                <label>Año:</label>
+                <input type="text" id="editYear">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                <button class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button>
+                <button class="btn btn-danger" onclick="deleteVehicle()">🗑️ Eliminar</button>
+                <button class="btn btn-primary" onclick="saveEdit()">💾 Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let state = {
+            activeReservation: null,
+            vehicles: [
+                {id: '1', plate: 'ABC-123', type: 'Carro', brand: 'Chevrolet Spark', color: 'Rojo', year: '2020'},
+                {id: '2', plate: 'XYZ-789', type: 'Moto', brand: 'Yamaha FZ', color: 'Negro', year: '2021'}
+            ],
+            currentEdit: null
+        };
+
+        window.onload = function() {
+            renderVehicles();
+            renderActiveVehicle();
+        };
+
+        function renderVehicles() {
+            const list = document.getElementById('vehiclesList');
+            list.innerHTML = '';
+            state.vehicles.forEach(v => {
+                const card = document.createElement('div');
+                card.className = 'vehicle-card';
+                card.innerHTML = `
+                    <div class="vehicle-header">
+                        <div class="vehicle-plate">${v.plate}</div>
+                        <div class="vehicle-type">${v.type}</div>
+                    </div>
+                    <div class="vehicle-details">${v.brand} • ${v.color} • ${v.year}</div>
+                    <button class="btn btn-secondary" onclick="editVehicle('${v.id}')">✏️ Editar</button>
+                `;
+                list.appendChild(card);
+            });
+
+            const select = document.getElementById('reserveVehicle');
+            select.innerHTML = '';
+            state.vehicles.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.id;
+                opt.textContent = `${v.plate} (${v.type})`;
+                select.appendChild(opt);
+            });
+        }
+
+        function renderActiveVehicle() {
+            const cont = document.getElementById('activeVehicleContainer');
+            if (!state.activeReservation) {
+                cont.innerHTML = `
+                    <div class="active-vehicle">
+                        <div class="no-vehicle">
+                            <div class="no-vehicle-icon">🚗</div>
+                            <h3 style="color: #1e3c72;">No tienes reservas activas</h3>
+                            <button class="btn btn-primary" onclick="showSection('reserveSection')">📝 Hacer Reserva</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const isPaid = state.activeReservation === 'paid';
+                cont.innerHTML = `
+                    <div class="active-vehicle">
+                        <h3>🚗 Vehículo Activo</h3>
+                        <div class="vehicle-info">
+                            <div class="vehicle-row"><span class="vehicle-label">Placa:</span><span class="vehicle-value">ABC-123</span></div>
+                            <div class="vehicle-row"><span class="vehicle-label">Espacio:</span><span class="vehicle-value">A5</span></div>
+                            <div class="vehicle-row"><span class="vehicle-label">Estado:</span><span class="status-badge ${isPaid ? 'status-ok' : 'status-warning'}">${isPaid ? 'PAGADO' : 'SIN PAGAR'}</span></div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">💳 Pagar Extra</button>
+                            <button class="btn btn-danger" onclick="cancelReservation()" ${isPaid ? 'disabled style="opacity:0.5;"' : ''}>❌ Cancelar</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function addVehicle() {
+            const type = prompt('Tipo:\n1=Carro\n2=Moto\n3=Bicicleta');
+            if (!type) return;
+
+            let typeText = type === '1' ? 'Carro' : type === '2' ? 'Moto' : 'Bicicleta';
+            let identifier;
+
+            if (type === '3') {
+                identifier = prompt('Número de Serie/Marco de la bicicleta:');
+                if (!identifier) return;
+                const brand = prompt('Marca:') || 'N/A';
+                const color = prompt('Color:') || 'N/A';
+                state.vehicles.push({
+                    id: Date.now().toString(),
+                    plate: identifier,
+                    type: typeText,
+                    brand: brand,
+                    color: color,
+                    year: 'N/A'
+                });
+                alert('✅ Bicicleta registrada\n\n📸 Valida con el operador al ingresar');
+            } else {
+                identifier = prompt('Ingrese la placa:');
+                if (!identifier) return;
+                const brand = prompt('Marca y modelo:') || 'N/A';
+                const color = prompt('Color:') || 'N/A';
+                const year = prompt('Año:') || 'N/A';
+                state.vehicles.push({
+                    id: Date.now().toString(),
+                    plate: identifier,
+                    type: typeText,
+                    brand: brand,
+                    color: color,
+                    year: year
+                });
+                alert('✅ Vehículo registrado\n\n📹 La cámara IA lo reconocerá');
+            }
+            renderVehicles();
+        }
+
+        function editVehicle(id) {
+            const vehicle = state.vehicles.find(v => v.id === id);
+            if (!vehicle) return;
+            
+            state.currentEdit = id;
+            document.getElementById('editPlate').value = vehicle.plate;
+            document.getElementById('editBrand').value = vehicle.brand;
+            document.getElementById('editColor').value = vehicle.color;
+            document.getElementById('editYear').value = vehicle.year;
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+            state.currentEdit = null;
+        }
+
+        function saveEdit() {
+            const brand = document.getElementById('editBrand').value;
+            const color = document.getElementById('editColor').value;
+            const year = document.getElementById('editYear').value;
+            
+            if (!brand || !color || !year) {
+                alert('⚠️ Completa todos los campos');
+                return;
+            }
+
+            const index = state.vehicles.findIndex(v => v.id === state.currentEdit);
+            if (index !== -1) {
+                state.vehicles[index].brand = brand;
+                state.vehicles[index].color = color;
+                state.vehicles[index].year = year;
+            }
+
+            alert('✅ Vehículo actualizado');
+            closeEditModal();
+            renderVehicles();
+        }
+
+        function deleteVehicle() {
+            if (!confirm('¿Eliminar este vehículo?')) return;
+            
+            state.vehicles = state.vehicles.filter(v => v.id !== state.currentEdit);
+            alert('✅ Vehículo eliminado');
+            closeEditModal();
+            renderVehicles();
+        }
+
+        function makeReservation() {
+            const vehicleId = document.getElementById('reserveVehicle').value;
+            const payment = document.getElementById('reservePayment').value;
+            const vehicle = state.vehicles.find(v => v.id === vehicleId);
+            
+            if (!vehicle) {
+                alert('⚠️ Selecciona un vehículo');
+                return;
+            }
+
+            const isPrepaid = payment.includes('Prepagar');
+
+            if (isPrepaid) {
+                if (confirm(`💳 Pagar por PSE\n\nVehículo: ${vehicle.plate}\nMonto: $3.000\n\n¿Confirmar?`)) {
+                    alert('🔄 Redirigiendo a PSE...');
+                    setTimeout(() => {
+                        state.activeReservation = 'paid';
+                        alert('✅ Pago confirmado\n\nReserva activa');
+                        renderActiveVehicle();
+                        showSection('homeSection');
+                    }, 1500);
+                }
+            } else {
+                state.activeReservation = 'unpaid';
+                alert(`✅ Reserva confirmada (sin pago previo)\n\nVehículo: ${vehicle.plate}\n\n📹 La cámara IA te reconocerá al ingresar al parqueadero\n💰 Pagarás al salir`);
+                renderActiveVehicle();
+                showSection('homeSection');
+            }
+        }
+
+        function cancelReservation() {
+            if (state.activeReservation === 'paid') {
+                alert('❌ No puedes cancelar una reserva pagada\n\nNo hay devoluciones por PSE');
+                return;
+            }
+
+            if (confirm('¿Cancelar la reserva?')) {
+                state.activeReservation = null;
+                alert('✅ Reserva cancelada');
+                renderActiveVehicle();
+            }
+        }
+
+        function showProfileEdit() {
+            document.getElementById('profileForm').style.display = 'block';
+            document.getElementById('btnEditProfile').style.display = 'none';
+        }
+
+        function cancelProfileEdit() {
+            document.getElementById('profileForm').style.display = 'none';
+            document.getElementById('btnEditProfile').style.display = 'block';
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('profileName').value;
+            const email = document.getElementById('profileEmail').value;
+            const phone = document.getElementById('profilePhone').value;
+
+            if (!name || !email || !phone) {
+                alert('⚠️ Completa todos los campos');
+                return;
+            }
+
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayEmail').textContent = email;
+            document.getElementById('displayPhone').textContent = phone;
+
+            alert('✅ Datos actualizados');
+            cancelProfileEdit();
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(id).classList.add('active');
+            
+            const tabs = ['homeSection', 'vehiclesSection', 'reserveSection', 'locationSection', 'profileSection'];
+            const index = tabs.indexOf(id);
+            if (index !== -1) {
+                document.querySelectorAll('.tab-item')[index].classList.add('active');
+            }
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function logout() {
+            if (confirm('¿Cerrar sesión?')) {
+                window.location.href = '../index.html';
+            }
+        }
+
+        function showNotifications() {
+            alert('📬 Notificaciones:\n\n1. Tu tiempo termina en 15min\n2. Promoción: 10% descuento\n3. Has alcanzado nivel ORO 🥇');
+        }
+
+        function openGoogleMaps() {
+            window.open('https://www.google.com/maps/dir/?api=1&destination=4.6674,-74.0561', '_blank');
+        }
+
+        function openWaze() {
+            window.open('https://waze.com/ul?ll=4.6674,-74.0561&navigate=yes', '_blank');
+        }
+
+        function changePassword() {
+            const newPass = prompt('Ingrese nueva contraseña (mínimo 6 caracteres):');
+            if (newPass && newPass.length >= 6) {
+                alert('✅ Contraseña actualizada correctamente');
+            } else if (newPass) {
+                alert('❌ La contraseña debe tener al menos 6 caracteres');
+            }
+        }
+
+        function showNotificationSettings() {
+            document.getElementById('notificationModal').classList.add('active');
+        }
+
+        function closeNotificationModal() {
+            document.getElementById('notificationModal').classList.remove('active');
+        }
+
+        function saveNotificationSettings() {
+            const settings = {
+                sms: document.getElementById('notifSMS').checked,
+                whatsapp: document.getElementById('notifWhatsApp').checked,
+                email: document.getElementById('notifEmail').checked,
+                push: document.getElementById('notifPush').checked,
+                ingreso: document.getElementById('notifIngreso').checked,
+                tiempo: document.getElementById('notifTiempo').checked,
+                vencido: document.getElementById('notifVencido').checked,
+                pago: document.getElementById('notifPago').checked,
+                nivel: document.getElementById('notifNivel').checked,
+                promo: document.getElementById('notifPromo').checked
+            };
+
+            // Guardar en localStorage (temporal, se conectará con BD)
+            localStorage.setItem('notificationSettings', JSON.stringify(settings));
+
+            let canales = [];
+            if (settings.sms) canales.push('SMS');
+            if (settings.whatsapp) canales.push('WhatsApp');
+            if (settings.email) canales.push('Email');
+            if (settings.push) canales.push('Push');
+
+            alert(`✅ Configuración guardada\n\nCanales activos: ${canales.join(', ')}\n\nRecibirás notificaciones según tu configuración.`);
+            closeNotificationModal();
+        }
+
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
