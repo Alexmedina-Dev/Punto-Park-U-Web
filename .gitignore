@@ -1,1 +1,19 @@
+# Dependencias (NUNCA deben subirse a GitHub)
+node_modules/
+dist/
+build/
+
+# Configuración de editores
 .vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+
+# Archivos del sistema
+.DS_Store
+thumbs.db
+
+# Variables de entorno (Seguridad)
+.env
+.env.local
