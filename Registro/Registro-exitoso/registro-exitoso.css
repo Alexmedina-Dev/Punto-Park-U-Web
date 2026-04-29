@@ -1,0 +1,239 @@
+    /* ── Tokens ─────────────────────────────────────────── */
+    :root {
+      --surface:                   #10131a;
+      --surface-container-low:     #191b23;
+      --surface-container:         #1d1f27;
+      --surface-container-highest: #32353d;
+      --surface-variant:           #32353d;
+      --on-surface:                #e1e2ec;
+      --on-surface-variant:        #c1c6d5;
+      --outline-variant:           #414753;
+      --primary:                   #a7c8ff;
+      --primary-container:         #0074d9;
+      --primary-fixed-dim:         #a7c8ff;
+      --on-primary-container:      #fdfbff;
+      --on-primary-fixed:          #001b3b;
+    }
+
+    /* ── Reset & Base ───────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--surface);
+      color: var(--on-surface);
+      font-family: 'Manrope', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 0.5rem; /* space for footer bar */
+    }
+
+    /* ── Decorative glow blob ───────────────────────────── */
+    .bg-glow {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 24rem;
+      height: 24rem;
+      background: var(--primary-container);
+      border-radius: 50%;
+      mix-blend-mode: screen;
+      filter: blur(100px);
+      opacity: 0.20;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Main card ──────────────────────────────────────── */
+    main {
+      width: 100%;
+      max-width: 500px;
+      padding: 3rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .card {
+      background-color: var(--surface-container-low);
+      border-radius: 1.5rem;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid rgba(65, 71, 83, 0.10);
+      box-shadow: 0 20px 60px -15px rgba(0, 116, 217, 0.15);
+      overflow: hidden;
+      position: relative;
+    }
+
+    @media (min-width: 480px) {
+      .card { padding: 3rem; }
+    }
+
+    /* ── Icon ───────────────────────────────────────────── */
+    .icon-wrapper {
+      position: relative;
+      width: 6rem;
+      height: 6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .icon-ring {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary-container), var(--primary));
+      border-radius: 50%;
+      opacity: 0.20;
+      animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    @keyframes pulse-ring {
+      0%   { transform: scale(0.8); opacity: 0.5; }
+      80%, 100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    .icon-circle {
+      width: 5rem;
+      height: 5rem;
+      background: linear-gradient(135deg, var(--primary-container), var(--primary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0, 116, 217, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon-circle .material-symbols-outlined {
+      font-size: 3rem;
+      color: var(--on-primary-container);
+      font-variation-settings: 'FILL' 1, 'wght' 700;
+      line-height: 1;
+    }
+
+    /* ── Typography ─────────────────────────────────────── */
+    .title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(2rem, 8vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      text-align: center;
+      color: var(--on-surface);
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      font-weight: 600;
+      color: var(--primary);
+      text-align: center;
+      letter-spacing: -0.02em;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Info Section ───────────────────────────────────── */
+    .info-box {
+      width: 100%;
+      background-color: var(--surface-container-highest);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .info-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--on-surface-variant);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .info-value {
+      font-family: 'Manrope', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .info-value.mono {
+      letter-spacing: 0.06em;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: rgba(65, 71, 83, 0.20);
+      width: 100%;
+    }
+
+    /* ── Actions ────────────────────────────────────────── */
+    .actions {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      width: 100%;
+      height: 4rem;
+      border: none;
+      border-radius: 1.5rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s ease;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      box-shadow: 0 10px 30px rgba(0, 116, 217, 0.2);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-fixed-dim);
+      color: var(--on-primary-fixed);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--primary);
+      border: 1px solid rgba(65, 71, 83, 0.20);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--surface-variant);
+    }
+
+    /* ── Footer bar ─────────────────────────────────────── */
+    .footer-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0.35rem;
+      background: linear-gradient(to right, var(--primary-container), var(--primary), var(--primary-container));
+      z-index: 50;
+    }

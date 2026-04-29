@@ -142,7 +142,7 @@ img {
     }
 
     45% {
-        right: calc(100% - 60px);
+        right: calc(100% - 85px);
         opacity: 1;
     }
 
@@ -304,13 +304,13 @@ nav.main-nav-bar {
 .vehicle-car {
     width: 32px;
     height: 32px;
-    top: 6px;
+    top: 12px;
     animation: driveToLeft 6s infinite ease-in-out;
 }
 
 .vehicle-moto {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
     top: 50%;
     transform: translateY(-50%) scaleX(-1);
     animation: driveToLeft 6s infinite ease-in-out;
@@ -318,16 +318,114 @@ nav.main-nav-bar {
 }
 
 .vehicle-bike {
-    width: 24px;
-    height: 24px;
-    bottom: 5px;
+    width: 26px;
+    height: 26px;
+    bottom: 15px;
     animation: driveToLeft 6s infinite ease-in-out;
     animation-delay: 4s;
+}
+
+/* --- ANIMACIONES DE LA CARRETERA Y CARRILES --- */
+
+/* Movimiento de las líneas */
+@keyframes moveRoad {
+  from { background-position: 0 50%; }
+  to { background-position: -30px 50%; }
+}
+
+/* Rotación dinámica de carriles */
+@keyframes laneSuperior {
+  0%, 100% { transform: translateY(-100%) translateY(-4px) scaleX(-1); }
+  33% { transform: translateY(-50%) scaleX(-1); }
+  66% { transform: translateY(4px) scaleX(-1); }
+}
+
+@keyframes laneCentro {
+  0%, 100% { transform: translateY(-50%) scaleX(-1); }
+  33% { transform: translateY(4px) scaleX(-1); }
+  66% { transform: translateY(-100%) translateY(-4px) scaleX(-1); }
+}
+
+@keyframes laneInferior {
+  0%, 100% { transform: translateY(4px) scaleX(-1); }
+  33% { transform: translateY(-100%) translateY(-4px) scaleX(-1); }
+  66% { transform: translateY(-50%) scaleX(-1); }
+}
+
+/* --- ESTADO DEL BOTÓN --- */
+
+#menuToggle {
+  position: relative;
+  overflow: hidden;
+}
+
+/* La carretera (Estado normal) */
+#menuToggle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50px; /* Espacio para el garaje */
+  right: 0;
+  height: 2px;
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.3) 50%, transparent 50%);
+  background-size: 30px 2px;
+  background-repeat: repeat-x;
+  transform: translateY(-50%);
+  z-index: 1;
+  animation: moveRoad 0.6s linear infinite;
+  pointer-events: none;
+}
+
+/* Botón de Cierre (Estado activo) */
+#menuToggle.active::after {
+  content: "✕ CERRAR" !important;
+  background: none !important;
+  animation: none !important;
+  left: 0 !important;
+  right: 0 !important;
+  color: #ef4444 !important;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+/* Ocultar vehículos al abrir el menú */
+#menuToggle.active .vehicle-animation {
+  display: none !important;
+}
+
+/* --- CONFIGURACIÓN DE LOS VEHÍCULOS --- */
+
+.vehicle-animation {
+  position: absolute;
+  top: 50% !important;
+  z-index: 2 !important;
+}
+
+/* Moto: Sale al seg 0 */
+.vehicle-moto {
+  animation: driveToLeft 6s infinite ease-in-out, laneSuperior 18s infinite steps(1) !important;
+  animation-delay: 0s, 0s !important;
+}
+
+/* Coche: Sale al seg 2 */
+.vehicle-car {
+  animation: driveToLeft 6s infinite ease-in-out, laneInferior 18s infinite steps(1) !important;
+  animation-delay: 2s, 2s !important;
+}
+
+/* Bici: Sale al seg 4 */
+.vehicle-bike {
+  animation: driveToLeft 6s infinite ease-in-out, laneCentro 18s infinite steps(1) !important;
+  animation-delay: 4s, 4s !important;
 }
 
 /* ── MOBILE OVERLAY ── */
 #mobile-overlay {
     position: fixed;
+    overflow: hidden;
     inset: 0;
     z-index: 200; 
     background: var(--bg);
@@ -437,7 +535,7 @@ main {
 .hero h1 {
     font-size: clamp(3rem, 7vw, 6rem);
     font-weight: 900;
-    color: var(--on-bg);
+    color: var(--primary);
     letter-spacing: -0.05em;
     line-height: 1;
     margin-bottom: 1.5rem;
@@ -447,7 +545,7 @@ main {
 .hero-subtitle {
     font-size: clamp(1.25rem, 3vw, 2rem);
     font-weight: 600;
-    color: var(--primary);
+    color: var(--on-bg);
     opacity: 0.85;
 }
 
@@ -1477,7 +1575,8 @@ footer {
         display: flex;
         flex-direction: column;
         height: auto;
-        padding: 40px 20px;
+        padding: 30px 5px;
+        min-height: 60vh;
         text-align: center;
         align-items: center;
     }
@@ -1516,7 +1615,8 @@ footer {
 /* ── RESPONSIVE 768px+ ── */
 @media (min-width: 768px)  {
     section#hero {
-        min-height: 0vh; /* O incluso auto si el contenido es mucho */
+        min-height: 0vh;
+        padding-top: 40px; /* O incluso auto si el contenido es mucho */
     }
 
     .why-grid {
