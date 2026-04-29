@@ -1,338 +1,857 @@
-<!DOCTYPE html>
+<!Doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Panel - Punto Park U</title>
-    <link rel="stylesheet" href="pantalla-usuario.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Titulo de la Pagina-->
+    <title>Mi Panel - "Punto Park U"</title>
+    <!-- Seguridad -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <!--Enlaces y estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="pantalla-usuario.css" />
     <script src="pantalla-usuario.js" defer></script>
-</head>
-<body>
-    <div class="header">
-        <div class="header-left">
-            <div class="logo-small">🅿️</div>
-            <div class="brand-small">PUNTO PARK U</div>
+  </head>
+  <body>
+    <!-- ===== MOBILE HEADER ===== -->
+    <header class="mobile-header" id="mobileHeader">
+      <div class="mobile-logo">
+        <div class="logo-icon-sm">🅿️</div>
+        PUNTO PARK U
+      </div>
+      <div class="header-actions">
+        <button
+          class="notif-btn"
+          onclick="toggleNotifDropdown()"
+          id="notifBtnMobile"
+        >
+          🔔
+          <span class="notif-badge">3</span>
+        </button>
+        <button class="btn-logout-header" onclick="logout()">🚪 Salir</button>
+      </div>
+    </header>
+
+    <!-- ===== NOTIFICATION DROPDOWN ===== -->
+    <div class="notif-dropdown" id="notifDropdown">
+      <div class="notif-drop-header">
+        <span class="notif-drop-title">Notificaciones</span>
+        <span class="notif-count-badge">3 NUEVAS</span>
+      </div>
+      <div class="notif-list">
+        <div class="notif-item notif-border-danger">
+          <div class="notif-item-text">⏰ Tu tiempo termina en 15 min</div>
+          <div class="notif-item-sub">Reserva A5 · ABC-123</div>
         </div>
-        <div class="header-right">
-            <button class="notification-btn" onclick="showNotifications()">
-                🔔
-                <span class="notification-badge">3</span>
-            </button>
-            <button class="btn-logout-header" onclick="logout()">🚪 Salir</button>
+        <div class="notif-item notif-border-primary">
+          <div class="notif-item-text">💰 Promoción: 10% descuento</div>
+          <div class="notif-item-sub">Válido para tu próxima reserva</div>
         </div>
+        <div class="notif-item notif-border-gold">
+          <div class="notif-item-text">🥇 Has alcanzado nivel ORO</div>
+          <div class="notif-item-sub">Disfruta de beneficios exclusivos</div>
+        </div>
+      </div>
     </div>
 
-    <div class="container">
-        <!-- HOME -->
-        <div id="homeSection" class="content-section active">
+    <!-- ===== APP LAYOUT ===== -->
+    <div class="app-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-row">
+            <div class="logo-icon">🅿️</div>
+            <div class="logo-text">
+              PUNTO PARK U
+              <span>Panel de Usuario</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-user">
+          <div class="user-row">
+            <div class="user-avatar">👤</div>
+            <div>
+              <div class="user-name" id="sidebarName">Juan Pérez</div>
+              <div class="user-level">🥇 Nivel ORO</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button
+            class="nav-item active"
+            onclick="showTab('home')"
+            id="nav-home"
+          >
+            <span class="nav-icon">🏠</span> Inicio
+          </button>
+          <button
+            class="nav-item"
+            onclick="showTab('vehicles')"
+            id="nav-vehicles"
+          >
+            <span class="nav-icon">🚗</span> Mis Vehículos
+          </button>
+          <button
+            class="nav-item"
+            onclick="showTab('reserve')"
+            id="nav-reserve"
+          >
+            <span class="nav-icon">📝</span> Reservar
+          </button>
+          <button
+            class="nav-item"
+            onclick="showTab('location')"
+            id="nav-location"
+          >
+            <span class="nav-icon">📍</span> Ubicación
+          </button>
+          <button
+            class="nav-item"
+            onclick="showTab('profile')"
+            id="nav-profile"
+          >
+            <span class="nav-icon">👤</span> Mi Perfil
+          </button>
+
+          <!-- Notif button desktop -->
+          <div
+            style="
+              margin-top: auto;
+              padding-top: 16px;
+              border-top: 1px solid var(--border);
+              margin-top: 16px;
+            "
+          >
+            <button
+              class="nav-item"
+              onclick="toggleNotifDropdown()"
+              style="position: relative"
+            >
+              <span class="nav-icon">🔔</span>
+              Notificaciones
+              <span
+                style="
+                  margin-left: auto;
+                  background: var(--danger);
+                  color: white;
+                  border-radius: 50%;
+                  width: 18px;
+                  height: 18px;
+                  font-size: 10px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-weight: 700;
+                "
+                >3</span
+              >
+            </button>
+          </div>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="btn-logout-side" onclick="logout()" href="/index.html">
+            🚪 Cerrar Sesión
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <div class="content-area">
+          <!-- =================== TAB: HOME =================== -->
+          <div class="tab-section active" id="tab-home">
             <div class="welcome-card">
-                <h2>¡Hola, Juan!</h2>
-                <span class="level-badge">🥇 Nivel ORO</span>
+              <div class="welcome-top">
+                <div>
+                  <div class="welcome-title">¡Hola, Juan! 👋</div>
+                  <div class="welcome-sub">
+                    Bienvenido de vuelta a tu espacio.
+                  </div>
+                </div>
+                <div class="level-badge">🥇 Nivel ORO</div>
+              </div>
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🚗</div>
-                    <div class="stat-value">24</div>
-                    <div class="stat-label">Visitas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💰</div>
-                    <div class="stat-value">$450K</div>
-                    <div class="stat-label">Gastado</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🎁</div>
-                    <div class="stat-value">10%</div>
-                    <div class="stat-label">Descuento</div>
-                </div>
+              <div class="stat-card">
+                <div class="stat-icon">🚗</div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">Visitas</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">$450K</div>
+                <div class="stat-label">Gastado</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🎁</div>
+                <div class="stat-value">10%</div>
+                <div class="stat-label">Descuento</div>
+              </div>
             </div>
 
-            <div id="activeVehicleContainer"></div>
+            <!-- Active Reservation -->
+            <div id="activeReservationContainer"></div>
 
-            <div class="history-card">
-                <h3>📜 Historial Reciente</h3>
+            <!-- History -->
+            <div class="card" style="margin-bottom: 0">
+              <div class="section-header">
+                <span class="section-title">📜 Historial Reciente</span>
+                <button class="link-btn">Ver todo →</button>
+              </div>
+              <div class="history-list">
                 <div class="history-item">
-                    <div class="history-date">28 Oct, 2025 - 3h 15min</div>
-                    <div class="history-detail">
-                        ABC-123 • Espacio B2
-                        <span class="history-amount">$9.000</span>
+                  <div class="history-left">
+                    <div class="history-icon">🚗</div>
+                    <div>
+                      <div class="history-plate">ABC-123 · Espacio B2</div>
+                      <div class="history-meta">28 Oct, 2025 · 3h 15min</div>
                     </div>
+                  </div>
+                  <div>
+                    <div class="history-amount">$9.000</div>
+                    <div class="history-status">PAGADO</div>
+                  </div>
                 </div>
+                <div class="history-item">
+                  <div class="history-left">
+                    <div class="history-icon">🏍️</div>
+                    <div>
+                      <div class="history-plate">XYZ-789 · Espacio C4</div>
+                      <div class="history-meta">22 Oct, 2025 · 1h 45min</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="history-amount">$5.000</div>
+                    <div class="history-status">PAGADO</div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <!-- VEHICLES -->
-        <div id="vehiclesSection" class="content-section">
-            <div class="welcome-card">
-                <h2>🚗 Mis Vehículos</h2>
+          <!-- =================== TAB: VEHICLES =================== -->
+          <div class="tab-section" id="tab-vehicles">
+            <div class="page-header">
+              <div class="page-title">🚗 Mis Vehículos</div>
+              <div class="page-subtitle">
+                Gestiona los vehículos registrados en tu cuenta.
+              </div>
             </div>
-            <div class="vehicles-list" id="vehiclesList"></div>
-            <button class="btn btn-primary" onclick="addVehicle()">➕ Agregar Vehículo</button>
-        </div>
+            <div class="vehicles-grid" id="vehiclesList"></div>
+            <button
+              class="btn btn-primary btn-lg btn-full"
+              onclick="openAddModal()"
+            >
+              ➕ Agregar Vehículo
+            </button>
+          </div>
 
-        <!-- RESERVE -->
-        <div id="reserveSection" class="content-section">
-            <div class="welcome-card">
-                <h2>📝 Nueva Reserva</h2>
+          <!-- =================== TAB: RESERVE =================== -->
+          <div class="tab-section" id="tab-reserve">
+            <div class="page-header">
+              <div class="page-title">📝 Nueva Reserva</div>
+              <div class="page-subtitle">
+                Selecciona tu vehículo y tipo de pago para reservar.
+              </div>
             </div>
-            <div class="profile-card">
+            <div class="reserve-grid">
+              <div class="form-card">
                 <div class="form-group">
-                    <label>Seleccionar Vehículo:</label>
-                    <select id="reserveVehicle"></select>
+                  <label class="form-label">Vehículo</label>
+                  <select class="form-select" id="reserveVehicle"></select>
                 </div>
                 <div class="form-group">
-                    <label>Tipo de Pago:</label>
-                    <select id="reservePayment">
-                        <option>Prepagar (5% descuento)</option>
-                        <option>Pagar al salir</option>
-                    </select>
+                  <label class="form-label">Tipo de Pago</label>
+                  <select class="form-select" id="reservePayment">
+                    <option value="prepaid">💳 Prepagar (5% descuento)</option>
+                    <option value="postpaid">🚪 Pagar al salir</option>
+                  </select>
                 </div>
-                <button class="btn btn-primary" onclick="makeReservation()">✅ Confirmar Reserva</button>
+                <button
+                  class="btn btn-primary btn-lg btn-full"
+                  onclick="makeReservation()"
+                >
+                  ✅ Confirmar Reserva
+                </button>
+              </div>
+              <div>
+                <div class="reserve-info-card card">
+                  <div class="reserve-info-title">ℹ️ Información</div>
+                  <div class="info-row">
+                    <span class="info-row-icon">💳</span> Prepago: descuento del
+                    5% vía PSE
+                  </div>
+                  <div class="info-row">
+                    <span class="info-row-icon">📹</span> La cámara IA reconoce
+                    tu vehículo al ingresar
+                  </div>
+                  <div class="info-row">
+                    <span class="info-row-icon">🎁</span> Tu nivel ORO aplica
+                    descuento adicional del 10%
+                  </div>
+                  <div class="info-row">
+                    <span class="info-row-icon">⏰</span> Tarifa base: $3.000
+                    por primera hora
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <!-- LOCATION -->
-        <div id="locationSection" class="content-section">
-            <div class="location-card">
-                <h3>📍 Ubicación</h3>
-                <div>
-                    <div class="location-item">
-                        <span class="location-icon">📫</span>
-                        <div><strong>Dirección:</strong><br>Calle 82 # 15-35<br>Bogotá</div>
-                    </div>
-                    <div class="location-item">
-                        <span class="location-icon">📞</span>
-                        <div><strong>Teléfono:</strong><br>(+57) 310 123 4567</div>
-                    </div>
-                </div>
-                <div class="map-buttons">
-                    <a href="#" class="btn-map btn-google" onclick="openGoogleMaps(); return false;">📍 Google Maps</a>
-                    <a href="#" class="btn-map btn-waze" onclick="openWaze(); return false;">🚗 Waze</a>
-                </div>
-                <a href="https://wa.me/573101234567" target="_blank" class="btn btn-primary" style="text-decoration: none; display: block; text-align: center;">💬 WhatsApp</a>
+          <!-- =================== TAB: LOCATION =================== -->
+          <div class="tab-section" id="tab-location">
+            <div class="page-header">
+              <div class="page-title">📍 Ubicación</div>
+              <div class="page-subtitle">
+                Encuentra el Parqueadero fácilmente.
+              </div>
             </div>
-        </div>
-
-        <!-- PROFILE -->
-        <div id="profileSection" class="content-section">
-            <div class="profile-card">
-                <div class="profile-avatar">👤</div>
-                <div class="profile-info">
-                    <div class="profile-name" id="displayName">Juan Pérez</div>
-                    <div class="profile-email" id="displayEmail">juan.perez@email.com</div>
-                    <div class="profile-email" id="displayPhone">+57 310 123 4567</div>
+            <div class="location-grid">
+              <div class="location-info-card">
+                <div class="location-field">
+                  <div class="location-field-icon">📫</div>
+                  <div>
+                    <div class="location-field-label">Dirección</div>
+                    <div class="location-field-value">
+                      Calle 82 # 15-35<br />Bogotá, Colombia
+                    </div>
+                  </div>
                 </div>
-
-                <div id="profileForm" style="display: none;">
-                    <div class="form-group">
-                        <label>Nombre:</label>
-                        <input type="text" id="profileName" value="Juan Pérez">
-                    </div>
-                    <div class="form-group">
-                        <label>Email:</label>
-                        <input type="email" id="profileEmail" value="juan.perez@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Celular:</label>
-                        <input type="tel" id="profilePhone" value="+57 310 123 4567">
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <button class="btn btn-secondary" onclick="cancelProfileEdit()">Cancelar</button>
-                        <button class="btn btn-primary" onclick="saveProfile()">💾 Guardar</button>
-                    </div>
+                <div class="location-field">
+                  <div class="location-field-icon">📞</div>
+                  <div>
+                    <div class="location-field-label">Teléfono</div>
+                    <div class="location-field-value">(+57) 310 123 4567</div>
+                  </div>
                 </div>
-
-                <button id="btnEditProfile" class="btn btn-primary" onclick="showProfileEdit()">✏️ Actualizar Datos</button>
-
-                <div class="profile-options">
-                    <div class="profile-option" onclick="alert('Historial completo')">
-                        <span>📊 Mi Historial</span><span>›</span>
+                <div class="location-field">
+                  <div class="location-field-icon">⏰</div>
+                  <div>
+                    <div class="location-field-label">Horario</div>
+                    <div class="location-field-value">
+                      Lun–Sáb: 6am – 10pm<br />Dom: 7am – 8pm
                     </div>
-                    <div class="profile-option" onclick="alert('Nivel Oro - 10% descuento')">
-                        <span>🎁 Mi Nivel</span><span>›</span>
-                    </div>
-                    <div class="profile-option" onclick="showNotificationSettings()">
-                        <span>🔔 Configurar Notificaciones</span><span>›</span>
-                    </div>
-                    <div class="profile-option" onclick="changePassword()">
-                        <span>🔐 Cambiar Contraseña</span><span>›</span>
-                    </div>
+                  </div>
                 </div>
+                <div class="location-field">
+                  <div class="location-field-icon">🅿️</div>
+                  <div>
+                    <div class="location-field-label">Espacios Disponibles</div>
+                    <div
+                      class="location-field-value"
+                      style="color: var(--success)"
+                    >
+                      18 / 50 libres
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="map-card">
+                <div class="map-placeholder">🗺️</div>
+                <div class="map-btn-grid" style="margin-bottom: 12px">
+                  <a
+                    href="#"
+                    class="btn btn-google"
+                    onclick="
+                      openGoogleMaps();
+                      return false;
+                    "
+                    >📍 Google Maps</a
+                  >
+                  <a
+                    href="#"
+                    class="btn btn-waze"
+                    onclick="
+                      openWaze();
+                      return false;
+                    "
+                    >🚗 Waze</a
+                  >
+                </div>
+                <a
+                  href="https://wa.me/573101234567"
+                  target="_blank"
+                  class="btn btn-whatsapp btn-full"
+                >
+                  💬 Contactar por WhatsApp
+                </a>
+              </div>
             </div>
+          </div>
+
+          <!-- =================== TAB: PROFILE =================== -->
+          <div class="tab-section" id="tab-profile">
+            <div class="page-header">
+              <div class="page-title">👤 Mi Perfil</div>
+              <div class="page-subtitle">
+                Gestiona tu información personal y preferencias.
+              </div>
+            </div>
+            <div class="profile-layout">
+              <div class="profile-main">
+                <div class="profile-avatar-big">👤</div>
+                <div id="profileDisplay">
+                  <div class="profile-full-name" id="displayName">
+                    Juan Pérez
+                  </div>
+                  <div class="profile-detail" id="displayEmail">
+                    juan.perez@email.com
+                  </div>
+                  <div class="profile-detail" id="displayPhone">
+                    +57 310 123 4567
+                  </div>
+                  <button
+                    class="btn btn-secondary btn-full"
+                    style="margin-top: 18px"
+                    onclick="toggleProfileForm(true)"
+                  >
+                    ✏️ Actualizar Datos
+                  </button>
+                </div>
+                <div
+                  id="profileForm"
+                  style="display: none; text-align: left; margin-top: 18px"
+                >
+                  <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input
+                      class="form-input"
+                      type="text"
+                      id="profileName"
+                      value="Juan Pérez"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input
+                      class="form-input"
+                      type="email"
+                      id="profileEmail"
+                      value="juan.perez@email.com"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Celular</label>
+                    <input
+                      class="form-input"
+                      type="tel"
+                      id="profilePhone"
+                      value="+57 310 123 4567"
+                    />
+                  </div>
+                  <div class="btn-group">
+                    <button
+                      class="btn btn-secondary"
+                      onclick="toggleProfileForm(false)"
+                    >
+                      Cancelar
+                    </button>
+                    <button class="btn btn-primary" onclick="saveProfile()">
+                      💾 Guardar
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="profile-options-card">
+                <button class="profile-option" onclick="showTab('home')">
+                  <div class="profile-option-left">
+                    <div class="profile-option-icon icon-blue">📊</div>
+                    Mi Historial
+                  </div>
+                  <span class="option-arrow">›</span>
+                </button>
+                <div class="option-divider"></div>
+                <button class="profile-option" onclick="showLevelInfo()">
+                  <div class="profile-option-left">
+                    <div class="profile-option-icon icon-gold">🥇</div>
+                    Mi Nivel
+                  </div>
+                  <span class="option-arrow">›</span>
+                </button>
+                <div class="option-divider"></div>
+                <button
+                  class="profile-option"
+                  onclick="openModal('notifModal')"
+                >
+                  <div class="profile-option-left">
+                    <div class="profile-option-icon icon-purple">🔔</div>
+                    Notificaciones
+                  </div>
+                  <span class="option-arrow">›</span>
+                </button>
+                <div class="option-divider"></div>
+                <button
+                  class="profile-option"
+                  onclick="openModal('passwordModal')"
+                >
+                  <div class="profile-option-left">
+                    <div class="profile-option-icon icon-red">🔐</div>
+                    Cambiar Contraseña
+                  </div>
+                  <span class="option-arrow">›</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- /content-area -->
+      </main>
+    </div>
+    <!-- /app-layout -->
+
+    <!-- ===== BOTTOM NAV (mobile) ===== -->
+    <nav class="bottom-nav">
+      <button
+        class="bottom-tab active"
+        onclick="showTab('home')"
+        id="btab-home"
+      >
+        <span class="bottom-tab-icon">🏠</span>
+        <span class="bottom-tab-label">Inicio</span>
+      </button>
+      <button
+        class="bottom-tab"
+        onclick="showTab('vehicles')"
+        id="btab-vehicles"
+      >
+        <span class="bottom-tab-icon">🚗</span>
+        <span class="bottom-tab-label">Vehículos</span>
+      </button>
+      <button class="bottom-tab" onclick="showTab('reserve')" id="btab-reserve">
+        <span class="bottom-tab-icon">📝</span>
+        <span class="bottom-tab-label">Reservar</span>
+      </button>
+      <button
+        class="bottom-tab"
+        onclick="showTab('location')"
+        id="btab-location"
+      >
+        <span class="bottom-tab-icon">📍</span>
+        <span class="bottom-tab-label">Ubicación</span>
+      </button>
+      <button class="bottom-tab" onclick="showTab('profile')" id="btab-profile">
+        <span class="bottom-tab-icon">👤</span>
+        <span class="bottom-tab-label">Perfil</span>
+      </button>
+    </nav>
+
+    <!-- ===== MODAL: EDIT VEHICLE ===== -->
+    <div class="modal-overlay" id="editModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">✏️ Editar Vehículo</span>
+          <button class="modal-close" onclick="closeModal('editModal')">
+            ×
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Placa / Código</label>
+            <input
+              class="form-input readonly"
+              type="text"
+              id="editPlate"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Marca y Modelo</label>
+            <input class="form-input" type="text" id="editBrand" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Color</label>
+            <input class="form-input" type="text" id="editColor" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Año</label>
+            <input class="form-input" type="text" id="editYear" />
+          </div>
+          <div class="btn-group btn-group-3">
+            <button class="btn btn-secondary" onclick="closeModal('editModal')">
+              Cancelar
+            </button>
+            <button class="btn btn-danger" onclick="deleteVehicle()">
+              🗑️ Eliminar
+            </button>
+            <button class="btn btn-primary" onclick="saveEdit()">
+              💾 Guardar
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="tab-bar">
-        <button class="tab-item active" onclick="showSection('homeSection')">
-            <div class="tab-icon">🏠</div>
-            <div class="tab-label">Inicio</div>
-        </button>
-        <button class="tab-item" onclick="showSection('vehiclesSection')">
-            <div class="tab-icon">🚗</div>
-            <div class="tab-label">Vehículos</div>
-        </button>
-        <button class="tab-item" onclick="showSection('reserveSection')">
-            <div class="tab-icon">📝</div>
-            <div class="tab-label">Reservar</div>
-        </button>
-        <button class="tab-item" onclick="showSection('locationSection')">
-            <div class="tab-icon">📍</div>
-            <div class="tab-label">Ubicación</div>
-        </button>
-        <button class="tab-item" onclick="showSection('profileSection')">
-            <div class="tab-icon">👤</div>
-            <div class="tab-label">Perfil</div>
-        </button>
-    </div>
-
-    <!-- Modal Configuración de Notificaciones -->
-    <div id="notificationModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>🔔 Configurar Notificaciones</h3>
-                <button class="close-modal" onclick="closeNotificationModal()">×</button>
-            </div>
-
-            <div style="margin-bottom: 25px;">
-                <h4 style="color: #1e3c72; margin-bottom: 15px; font-size: 18px;">Canales de Notificación</h4>
-                
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifSMS" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72; margin-bottom: 3px;">📱 SMS</div>
-                            <div style="font-size: 13px; color: #666;">Mensajes de texto al +57 310 123 4567</div>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifWhatsApp" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72; margin-bottom: 3px;">💬 WhatsApp</div>
-                            <div style="font-size: 13px; color: #666;">Mensajes por WhatsApp</div>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifPush" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72; margin-bottom: 3px;">🔔 Notificaciones Push</div>
-                            <div style="font-size: 13px; color: #666;">Alertas en tiempo real en la app</div>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="background: #e3f2fd; padding: 12px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #4facfe;">
-                    <div style="font-size: 13px; color: #1e3c72;">
-                        <strong>📧 Email:</strong> Las facturas electrónicas se enviarán automáticamente al correo registrado después de cada pago.
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 25px;">
-                <h4 style="color: #1e3c72; margin-bottom: 15px; font-size: 18px;">¿Cuándo recibir notificaciones?</h4>
-                
-                <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifIngreso" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72;">🚗 Confirmación de ingreso</div>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifTiempo" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72;">⏰ Tiempo por vencer (15 min antes)</div>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="background: #ffe0e0; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifVencido" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72;">🚨 Tiempo vencido</div>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="background: #d4edda; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifPago" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72;">✅ Confirmación de pago</div>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="background: #f0e5ff; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifNivel" checked style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72;">🎁 Subida de nivel/Beneficios</div>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="background: #ffe4f0; padding: 15px; border-radius: 10px;">
-                    <label style="display: flex; align-items: center; cursor: pointer;">
-                        <input type="checkbox" id="notifPromo" style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                        <div>
-                            <div style="font-weight: 600; color: #1e3c72;">💰 Promociones y descuentos</div>
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                <div style="font-size: 13px; color: #666; line-height: 1.6;">
-                    <strong style="color: #1e3c72;">💡 Recomendación:</strong><br>
-                    Mantén activas las notificaciones de tiempo y pago para evitar cargos adicionales.
-                    <br><br>
-                    <strong style="color: #1e3c72;">📱 Costos:</strong><br>
-                    Los SMS y WhatsApp son gratuitos. Se envían solo cuando hay cambios importantes.
-                </div>
-            </div>
-
-            <button class="btn btn-primary" onclick="saveNotificationSettings()">💾 Guardar Configuración</button>
+    <!-- ===== MODAL: ADD VEHICLE ===== -->
+    <div class="modal-overlay" id="addModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title" id="addModalTitle"
+            >➕ Agregar Vehículo</span
+          >
+          <button class="modal-close" onclick="closeModal('addModal')">
+            ×
+          </button>
         </div>
-    </div>
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>✏️ Editar Vehículo</h3>
-                <button class="close-modal" onclick="closeEditModal()">×</button>
+        <div class="modal-body">
+          <!-- Step 1: Type selector -->
+          <div id="addStep1">
+            <div class="form-label" style="margin-bottom: 12px">
+              Tipo de Vehículo
+            </div>
+            <div class="type-selector">
+              <button
+                class="type-btn selected"
+                id="typeCarro"
+                onclick="selectType('Carro')"
+              >
+                <span class="type-btn-icon">🚗</span> CARRO
+              </button>
+              <button
+                class="type-btn"
+                id="typeMoto"
+                onclick="selectType('Moto')"
+              >
+                <span class="type-btn-icon">🏍️</span> MOTO
+              </button>
+              <button
+                class="type-btn"
+                id="typeBici"
+                onclick="selectType('Bicicleta')"
+              >
+                <span class="type-btn-icon">🚲</span> BICICLETA
+              </button>
+            </div>
+          </div>
+          <!-- Step 2: Dynamic form -->
+          <div id="addStep2">
+            <div id="fieldPlacaGroup" class="form-group">
+              <label class="form-label" id="fieldPlacaLabel">Placa</label>
+              <input
+                class="form-input"
+                type="text"
+                id="addPlate"
+                placeholder="Ej: ABC-123"
+              />
             </div>
             <div class="form-group">
-                <label>Placa/Código:</label>
-                <input type="text" id="editPlate" readonly style="background: #e9ecef;">
+              <label class="form-label">Marca y Modelo</label>
+              <input
+                class="form-input"
+                type="text"
+                id="addBrand"
+                placeholder="Ej: Chevrolet Spark"
+              />
             </div>
             <div class="form-group">
-                <label>Marca:</label>
-                <input type="text" id="editBrand">
+              <label class="form-label">Color</label>
+              <input
+                class="form-input"
+                type="text"
+                id="addColor"
+                placeholder="Ej: Rojo"
+              />
             </div>
-            <div class="form-group">
-                <label>Color:</label>
-                <input type="text" id="editColor">
+            <div class="form-group" id="fieldYearGroup">
+              <label class="form-label">Año</label>
+              <input
+                class="form-input"
+                type="text"
+                id="addYear"
+                placeholder="Ej: 2022"
+              />
             </div>
-            <div class="form-group">
-                <label>Año:</label>
-                <input type="text" id="editYear">
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-                <button class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button>
-                <button class="btn btn-danger" onclick="deleteVehicle()">🗑️ Eliminar</button>
-                <button class="btn btn-primary" onclick="saveEdit()">💾 Guardar</button>
-            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-secondary" onclick="closeModal('addModal')">
+              Cancelar
+            </button>
+            <button class="btn btn-primary" onclick="saveNewVehicle()">
+              ✅ Registrar
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</body>
+
+    <!-- ===== MODAL: NOTIFICATIONS ===== -->
+    <div class="modal-overlay" id="notifModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">🔔 Configurar Notificaciones</span>
+          <button class="modal-close" onclick="closeModal('notifModal')">
+            ×
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="notif-section-label">Canales</div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-name">📱 SMS</div>
+              <div class="toggle-desc">
+                Mensajes de texto al +57 310 123 4567
+              </div>
+            </div>
+            <input
+              type="checkbox"
+              class="toggle-switch"
+              id="notifSMS"
+              checked
+            />
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-name">💬 WhatsApp</div>
+              <div class="toggle-desc">Mensajes por WhatsApp</div>
+            </div>
+            <input
+              type="checkbox"
+              class="toggle-switch"
+              id="notifWhatsApp"
+              checked
+            />
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-name">🔔 Notificaciones Push</div>
+              <div class="toggle-desc">Alertas en tiempo real en la app</div>
+            </div>
+            <input
+              type="checkbox"
+              class="toggle-switch"
+              id="notifPush"
+              checked
+            />
+          </div>
+
+          <div class="info-alert">
+            📧 <strong>Email:</strong> Las facturas se envían automáticamente al
+            correo registrado después de cada pago.
+          </div>
+
+          <div class="notif-section-label">Eventos</div>
+          <div class="toggle-row">
+            <div class="toggle-name">🚗 Confirmación de ingreso</div>
+            <input
+              type="checkbox"
+              class="toggle-switch"
+              id="notifIngreso"
+              checked
+            />
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-name">⏰ Tiempo por vencer (15 min)</div>
+            <input
+              type="checkbox"
+              class="toggle-switch"
+              id="notifTiempo"
+              checked
+            />
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-name">🚨 Tiempo vencido</div>
+            <input
+              type="checkbox"
+              class="toggle-switch"
+              id="notifVencido"
+              checked
+            />
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-name">✅ Confirmación de pago</div>
+            <input
+              type="checkbox"
+              class="toggle-switch"
+              id="notifPago"
+              checked
+            />
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-name">🎁 Subida de nivel / Beneficios</div>
+            <input
+              type="checkbox"
+              class="toggle-switch"
+              id="notifNivel"
+              checked
+            />
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-name">💰 Promociones y descuentos</div>
+            <input type="checkbox" class="toggle-switch" id="notifPromo" />
+          </div>
+
+          <button
+            class="btn btn-primary btn-full btn-lg"
+            style="margin-top: 22px"
+            onclick="saveNotificationSettings()"
+          >
+            💾 Guardar Configuración
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MODAL: CHANGE PASSWORD ===== -->
+    <div class="modal-overlay" id="passwordModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">🔐 Cambiar Contraseña</span>
+          <button class="modal-close" onclick="closeModal('passwordModal')">
+            ×
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Contraseña Actual</label>
+            <input
+              class="form-input"
+              type="password"
+              id="passOld"
+              placeholder="••••••••"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nueva Contraseña</label>
+            <input
+              class="form-input"
+              type="password"
+              id="passNew"
+              placeholder="Mínimo 6 caracteres"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirmar Nueva Contraseña</label>
+            <input
+              class="form-input"
+              type="password"
+              id="passConfirm"
+              placeholder="Repite la nueva contraseña"
+            />
+          </div>
+          <div class="btn-group">
+            <button
+              class="btn btn-secondary"
+              onclick="closeModal('passwordModal')"
+            >
+              Cancelar
+            </button>
+            <button class="btn btn-primary" onclick="changePassword()">
+              🔐 Actualizar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+  </body>
 </html>

@@ -1,374 +1,702 @@
-<!doctype html>
-<html lang="es">
+<!Doctype html>
+<html lang="es" class="dark">
+
 <head>
-  <!--Meta Información General-->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Meta Información General-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!--Titulo de pagina-->
-  <title>"Punto Park U" - Parqueadero Fácil y Sencillo </title>
+    <!--Titulo de pagina-->
+    <title>"Punto Park U" - Parqueadero Fácil y Sencillo </title>
 
-  <!--Descripción de la pagina-->
-  <meta name="author" content="Alexander Medina & Miguel Palacio" />
-  <meta name="description" content="Aplicativo Web creado para la visualización de Información
+    <!--Descripción de la pagina-->
+    <meta name="author" content="Alexander Medina & Miguel Palacio" />
+    <meta name="description" content="Aplicativo Web creado para la visualización de Información
    de los usuarios de Punto Park U" />
-  <meta name="keywords" content="">
-      
-  <!-- Meta para SEO -->
-  <meta name="robots" content="follow, index" />
-  <link rel="canonical" href="https://.vercel.app/" />
+    <meta name="keywords" content="">
 
-  <!-- Seguridad -->
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <!-- Meta para SEO -->
+    <meta name="robots" content="follow, index" />
+    <link rel="canonical" href="https://.vercel.app/" />
 
-  <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="Images/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="Images/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon-16x16.png" />
-  <link rel="shortcut icon" href="Images/favicon.ico" />
+    <!-- Seguridad -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 
-  <!-- Open Graph -->
-  <meta property="og:locale" content="es_CO" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Punto Park U - Parqueadero Fácil y Sencillo" />
-  <meta property="og:description"
-   content="Aplicativo Web creado para la visualización de Información de los usuarios
-    de Punto Park U"/>
-  <meta property="og:image" content="" />
-  <meta property="og:url" content="https://.vercel.app/" />
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="Images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="Images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon-16x16.png" />
+    <link rel="shortcut icon" href="Images/favicon.ico" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:url" content="https://.vercel.app/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content=" "Punto Park U" - Parqueadero Fácil y Sencillo" />
-  <meta name="twitter:description"
-    content="Aplicativo Web creado para la visualización de Información
+    <!-- Open Graph -->
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:type" content="website" />
+    <meta name="color-scheme" content="dark">
+    <meta property="og:title" content="Punto Park U - Parqueadero Fácil y Sencillo" />
+    <meta property="og:description" content="Aplicativo Web creado para la visualización de Información de los usuarios
+    de Punto Park U" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="https://.vercel.app/" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:url" content="https://.vercel.app/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Punto Park U - Parqueadero Fácil y Sencillo" />
+    <meta name="twitter:description" content="Aplicativo Web creado para la visualización de Información
    de los usuarios de Punto Park U" />
-  <meta name="twitter:image" content="" />
- 
-  <!--Enlaces y estilos-->
-  <link rel="stylesheet" href="Styles.css" />
-  <link rel="stylesheet" href="Responsive.css">
-  <script src="main.js" defer></script>
+    <meta name="twitter:image" content="" />
+
+    <!--Enlaces y estilos-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css" />
+    <!--<script src="" defer></script> --> 
 </head>
 
 <body>
-  <header>
-    <div class="header-container">
-      <div class="logo-header">
-        <picture>
-          <source srcset="Images/Logo.avif" type="image/avif" />
-          <source srcset="Images/Logo.webp" type="image/webp" />
-          <img src="Images/Logo.png" alt="Logo Punto Park U" onerror="this.style.display = 'none'" />
-        </picture>
-      </div>
-      <nav class="nav-buttons">
-        <a href="/Login/Login.html" class="btn-nav btn-login">Iniciar Sesión</a>
-        <a href="/Administrador/Admi.html" class="btn-nav btn-register">Administrador</a>
-      </nav>
+    <!-- HEADER -->
+    <header>
+        <nav class="main-nav-bar">
+            <div class="nav-inner">
+                <div class="desktop-nav">
+                    <a href="#why">Tu Aliado</a>
+                    <a href="#about">Historia</a>
+                    <a href="#pricing">Tarifas</a>
+                    <a href="#availability">Disponibilidad</a>
+                    <a href="#flux-AI">Tecnología</a>
+                    <a href="#locations">Ubicación</a>
+                    <a href="#footer">Información</a>
+                    <a href="Login/Login.html" class="btn-nav-extra">Iniciar Sesión</a>
+                    <a href="Administrador/Admi.html" class="btn-nav-extra">Administrador</a>
+                </div>
+                    <!-- Hamburguesa animada -->
+                    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+                        <svg class="vehicle-animation vehicle-car" viewBox="0 0 640 512"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M544 192h-16L419.21 56.02A63.99 63.99 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z" />
+                        </svg>
+                        <svg class="vehicle-animation vehicle-moto" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.44 9.03L15.41 5H11v2h3.59l2 2H5c-2.8 0-5 2.2-5 5s2.2 5 5 5c2.46 0 4.45-1.69 4.9-4h1.65l2.77-2.77c-.21.54-.32 1.14-.32 1.77 0 2.8 2.2 5 5 5s5-2.2 5-5c0-2.65-1.97-4.77-4.56-4.97zM7.82 15C7.4 16.15 6.28 17 5 17c-1.63 0-3-1.37-3-3s1.37-3 3-3c1.28 0 2.4.85 2.82 2H5v2h2.82zM19 17c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" />
+                        </svg>
+                        <svg class="vehicle-animation vehicle-bike" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" />
+                        </svg>
+                    </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MOBILE OVERLAY -->
+    <div id="mobile-overlay" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+        <nav class="mobile-nav-links">
+            <a class="mobile-link" href="#why">Tu Aliado</a>
+            <a class="mobile-link" href="#about">Historia</a>
+            <a class="mobile-link" href="#pricing">Tarifas</a>
+            <a class="mobile-link" href="#availability">Disponibilidad</a>
+            <a class="mobile-link" href="#flux-AI">Tecnología</a>
+            <a class="mobile-link" href="#locations">Ubicación</a>
+            <a class="mobile-link" href="#footer">Información</a>
+            <a class="mobile-link accent" href="Login/Login.html">Iniciar Sesión</a>
+            <a class="mobile-link accent" href="Administrador/Admi.html">Administrador</a>
+        </nav>
     </div>
-  </header>
 
-  <nav class="main-nav">
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
-      <!-- CARRO -->
-      <svg class="vehicle-animation vehicle-car" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M544 192h-16L419.21 56.02A63.99 63.99 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z" />
-      </svg>
-      <!-- MOTO -->
-      <svg class="vehicle-animation vehicle-moto" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M19.44 9.03L15.41 5H11v2h3.59l2 2H5c-2.8 0-5 2.2-5 5s2.2 5 5 5c2.46 0 4.45-1.69 4.9-4h1.65l2.77-2.77c-.21.54-.32 1.14-.32 1.77 0 2.8 2.2 5 5 5s5-2.2 5-5c0-2.65-1.97-4.77-4.56-4.97zM7.82 15C7.4 16.15 6.28 17 5 17c-1.63 0-3-1.37-3-3s1.37-3 3-3c1.28 0 2.4.85 2.82 2H5v2h2.82zM19 17c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" />
-      </svg>
+    <!-- MAIN -->
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-bg">
+                <img src="Images/Google AI/hero-background.png"
+                    alt="Parqueadero moderno en Bogotá con autos, motos y bicicletas en iluminación neón" />
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1>"PUNTO PARK U"</h1>
+                    <p class="hero-subtitle">Estacionamiento Fácil y Sencillo</p>
+                </div>
+            </div>
+        </section>
 
-      <!-- BICICLETA -->
-      <svg class="vehicle-animation vehicle-bike" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" />
-      </svg>
+        <!-- Tu Aliado -->
+        <section class="why" id="why">
+            <h2 class="avail-title" style="text-align: center; margin-bottom: 3rem;">
+                Tu<br /><span class="accent">Aliado</span>
+            </h2>
+            <div class="container">
+                <div class="why-grid">
+                    <div class="why-card">
+                        <span class="material-symbols-outlined icon">videocam</span>
+                        <h3>Vigilancia 24/7</h3>
+                        <p>
+                            Sistemas de monitoreo avanzado que garantizan que tu vehículo
+                            está vigilado cada segundo del día.
+                        </p>
+                    </div>
+                    <div class="why-card">
+                        <span class="material-symbols-outlined icon">verified_user</span>
+                        <h3>Espacios Seguros</h3>
+                        <p>
+                            Celdas amplias e integridad estructural diseñadas para todo tipo
+                            de vehículos con máxima seguridad.
+                        </p>
+                    </div>
+                    <div class="why-card">
+                        <span class="material-symbols-outlined icon">payments</span>
+                        <h3>Tarifas Accesibles</h3>
+                        <p>
+                            Precios competitivos adaptados al núcleo urbano de Bogotá sin
+                            comprometer la calidad del servicio.
+                        </p>
+                    </div>
+                    <div class="why-card">
+                        <span class="material-symbols-outlined icon">near_me</span>
+                        <h3>Ubicación Privilegiada</h3>
+                        <p>
+                            Posicionamiento estratégico en zonas de alto tráfico para máxima
+                            comodidad y acceso rápido.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT, MISSION & VISION COMBINED -->
+        <section class="about" id="about">
+            <div class="container">
+
+                <!-- HISTORIA -->
+                <div class="about-grid">
+                    <div>
+                        <h2 class="avail-title">
+                            Nuestra Historia<span class="sub">De lo Analógico a lo Digital</span>
+                        </h2>
+                        <p>
+                            PUNTO PARK U nació observando los tradicionales parqueaderos de
+                            balasto y luz amarilla de Bogotá. Reconocimos la necesidad de
+                            evolucionar esa experiencia manual y lenta hacia un ecosistema
+                            digital. Hoy, hemos transformado el concepto de paqueo
+                            convencional en una solución inteligente, rápida y 100%
+                            confiable para la ciudad moderna.
+                        </p>
+                    </div>
+                    <div class="about-img-wrap">
+                        <div class="about-img-glow"></div>
+                        <img src="Images/Google AI/historia.png"
+                            alt="Parqueadero tradicional de Bogotá con gravilla y lámparas amarillas" />
+                    </div>
+                </div>
+
+                <!-- MISIÓN Y VISIÓN -->
+                <div class="mission-grid" style="margin-top: 3rem;">
+                    <div class="mission-card">
+                        <span class="material-symbols-outlined">rocket_launch</span>
+                        <h3>Nuestra Misión</h3>
+                        <p>
+                            Proporcionar un servicio de estacionamiento seguro, confiable y
+                            accesible para la comunidad, garantizando la protección de los
+                            vehículos mediante tecnología de punta con integración de
+                            Inteligencia Artificial, vigilancia total y un equipo altamente
+                            capacitado comprometido con la excelencia en el servicio al
+                            cliente.
+                        </p>
+                    </div>
+                    <div class="mission-card">
+                        <span class="material-symbols-outlined">visibility</span>
+                        <h3>Nuestra Visión</h3>
+                        <p>
+                            Ser el Parqueadero líder y más confiable de la región, reconocido
+                            por nuestra innovación tecnológica, seguridad integral y
+                            excelencia en el servicio. Aspiramos a establecer nuevos
+                            estándares en la industria del estacionamiento mediante la
+                            implementación continua de soluciones inteligentes que brinden
+                            tranquilidad y comodidad a nuestros usuarios.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Tarifas -->
+        <section class="rates" id="pricing">
+            <div class="container">
+                <div class="rates-header">
+                    <div>
+                        <h2 class="avail-title">
+                            Tarifas Segun <br /><span class="accent">tu medio de transporte</span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="rates-grid">
+                    <div class="rate-card">
+                        <div class="rate-card-img">
+                            <img src="Images/Google AI/automovil.png" alt="Automóvil en parqueadero cubierto" />
+                        </div>
+                        <div class="rate-type">Automóvil</div>
+                        <div class="rate-price" id="price-car">
+                            $3.000 <span>/ hora</span>
+                        </div>
+                        <ul class="rate-features">
+                            <li>
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Parqueo Cubierto
+                            </li>
+                            <li>
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Acceso Fácil
+                            </li>
+                        </ul>
+                        <button class="btn-rate">Seleccionar Automóvil</button>
+                    </div>
+                    <div class="rate-card">
+                        <div class="rate-card-img">
+                            <img src="Images/Google AI/motocicleta.png" alt="Motocicleta en zona exclusiva" />
+                        </div>
+                        <div class="rate-type">Motocicleta</div>
+                        <div class="rate-price" id="price-moto">
+                            $1.500 <span>/ hora</span>
+                        </div>
+                        <ul class="rate-features">
+                            <li>
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Zona Exclusiva
+                            </li>
+                            <li>
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Ingreso Rápido
+                            </li>
+                        </ul>
+                        <button class="btn-rate">Seleccionar Moto</button>
+                    </div>
+                    <div class="rate-card">
+                        <div class="rate-card-img">
+                            <img src="Images/Google AI/camioneta.png" alt="Camioneta en espacio amplio" />
+                        </div>
+                        <div class="rate-type">Camioneta / SUV</div>
+                        <div class="rate-price" id="price-camioneta">
+                            $3.500 <span>/ hora</span>
+                        </div>
+                        <ul class="rate-features">
+                            <li>
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Espacios Amplios
+                            </li>
+                            <li>
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Alta Comodidad
+                            </li>
+                        </ul>
+                        <button class="btn-rate">Seleccionar Camioneta</button>
+                    </div>
+                    <div class="rate-card">
+                        <div class="rate-card-img">
+                            <img src="Images/Google AI/bicicleta.png" alt="Bicicleta en rack seguro" />
+                        </div>
+                        <div class="rate-type">Bicicleta</div>
+                        <div class="rate-price" id="price-bike">
+                            $1.000 <span>/ hora</span>
+                        </div>
+                        <ul class="rate-features">
+                            <li>
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Rack Seguro
+                            </li>
+                            <li>
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Zona Protegida
+                            </li>
+                        </ul>
+                        <button class="btn-rate">Seleccionar Bicicleta</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AVAILABILITY -->
+        <section class="availability" id="availability">
+            <div class="container">
+                <div class="avail-header">
+                    <div class="avail-title-row">
+                        <h2 class="avail-title">
+                            Disponibilidad<br /><span class="accent">en Tiempo Real</span>
+                        </h2>
+                        <div class="live-badge">
+                            <div class="live-dot live-pulse"></div>
+                            <span>En Vivo</span>
+                        </div>
+                    </div>
+                    <div class="avail-sync">
+                        <div class="sync-row">
+                            <span class="material-symbols-outlined spin">sync</span><span
+                                class="sync-label">Actualizando...</span>
+                        </div>
+                        <p class="sync-time">
+                            Última Sync: <span id="current-time">--:--:-- AM</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="avail-grid">
+                    <div class="avail-card glass">
+                        <div class="gauge-wrap">
+                            <svg viewBox="0 0 36 36">
+                                <path class="circle-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle-progress"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    stroke-dasharray="64, 100" />
+                            </svg>
+                            <div class="gauge-inner">
+                                <span class="material-symbols-outlined">directions_car</span><span
+                                    class="gauge-count">32<span class="gauge-total">/50</span></span>
+                            </div>
+                        </div>
+                        <h3>Vehículos</h3>
+                        <p>64% Ocupado</p>
+                    </div>
+                    <div class="avail-card glass">
+                        <div class="gauge-wrap">
+                            <svg viewBox="0 0 36 36">
+                                <path class="circle-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle-progress"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    stroke-dasharray="36, 100" />
+                            </svg>
+                            <div class="gauge-inner">
+                                <span class="material-symbols-outlined">motorcycle</span><span
+                                    class="gauge-count">18<span class="gauge-total">/50</span></span>
+                            </div>
+                        </div>
+                        <h3>Motos</h3>
+                        <p>36% Ocupado</p>
+                    </div>
+                    <div class="avail-card glass">
+                        <div class="gauge-wrap">
+                            <svg viewBox="0 0 36 36">
+                                <path class="circle-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle-progress"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    stroke-dasharray="16.6, 100" />
+                            </svg>
+                            <div class="gauge-inner">
+                                <span class="material-symbols-outlined">pedal_bike</span><span
+                                    class="gauge-count">5<span class="gauge-total">/30</span></span>
+                            </div>
+                        </div>
+                        <h3>Bicicletas</h3>
+                        <p>17% Ocupado</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FLUX AI -->
+        <section class="flux" id="flux-AI">
+            <div class="flux-grid">
+                <div class="flux-img-wrap">
+                    <div class="flux-img-glow"></div>
+                    <div class="flux-img-inner glass">
+                        <img src="Images/Google AI/ai-security.png"
+                            alt="Interfaz de seguridad con inteligencia artificial" />
+                    </div>
+                    <div class="flux-badge glass">
+                        <div class="flux-badge-inner">
+                            <div class="flux-badge-icon neon-glow">
+                                <span class="material-symbols-outlined">bolt</span>
+                            </div>
+                            <div>
+                                <div class="flux-badge-label">Latencia Flux</div>
+                                <div class="flux-badge-value">0.8 seg</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flux-content">
+                    <h2>Tecnología<br /><span class="accent">Flux AI</span></h2>
+                    <p class="sub">
+                        Inteligencia artificial de última generación para una gestión
+                        urbana sin fricciones.
+                    </p>
+                    <div class="flux-steps">
+                        <div class="flux-step">
+                            <div class="flux-step-num">1</div>
+                            <div>
+                                <h4>Visión Computacional</h4>
+                                <p>
+                                    Reconocimiento instantáneo de matrículas y tipos de
+                                    vehículos sin necesidad de tiquetes físicos.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flux-step">
+                            <div class="flux-step-num">2</div>
+                            <div>
+                                <h4>Optimización Dinámica</h4>
+                                <p>
+                                    Algoritmos que asignan los espacios más convenientes según
+                                    el tiempo estimado de estadía.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flux-step">
+                            <div class="flux-step-num">3</div>
+                            <div>
+                                <h4>Seguridad Predictiva</h4>
+                                <p>
+                                    Detección proactiva de comportamientos inusuales para
+                                    intervención inmediata.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION -->
+        <section class="location" id="locations">
+            <div class="container">
+                <div class="location-title">
+                    <h2>Ubicación<br /><span class="accent">Estratégica</span></h2>
+                    <p>
+                        Encuéntranos en el corazón de la zona rosa de Bogotá, garantizando
+                        acceso rápido a los puntos clave de la ciudad.
+                    </p>
+                </div>
+                <div class="location-grid">
+                    <div class="location-info">
+                        <div class="location-card glass">
+                            <div class="location-card-header">
+                                <div class="location-icon">
+                                    <span class="material-symbols-outlined">location_on</span>
+                                </div>
+                                <div>
+                                    <h3>Sede Principal</h3>
+                                    <p class="address">Calle 82 # 15 - 35, Bogotá</p>
+                                </div>
+                            </div>
+                            <div class="location-details">
+                                <div class="location-detail">
+                                    <span class="material-symbols-outlined">schedule</span><span
+                                        id="schedule-weekday">Lun – Sáb: 7:00 a.m. – 7:00 p.m.</span>
+                                </div>
+                                <div class="location-detail">
+                                    <span class="material-symbols-outlined">schedule</span><span
+                                        id="schedule-sunday">Dom: 9:00 a.m. – 5:00 p.m.</span>
+                                </div>
+                                <div class="location-detail">
+                                    <span class="material-symbols-outlined">shield</span><span>Zona de Alta
+                                        Seguridad</span>
+                                </div>
+                            </div>
+                            <a href="https://maps.app.goo.gl/gMQosEQEMPEKAqg57" target="_blank"
+                                rel="noopener noreferrer" class="btn-directions">
+                                <span class="material-symbols-outlined">near_me</span>Cómo
+                                Llegar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="map-wrap">
+                        <img src="Images/Google AI/mapa.png" alt="Mapa de ubicación de Punto Park U en Bogotá" />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER — 3 columnas del original en dark mode -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <picture>
+                    <source srcset="Images/Logo.avif" type="image/avif" />
+                    <source srcset="Images/Logo.webp" type="image/webp" />
+                    <img class="footer-logo-img" src="Images/Logo.png" alt="Logo Punto Park U" loading="lazy"
+                        decoding="async" onerror="this.style.display = 'none'" />
+                </picture>
+                <div class="footer-brand-name">"PUNTO PARK U"</div>
+                <p><strong style="color: var(--on-surface-var)">Estacionamiento fácil y sencillo para tu tranquilidad.</strong></p>
+                <p>Créditos de imagen: Recursos visuales generados por Google AI</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>
+                    <strong style="color: var(--on-surface-var)">Dirección</strong><br />Calle 82 # 15-35, Bogotá,
+                    Colombia
+                </p>
+                <p style="margin-top: 0.75rem">
+                    <strong style="color: var(--on-surface-var)">Teléfono / WhatsApp</strong><br />(+57) 310 123 4567
+                </p>
+                <p style="margin-top: 0.75rem">
+                    <strong style="color: var(--on-surface-var)">Email</strong><br /><a
+                        href="mailto:puntoparku@gmail.com">puntoparku@gmail.com</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-copyright">
+    <p>©<span id="footer-year"></span> " PUNTO PARK U "</p> 
+    <p>Todos los derechos reservados</p>
+</div>
+    </footer>
+
+    <!-- WhatsApp flotante -->
+    <a href="https://wa.me/573101234567?text=Hola,%20necesito%20información%20sobre%20el%20parqueadero"
+        class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Contáctenos por WhatsApp"
+        aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+        </svg>
+    </a>
+
+    <!-- Scroll Top -->
+    <button class="scroll-top" id="scrollTop" title="Volver arriba" aria-label="Volver arriba">
+        <div class="scroll-top-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z" fill="white" />
+            </svg>
+            <span>P</span>
+        </div>
     </button>
-    <div class="nav-container" id="navContainer">
-      <a href="#hero" class="nav-link">Reserva tu espacio</a>
-      <a href="#features" class="nav-link">Por Qué Elegirnos</a>
-      <a href="#pricing" class="nav-link">Ver Tarifas</a>
-      <a href="#about" class="nav-link">Sobre Nosotros</a>
-      <a href="#mission-vision" class="nav-link">Misión & Visión</a>
-      <a href="#contact" class="nav-link">Contacto</a>
-    </div>
-  </nav>
 
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <h1>"PUNTO PARK U"</h1>
-      <h2>Estacionamiento Fácil y Sencillo</h2>
-      <p>Tu vehículo seguro, protegido y vigilado</p>
+    <!-- JAVASCRIPT -->
+    <script>
+        // ── Hamburguesa animada ───────────────────────────────────────
+        const menuToggle = document.getElementById("menuToggle");
+        const overlay = document.getElementById("mobile-overlay");
+        const mobileLinks = document.querySelectorAll(".mobile-link");
 
-      <div class="hero-icons">
-        <div class="vehicle-icon">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z" />
-          </svg>
-        </div>
-        <div class="vehicle-icon">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" />
-          </svg>
-        </div>
-      </div>
-      <button class="btn-cta" onclick="window.location.href = 'registro.html'">
-        Reserva tu Espacio
-      </button>
-    </div>
-  </section>
+        menuToggle.addEventListener("click", () => {
+            const open = overlay.classList.toggle("active");
+            menuToggle.classList.toggle("active");
+            document.body.style.overflow = open ? "hidden" : "";
+        });
 
-  <section class="features" id="features">
-    <div class="container">
-      <h2 class="section-title">¿Por Qué Elegirnos?</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-            </svg>
-          </div>
-          <h3>Vigilancia 24/7</h3>
-          <p>
-            Contamos con personal de seguridad y cámaras vigilando tu
-            vehículo.
-          </p>
-        </div>
+        mobileLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+                overlay.classList.remove("active");
+                menuToggle.classList.remove("active");
+                document.body.style.overflow = "";
+            });
+        });
 
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V9h7V5.54L17.87 9H12v3.99z" />
-            </svg>
-          </div>
-          <h3>Espacios Seguros</h3>
-          <p>
-            Instalaciones modernas con espacios amplios para carros y motos,
-            completamente cubiertos.
-          </p>
-        </div>
+        // ── Smooth scroll con offset del header ──────────────────────
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+        const id = this.getAttribute("href");
+        if (id === "#") return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
 
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
-            </svg>
-          </div>
-          <h3>Tarifas Accesibles</h3>
-          <p>
-            Precios competitivos con planes por hora, día o mensualidades
-            ajustadas a tu presupuesto.
-          </p>
-        </div>
+        const doScroll = () => {
+            const offset = document.querySelector("header").offsetHeight + 15;
+            window.scrollTo({
+                top: target.getBoundingClientRect().top + window.pageYOffset - offset,
+                behavior: "smooth",
+            });
+        };
 
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-            </svg>
-          </div>
-          <h3>Ubicación Privilegiada</h3>
-          <p>
-            Estratégicamente ubicados cerca de zonas comerciales y de fácil
-            acceso vehicular.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+        // Si el overlay está abierto, espera que termine de cerrar
+        if (overlay.classList.contains("active")) {
+            setTimeout(doScroll, 520);
+        } else {
+            doScroll();
+        }
+    });
+});
 
-  <section class="pricing" id="pricing">
-    <div class="container">
-      <h2 class="section-title">Nuestras Tarifas</h2>
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <h3>🚗 Carros</h3>
-          <div class="price-item">
-            <div class="price-label">Por Hora</div>
-            <div class="price-value">$3.000</div>
-          </div>
-          <div class="price-item">
-            <div class="price-label">Por Día</div>
-            <div class="price-value">$15.000</div>
-          </div>
-          <div class="price-item">
-            <div class="price-label">Mensualidad</div>
-            <div class="price-value">$250.000</div>
-          </div>
-        </div>
+        // ── Timestamp en vivo ─────────────────────────────────────────
+        function updateTimestamp() {
+            const el = document.getElementById("current-time");
+            if (el) el.textContent = new Date().toLocaleTimeString("es-CO");
+        }
+        setInterval(updateTimestamp, 1000);
+        updateTimestamp();
 
-        <div class="pricing-card">
-          <h3>🏍️ Motos</h3>
-          <div class="price-item">
-            <div class="price-label">Por Hora</div>
-            <div class="price-value">$1.500</div>
-          </div>
-          <div class="price-item">
-            <div class="price-label">Por Día</div>
-            <div class="price-value">$8.000</div>
-          </div>
-          <div class="price-item">
-            <div class="price-label">Mensualidad</div>
-            <div class="price-value">$120.000</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        // ── Scroll top ────────────────────────────────────────────────
+        const scrollTopBtn = document.getElementById("scrollTop");
+        window.addEventListener("scroll", () => {
+            scrollTopBtn.classList.toggle("show", window.pageYOffset > 300);
+        });
+        scrollTopBtn.addEventListener("click", () =>
+            window.scrollTo({ top: 0, behavior: "smooth" }),
+        );
 
-  <section class="about" id="about">
-    <div class="container">
-      <h2 class="section-title">Sobre Nosotros</h2>
-      <div class="about-content">
-        <p>
-          <strong>"PUNTO PARK U"</strong> es un Parqueadero moderno y seguro,
-          comprometido con brindar el mejor servicio de estacionamiento para
-          tu vehículo. Contamos con instalaciones de primera calidad, personal
-          capacitado, tecnología con integración de la (IA) Inteligencia
-          artificial.
-        </p>
-        <p>
-          Nuestro objetivo es ofrecerte tranquilidad y comodidad mientras
-          realizas tus actividades diarias, sabiendo que tu carro o moto está
-          en las mejores manos.
-        </p>
+        // ── localStorage — precios y horarios del panel admin ────────
+        window.addEventListener("load", function () {
+            try {
+                const prices = JSON.parse(localStorage.getItem("parkingPrices"));
+                const schedule = JSON.parse(localStorage.getItem("parkingSchedule"));
+                const fmt = (v) => "$" + parseInt(v).toLocaleString("es-CO");
+                const fmtTime = (t) => {
+                    if (!t || !t.includes(":")) return "N/A";
+                    const [h, m] = t.split(":");
+                    const hr = parseInt(h);
+                    return `${hr % 12 || 12}:${m} ${hr >= 12 ? "p.m." : "a.m."}`;
+                };
+                if (prices) {
+                    if (prices.car) {
+                        const el = document.getElementById("price-car");
+                        if (el)
+                            el.innerHTML = fmt(prices.car.hour) + " <span>/ hora</span>";
+                    }
+                    if (prices.moto) {
+                        const el = document.getElementById("price-moto");
+                        if (el)
+                            el.innerHTML = fmt(prices.moto.hour) + " <span>/ hora</span>";
+                    }
+                    if (prices.bike) {
+                        const el = document.getElementById("price-bike");
+                        if (el)
+                            el.innerHTML = fmt(prices.bike.hour) + " <span>/ hora</span>";
+                    }
+                }
+                if (schedule) {
+                    const wd = document.getElementById("schedule-weekday");
+                    const su = document.getElementById("schedule-sunday");
+                    if (wd && schedule.weekday)
+                        wd.textContent = `Lun – Sáb: ${fmtTime(schedule.weekday.open)} – ${fmtTime(schedule.weekday.close)}`;
+                    if (su && schedule.sunday)
+                        su.textContent = `Dom: ${fmtTime(schedule.sunday.open)} – ${fmtTime(schedule.sunday.close)}`;
+                }
+            } catch (e) {
+                console.warn("localStorage:", e);
+            }
+        });
 
-        <div class="info-boxes">
-          <div class="info-box">
-            <h4>Capacidad</h4>
-            <p>50 vehículos<br />30 motos</p>
-          </div>
+        // ── Nav highlight en scroll ───────────────────────────────────
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".desktop-nav a");
+        const navObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                navLinks.forEach((link) => {
+                    link.style.color =
+                        link.getAttribute("href") === `#${entry.target.id}`
+                            ? "var(--primary)"
+                            : "";
+                });
+            }
+        });
+    },
+    { threshold: 0.35 }
+);
 
-          <div class="info-box">
-            <h4>Servicios</h4>
-            <p>Vigilancia<br />Cubierto</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+sections.forEach((section) => navObserver.observe(section));
 
-  <section class="mission-vision" id="mission-vision">
-    <div class="container">
-      <h2 class="section-title">Misión & Visión</h2>
-      <div class="mission-vision-grid">
-        <div class="mission-card">
-          <div class="mv-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V9h7V5.54L17.87 9H12v3.99z" />
-            </svg>
-          </div>
-          <h3>Nuestra Misión</h3>
-          <p>
-            Proporcionar un servicio de estacionamiento seguro, confiable y
-            accesible para la comunidad, garantizando la protección de los
-            vehículos mediante tecnología de punta con integración de
-            Inteligencia Artificial, vigilancia 24/7 y un equipo altamente
-            capacitado comprometido con la excelencia en el servicio al
-            cliente.
-          </p>
-        </div>
-
-        <div class="vision-card">
-          <div class="mv-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-            </svg>
-          </div>
-          <h3>Nuestra Visión</h3>
-          <p>
-            Ser el parqueadero líder y más confiable de la región, reconocido
-            por nuestra innovación tecnológica, seguridad integral y
-            excelencia en el servicio. Aspiramos a establecer nuevos
-            estándares en la industria del estacionamiento mediante la
-            implementación continua de soluciones inteligentes que brinden
-            tranquilidad y comodidad a nuestros usuarios.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer id="contact">
-    <div class="footer-content">
-      <div class="footer-section">
-        <picture>
-          <source srcset="Images/Logo.avif" type="image/avif" />
-          <source srcset="Images/Logo.webp" type="image/webp" />
-          <img src="Images/Logo.png" alt="Logo Punto Park U" style="width: 150px; margin-bottom: 15px" loading="lazy"
-            decoding="async" onerror="this.style.display = 'none'" />
-        </picture>
-        <h3>"PUNTO PARK U"</h3>
-        <p>Estacionamiento fácil y sencillo para tu tranquilidad.</p>
-      </div>
-
-      <div class="footer-section">
-        <h3>🕗 Horarios de Atención</h3>
-        <p><strong>Lunes a Sábado</strong><br />7:00 a.m. a 7:00 p.m.</p>
-        <p style="margin-top: 15px">
-          <strong>Domingo</strong><br />9:00 a.m. a 5:00 p.m.
-        </p>
-      </div>
-
-      <div class="footer-section">
-        <div class="footer-contact-item">
-          <div>
-            <h3>Dirección:</h3>
-            <p>Calle 82 # 15-35<br />Bogotá, Colombia</p>
-          </div>
-        </div>
-
-        <div class="footer-contact-item">
-          <div>
-            <h3>Teléfono / WhatsApp</h3>
-            <p>(+57) 310 123 4567</p>
-          </div>
-        </div>
-
-        <div class="footer-contact-item">
-          <div>
-            <strong style="color: #4facfe"> Email:</strong>
-            <a href="puntoparku@gmail.com">puntoparku@gmail.com</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="copyright">
-      <p>
-        <strong>©2025 "PUNTO PARK U" Sistema de Gestión de Parqueadero - Todos los
-          derechos reservados</strong>
-      </p>
-    </div>
-  </footer>
-
-  <a href="https://wa.me/573101234567?text=Hola,%20necesito%20información%20sobre%20el%20parqueadero"
-    class="whatsapp-float" target="_blank" title="Contáctenos por WhatsApp">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-    </svg>
-  </a>
-
-  <div class="scroll-top" id="scrollTop" title="Volver arriba">
-    <div class="parking-arrow-icon">
-      <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30px" height="30px">
-        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z" fill="white" />
-      </svg>
-      <div class="parking-sign">P</div>
-    </div>
-  </div>
+// ── Año automático en footer ──────────────────────────────
+document.getElementById("footer-year").textContent = new Date().getFullYear();
+    </script>
+    
 </body>
+
 </html>

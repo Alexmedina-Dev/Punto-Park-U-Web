@@ -1,72 +1,179 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error - Punto Park</title>
-    <link rel="stylesheet" href="error.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--Titulo de la ventana-->
+  <title>"Punto Park U" - Error</title>
+   <!-- Seguridad -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <!-- Descripción de la Página -->
+    <meta
+      name="description"
+      content="Página de error personalizada para el proceso de registro en Punto Park U. Proporciona retroalimentación clara 
+      y recomendaciones para resolver problemas comunes durante el registro." />
+    <!-- Autor de la Página -->
+    <meta name="author" content="Alexander Medina & Miguel Palacio" />
+    <!-- Enlaces a Estilos CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <link rel="stylesheet" href="error.css" />
 </head>
 <body>
-    <div class="container">
-        <!-- Header con icono y título -->
-        <div class="header-section">
-            <div class="error-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                </svg>
-            </div>
-            <h1>¡Atención!</h1>
-        </div>
 
-        <!-- Contenido en 2 columnas para pantallas grandes -->
-        <div class="content-wrapper">
-            <!-- Columna Izquierda: Mensaje de error y botones -->
-            <div class="left-column">
-                <div class="error-message">
-                    <h3>❌ Error de Validación</h3>
-                    <p id="errorText">Ha ocurrido un error en el proceso. Por favor, verifica la información ingresada.</p>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="window.location.href='../Login/Login.html'">Ir al Login</button>
-            </div>
-
-            <!-- Columna Derecha: Recomendaciones -->
-            <div class="right-column">
-                <div class="info-message">
-                    <h3>💡 Recomendaciones</h3>
-                    <p>
-                        • Verifica que todos los campos estén completos<br>
-                        • Asegúrate de que el usuario y contraseña sean correctos<br>
-                        • La cédula debe contener solo números<br>
-                        • Debes ser mayor de 18 años para registrarte<br>
-                        • Revisa que la fecha de nacimiento sea correcta<br>
-                        • Intenta nuevamente en unos momentos
-                    </p>
-                </div>
-            </div>
-        </div>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <span class="nav__brand">"PUNTO PARK U"</span>
     </div>
+  </nav>
 
-    <footer>
-        <div>
-            <img class="logo" src="../Logo.png" alt="Logo Punto Park U">
+  <!-- DEMO: simula el fondo de la página de registro -->
+  <div class="demo-area">
+    <span class="demo-label">Vista previa — Página de Registro</span>
+    <p class="demo-title">[ Tu formulario de registro va aquí ]</p>
+
+    <!-- ⚠️ BOTÓN DE PRUEBA — eliminar cuando integres en el proyecto real -->
+    <button class="btn-test" onclick="showErrorModal('El usuario ya existe. Por favor elige un nombre de usuario diferente.')">
+      <span class="icon">bug_report</span>
+      Probar modal de error
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       MODAL DE ERROR
+       Copia este bloque completo a tu página de registro
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="error-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+    <div class="modal">
+
+      <!-- Botón cerrar -->
+      <button class="modal__close" onclick="closeErrorModal()" aria-label="Cerrar">
+        <span class="icon">close</span>
+      </button>
+
+      <div class="modal__body">
+
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="modal__left">
+
+          <div class="icon-badge">
+            <span class="icon">error</span>
+            <div class="icon-badge__ring"></div>
+          </div>
+
+          <div>
+            <h2 class="modal__heading" id="modal-title">¡Atención!</h2>
+            <p class="modal__subtitle">
+              Hemos detectado un problema con tu solicitud.
+            </p>
+          </div>
+
+          <div class="error-card">
+            <div class="error-card__header">
+              <span class="icon">cancel</span>
+              <h3 class="error-card__title">Error de Validación</h3>
+            </div>
+            <p class="error-card__message" id="modal-error-message">
+              Ha ocurrido un error inesperado. Verifica tus datos e inténtalo de nuevo.
+            </p>
+          </div>
+
+          <button class="btn-primary" onclick="closeErrorModal()">
+            Registrarse de nuevo
+            <span class="icon">arrow_forward</span>
+          </button>
+
         </div>
-        <div>
-            <p><strong>©2025 "PUNTO PARK U" Sistema de Gestión de Parqueadero - Todos los derechos reservados</strong></p>
+
+        <!-- COLUMNA DERECHA -->
+        <div class="modal__right">
+
+          <div class="rec-card">
+            <div class="rec-card__glow"></div>
+            <div class="rec-card__header">
+              <div class="rec-card__icon-wrap">
+                <span class="icon">lightbulb</span>
+              </div>
+              <h3 class="rec-card__title">Recomendaciones</h3>
+            </div>
+            <ul class="rec-list">
+              <li class="rec-item">
+                <span class="icon">check_circle</span>
+                <div>
+                  <h4 class="rec-item__title">Verifica la longitud del usuario</h4>
+                  <p class="rec-item__desc">El nombre de usuario debe tener entre 8 y 20 caracteres.</p>
+                </div>
+              </li>
+              <li class="rec-item">
+                <span class="icon">password</span>
+                <div>
+                  <h4 class="rec-item__title">Revisa tu contraseña</h4>
+                  <p class="rec-item__desc">Debe contener al menos un número, una letra minúscula, mayúscula y caracter especial</p>
+                </div>
+              </li>
+              <li class="rec-item">
+                <span class="icon">spellcheck</span>
+                <div>
+                  <h4 class="rec-item__title">Sin caracteres especiales</h4>
+                  <p class="rec-item__desc">Evita usar !@#$%^&amp;* en los campos restringidos.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="support-strip">
+            <div class="support-strip__left">
+              <span class="icon">support_agent</span>
+              <span class="support-strip__text">¿Necesitas ayuda adicional?</span>
+            </div>
+            <a class="support-strip__link" href="#">Contactar Soporte</a>
+          </div>
+
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+  <!-- FIN MODAL -->
 
-    <script>
-        // Obtener el mensaje de error de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const errorMsg = urlParams.get('msg');
-        
-        if (errorMsg) {
-            document.getElementById('errorText').textContent = decodeURIComponent(errorMsg);
-        }
+  <script>
+    /**
+     * showErrorModal(mensaje)
+     * ─────────────────────────────────────────
+     * Llama esta función desde tu JS de validación.
+     * Ejemplo: showErrorModal('El usuario ya existe.');
+     *
+     * Cuando integres la DB, solo reemplaza el
+     * onclick del form por: showErrorModal(respuesta.error)
+     */
+    function showErrorModal(mensaje) {
+      const msgEl = document.getElementById('modal-error-message');
+      if (msgEl && mensaje) msgEl.textContent = mensaje;
 
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+      const overlay = document.getElementById('error-modal');
+      overlay.classList.add('is-open');
+
+      // Bloquea scroll del fondo
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeErrorModal() {
+      const overlay = document.getElementById('error-modal');
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    // Cerrar al hacer clic en el overlay (fuera del modal)
+    document.getElementById('error-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeErrorModal();
+    });
+
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeErrorModal();
+    });
+  </script>
+
 </body>
 </html>
