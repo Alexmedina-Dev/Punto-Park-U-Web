@@ -1,73 +1,91 @@
- document
-        .getElementById("idNumber")
-        .addEventListener("input", function (e) {
-          this.value = this.value.replace(/[^0-9]/g, "");
-        });
+// Validación del formulario
+document.getElementById('registrationForm').addEventListener('submit', function (e) {
+  e.preventDefault();
 
-      document
-        .getElementById("registerForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+  const nombres = document.getElementById('nombres').value.trim();
+  const apellidos = document.getElementById('apellidos').value.trim();
+  const cedula = document.getElementById('cedula').value.trim();
+  const fecha = document.getElementById('fecha_nacimiento').value;
 
-          const firstName = document.getElementById("firstName").value.trim();
-          const lastName = document.getElementById("lastName").value.trim();
-          const idNumber = document.getElementById("idNumber").value.trim();
-          const birthDate = document.getElementById("birthDate").value;
+  // Validar nombres y apellidos
+  if (nombres.length < 2 || apellidos.length < 2) {
+    window.location.href = 'error.html?msg=' + encodeURIComponent('Nombres y apellidos deben tener al menos 2 caracteres.');
+    return;
+  }
 
-          if (firstName.length < 2) {
-            window.location.href =
-              "error.html?msg=El nombre debe tener al menos 2 caracteres";
-            return;
-          }
+  // Validar cédula
+  if (!/^\d{6,12}$/.test(cedula)) {
+    window.location.href = 'error.html?msg=' + encodeURIComponent('La cédula debe contener entre 6 y 12 números.');
+    return;
+  }
 
-          if (lastName.length < 2) {
-            window.location.href =
-              "error.html?msg=El apellido debe tener al menos 2 caracteres";
-            return;
-          }
+  // Validar fecha
+  if (!fecha) {
+    window.location.href = 'error.html?msg=' + encodeURIComponent('Debe ingresar una fecha de nacimiento.');
+    return;
+  }
 
-          if (!/^\d+$/.test(idNumber)) {
-            window.location.href =
-              "error.html?msg=La cédula debe contener solo números";
-            return;
-          }
+  const birthDate = new Date(fecha);
+  const today = new Date();
 
-          if (idNumber.length < 6 || idNumber.length > 12) {
-            window.location.href =
-              "error.html?msg=La cédula debe tener entre 6 y 12 dígitos";
-            return;
-          }
+  // Validar que la fecha no sea futura
+  if (birthDate > today) {
+    window.location.href = 'error.html?msg=' + encodeURIComponent('La fecha de nacimiento no puede ser en el futuro.');
+    return;
+  }
 
-          if (!birthDate) {
-            window.location.href =
-              "error.html?msg=Debe ingresar su fecha de nacimiento";
-            return;
-          }
+  // Calcular edad
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
 
-          const birth = new Date(birthDate);
-          const today = new Date();
-          let age = today.getFullYear() - birth.getFullYear();
-          const monthDiff = today.getMonth() - birth.getMonth();
+  // Validar edad mínima
+  if (age < 18) {
+    window.location.href = 'error.html?msg=' + encodeURIComponent('Debe ser mayor de 18 años para registrarse.');
+    return;
+  }
 
-          if (
-            monthDiff < 0 ||
-            (monthDiff === 0 && today.getDate() < birth.getDate())
-          ) {
-            age--;
-          }
+  // Si todo es válido, redirigir a página de éxito
+  const nombreCompleto = nombres + ' ' + apellidos;
+  window.location.href = 'Registro-exitoso/registro-exitoso.html?nombre=' + encodeURIComponent(nombreCompleto) + '&cedula=' + encodeURIComponent(cedula);
+});
 
-          if (age < 18) {
-            window.location.href =
-              "error.html?msg=Debes ser mayor de 18 años para registrarte";
-            return;
-          }
+// Login con Google
+function loginWithGoogle() {
+  // Aquí debes integrar el SDK de Google Sign-In
+  // Ejemplo de URL de autenticación (debes configurar tu Client ID)
+  const clientId = 'TU_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
+  const redirectUri = encodeURIComponent(window.location.origin + '/auth/google/callback');
+  const scope = encodeURIComponent('profile email');
+  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
 
-          if (birth > today) {
-            window.location.href =
-              "error.html?msg=La fecha de nacimiento no puede ser en el futuro";
-            return;
-          }
+  // Para desarrollo/pruebas
+  alert('Login con Google. En producción, configure el Client ID de Google OAuth.');
+  // window.location.href = authUrl;
+}
 
-          // Redirigir a la página de registro exitoso con los datos
-          window.location.href = `registro-exitoso.html?nombre=${encodeURIComponent(firstName + " " + lastName)}&cedula=${encodeURIComponent(idNumber)}`;
-        });
+// Login con Microsoft
+function loginWithMicrosoft() {
+  // Aquí debes integrar el SDK de Microsoft Identity Platform
+  const clientId = 'TU_MICROSOFT_CLIENT_ID';
+  const redirectUri = encodeURIComponent(window.location.origin + '/auth/microsoft/callback');
+  const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid%20profile%20email`;
+
+  // Para desarrollo/pruebas
+  alert('Login con Microsoft. En producción, configure el Client ID de Microsoft.');
+  // window.location.href = authUrl;
+}
+
+// Login con Apple
+function loginWithApple() {
+  // Aquí debes integrar el SDK de Sign in with Apple
+  const clientId = 'TU_APPLE_CLIENT_ID';
+  const redirectUri = encodeURIComponent(window.location.origin + '/auth/apple/callback');
+  const authUrl = `https://appleid.apple.com/auth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=name%20email&response_mode=form_post`;
+
+  // Para desarrollo/pruebas
+  alert('Login con Apple. En producción, configure el Service ID de Apple.');
+  // window.location.href = authUrl;
+}
