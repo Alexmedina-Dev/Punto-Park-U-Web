@@ -516,8 +516,8 @@ main {
     inset: 0;
     background: linear-gradient(to right,
             var(--bg) 0%,
-            rgba(16, 19, 26, 0.6) 50%,
-            transparent 100%);
+            rgba(16, 19, 26, 0.6) 10%,
+            transparent 60%);
 }
 
 #hero .container {
