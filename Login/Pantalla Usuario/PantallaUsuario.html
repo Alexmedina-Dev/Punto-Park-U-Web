@@ -1,857 +1,384 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--Titulo de la Pagina-->
-    <title>Mi Panel - "Punto Park U"</title>
-    <!-- Seguridad -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <!--Enlaces y estilos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="pantalla-usuario.css" />
-    <script src="pantalla-usuario.js" defer></script>
-  </head>
-  <body>
-    <!-- ===== MOBILE HEADER ===== -->
-    <header class="mobile-header" id="mobileHeader">
-      <div class="mobile-logo">
-        <div class="logo-icon-sm">🅿️</div>
-        PUNTO PARK U
-      </div>
-      <div class="header-actions">
-        <button
-          class="notif-btn"
-          onclick="toggleNotifDropdown()"
-          id="notifBtnMobile"
-        >
-          🔔
-          <span class="notif-badge">3</span>
-        </button>
-        <button class="btn-logout-header" onclick="logout()">🚪 Salir</button>
-      </div>
-    </header>
+<head>
+<!--Meta Información general-->  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Panel - "Punto Park U"</title>
+<!-- Seguridad -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<!--Enlaces y estilos-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link rel="stylesheet" href="pantalla-usuario.css">
+<script src="pantalla-usuario.js" defer></script>
+</head>
+<body>
 
-    <!-- ===== NOTIFICATION DROPDOWN ===== -->
-    <div class="notif-dropdown" id="notifDropdown">
-      <div class="notif-drop-header">
-        <span class="notif-drop-title">Notificaciones</span>
-        <span class="notif-count-badge">3 NUEVAS</span>
+<!-- MOBILE HEADER -->
+<header class="mobile-header" id="mobileHeader">
+  <div class="mobile-logo">
+    <div class="logo-icon-sm"><span class="material-symbols-outlined" style="font-size:17px;">local_parking</span></div>
+    PUNTO PARK U
+  </div>
+  <div class="header-actions">
+    <button class="notif-btn" onclick="toggleNotifDropdown()" id="notifBtnMobile">
+      <span class="material-symbols-outlined">notifications</span>
+      <span class="notif-badge">3</span>
+    </button>
+    <button class="btn-logout-header" onclick="logout()">
+      <span class="material-symbols-outlined icon-sm">logout</span> Salir
+    </button>
+  </div>
+</header>
+
+<!-- NOTIFICATION DROPDOWN -->
+<div class="notif-dropdown" id="notifDropdown">
+  <div class="notif-drop-header">
+    <span class="notif-drop-title">Notificaciones</span>
+    <span class="notif-count-badge">3 NUEVAS</span>
+  </div>
+  <div class="notif-list">
+    <div class="notif-item nb-danger">
+      <div class="notif-item-text">Tu tiempo termina en 15 min</div>
+      <div class="notif-item-sub">Reserva A5 · ABC-123</div>
+    </div>
+    <div class="notif-item nb-primary">
+      <div class="notif-item-text">Promoción: 10% descuento</div>
+      <div class="notif-item-sub">Válido para tu próxima reserva</div>
+    </div>
+    <div class="notif-item nb-success">
+      <div class="notif-item-text">Beneficio desbloqueado</div>
+      <div class="notif-item-sub">Cliente frecuente · 24 visitas</div>
+    </div>
+  </div>
+</div>
+
+<!-- APP LAYOUT -->
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-row">
+        <div class="logo-icon"><span class="material-symbols-outlined" style="font-size:20px;">local_parking</span></div>
+        <div class="logo-text">PUNTO PARK U<span>Panel de Usuario</span></div>
       </div>
-      <div class="notif-list">
-        <div class="notif-item notif-border-danger">
-          <div class="notif-item-text">⏰ Tu tiempo termina en 15 min</div>
-          <div class="notif-item-sub">Reserva A5 · ABC-123</div>
-        </div>
-        <div class="notif-item notif-border-primary">
-          <div class="notif-item-text">💰 Promoción: 10% descuento</div>
-          <div class="notif-item-sub">Válido para tu próxima reserva</div>
-        </div>
-        <div class="notif-item notif-border-gold">
-          <div class="notif-item-text">🥇 Has alcanzado nivel ORO</div>
-          <div class="notif-item-sub">Disfruta de beneficios exclusivos</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-row">
+        <div class="user-avatar"><span class="material-symbols-outlined" style="font-size:19px;">person</span></div>
+        <div>
+          <div class="user-name" id="sidebarName">Juan Pérez</div>
+          <div class="user-visits"><span class="material-symbols-outlined" style="font-size:11px;">directions_car</span> Cliente frecuente · 24 visitas</div>
         </div>
       </div>
     </div>
-
-    <!-- ===== APP LAYOUT ===== -->
-    <div class="app-layout">
-      <!-- SIDEBAR -->
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-logo">
-          <div class="logo-row">
-            <div class="logo-icon">🅿️</div>
-            <div class="logo-text">
-              PUNTO PARK U
-              <span>Panel de Usuario</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="sidebar-user">
-          <div class="user-row">
-            <div class="user-avatar">👤</div>
-            <div>
-              <div class="user-name" id="sidebarName">Juan Pérez</div>
-              <div class="user-level">🥇 Nivel ORO</div>
-            </div>
-          </div>
-        </div>
-
-        <nav class="sidebar-nav">
-          <button
-            class="nav-item active"
-            onclick="showTab('home')"
-            id="nav-home"
-          >
-            <span class="nav-icon">🏠</span> Inicio
-          </button>
-          <button
-            class="nav-item"
-            onclick="showTab('vehicles')"
-            id="nav-vehicles"
-          >
-            <span class="nav-icon">🚗</span> Mis Vehículos
-          </button>
-          <button
-            class="nav-item"
-            onclick="showTab('reserve')"
-            id="nav-reserve"
-          >
-            <span class="nav-icon">📝</span> Reservar
-          </button>
-          <button
-            class="nav-item"
-            onclick="showTab('location')"
-            id="nav-location"
-          >
-            <span class="nav-icon">📍</span> Ubicación
-          </button>
-          <button
-            class="nav-item"
-            onclick="showTab('profile')"
-            id="nav-profile"
-          >
-            <span class="nav-icon">👤</span> Mi Perfil
-          </button>
-
-          <!-- Notif button desktop -->
-          <div
-            style="
-              margin-top: auto;
-              padding-top: 16px;
-              border-top: 1px solid var(--border);
-              margin-top: 16px;
-            "
-          >
-            <button
-              class="nav-item"
-              onclick="toggleNotifDropdown()"
-              style="position: relative"
-            >
-              <span class="nav-icon">🔔</span>
-              Notificaciones
-              <span
-                style="
-                  margin-left: auto;
-                  background: var(--danger);
-                  color: white;
-                  border-radius: 50%;
-                  width: 18px;
-                  height: 18px;
-                  font-size: 10px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  font-weight: 700;
-                "
-                >3</span
-              >
-            </button>
-          </div>
-        </nav>
-
-        <div class="sidebar-footer">
-          <button class="btn-logout-side" onclick="logout()" href="/index.html">
-            🚪 Cerrar Sesión
-          </button>
-        </div>
-      </aside>
-
-      <!-- MAIN CONTENT -->
-      <main class="main-content">
-        <div class="content-area">
-          <!-- =================== TAB: HOME =================== -->
-          <div class="tab-section active" id="tab-home">
-            <div class="welcome-card">
-              <div class="welcome-top">
-                <div>
-                  <div class="welcome-title">¡Hola, Juan! 👋</div>
-                  <div class="welcome-sub">
-                    Bienvenido de vuelta a tu espacio.
-                  </div>
-                </div>
-                <div class="level-badge">🥇 Nivel ORO</div>
-              </div>
-            </div>
-
-            <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-icon">🚗</div>
-                <div class="stat-value">24</div>
-                <div class="stat-label">Visitas</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-icon">💰</div>
-                <div class="stat-value">$450K</div>
-                <div class="stat-label">Gastado</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-icon">🎁</div>
-                <div class="stat-value">10%</div>
-                <div class="stat-label">Descuento</div>
-              </div>
-            </div>
-
-            <!-- Active Reservation -->
-            <div id="activeReservationContainer"></div>
-
-            <!-- History -->
-            <div class="card" style="margin-bottom: 0">
-              <div class="section-header">
-                <span class="section-title">📜 Historial Reciente</span>
-                <button class="link-btn">Ver todo →</button>
-              </div>
-              <div class="history-list">
-                <div class="history-item">
-                  <div class="history-left">
-                    <div class="history-icon">🚗</div>
-                    <div>
-                      <div class="history-plate">ABC-123 · Espacio B2</div>
-                      <div class="history-meta">28 Oct, 2025 · 3h 15min</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="history-amount">$9.000</div>
-                    <div class="history-status">PAGADO</div>
-                  </div>
-                </div>
-                <div class="history-item">
-                  <div class="history-left">
-                    <div class="history-icon">🏍️</div>
-                    <div>
-                      <div class="history-plate">XYZ-789 · Espacio C4</div>
-                      <div class="history-meta">22 Oct, 2025 · 1h 45min</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="history-amount">$5.000</div>
-                    <div class="history-status">PAGADO</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- =================== TAB: VEHICLES =================== -->
-          <div class="tab-section" id="tab-vehicles">
-            <div class="page-header">
-              <div class="page-title">🚗 Mis Vehículos</div>
-              <div class="page-subtitle">
-                Gestiona los vehículos registrados en tu cuenta.
-              </div>
-            </div>
-            <div class="vehicles-grid" id="vehiclesList"></div>
-            <button
-              class="btn btn-primary btn-lg btn-full"
-              onclick="openAddModal()"
-            >
-              ➕ Agregar Vehículo
-            </button>
-          </div>
-
-          <!-- =================== TAB: RESERVE =================== -->
-          <div class="tab-section" id="tab-reserve">
-            <div class="page-header">
-              <div class="page-title">📝 Nueva Reserva</div>
-              <div class="page-subtitle">
-                Selecciona tu vehículo y tipo de pago para reservar.
-              </div>
-            </div>
-            <div class="reserve-grid">
-              <div class="form-card">
-                <div class="form-group">
-                  <label class="form-label">Vehículo</label>
-                  <select class="form-select" id="reserveVehicle"></select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Tipo de Pago</label>
-                  <select class="form-select" id="reservePayment">
-                    <option value="prepaid">💳 Prepagar (5% descuento)</option>
-                    <option value="postpaid">🚪 Pagar al salir</option>
-                  </select>
-                </div>
-                <button
-                  class="btn btn-primary btn-lg btn-full"
-                  onclick="makeReservation()"
-                >
-                  ✅ Confirmar Reserva
-                </button>
-              </div>
-              <div>
-                <div class="reserve-info-card card">
-                  <div class="reserve-info-title">ℹ️ Información</div>
-                  <div class="info-row">
-                    <span class="info-row-icon">💳</span> Prepago: descuento del
-                    5% vía PSE
-                  </div>
-                  <div class="info-row">
-                    <span class="info-row-icon">📹</span> La cámara IA reconoce
-                    tu vehículo al ingresar
-                  </div>
-                  <div class="info-row">
-                    <span class="info-row-icon">🎁</span> Tu nivel ORO aplica
-                    descuento adicional del 10%
-                  </div>
-                  <div class="info-row">
-                    <span class="info-row-icon">⏰</span> Tarifa base: $3.000
-                    por primera hora
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- =================== TAB: LOCATION =================== -->
-          <div class="tab-section" id="tab-location">
-            <div class="page-header">
-              <div class="page-title">📍 Ubicación</div>
-              <div class="page-subtitle">
-                Encuentra el Parqueadero fácilmente.
-              </div>
-            </div>
-            <div class="location-grid">
-              <div class="location-info-card">
-                <div class="location-field">
-                  <div class="location-field-icon">📫</div>
-                  <div>
-                    <div class="location-field-label">Dirección</div>
-                    <div class="location-field-value">
-                      Calle 82 # 15-35<br />Bogotá, Colombia
-                    </div>
-                  </div>
-                </div>
-                <div class="location-field">
-                  <div class="location-field-icon">📞</div>
-                  <div>
-                    <div class="location-field-label">Teléfono</div>
-                    <div class="location-field-value">(+57) 310 123 4567</div>
-                  </div>
-                </div>
-                <div class="location-field">
-                  <div class="location-field-icon">⏰</div>
-                  <div>
-                    <div class="location-field-label">Horario</div>
-                    <div class="location-field-value">
-                      Lun–Sáb: 6am – 10pm<br />Dom: 7am – 8pm
-                    </div>
-                  </div>
-                </div>
-                <div class="location-field">
-                  <div class="location-field-icon">🅿️</div>
-                  <div>
-                    <div class="location-field-label">Espacios Disponibles</div>
-                    <div
-                      class="location-field-value"
-                      style="color: var(--success)"
-                    >
-                      18 / 50 libres
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="map-card">
-                <div class="map-placeholder">🗺️</div>
-                <div class="map-btn-grid" style="margin-bottom: 12px">
-                  <a
-                    href="#"
-                    class="btn btn-google"
-                    onclick="
-                      openGoogleMaps();
-                      return false;
-                    "
-                    >📍 Google Maps</a
-                  >
-                  <a
-                    href="#"
-                    class="btn btn-waze"
-                    onclick="
-                      openWaze();
-                      return false;
-                    "
-                    >🚗 Waze</a
-                  >
-                </div>
-                <a
-                  href="https://wa.me/573101234567"
-                  target="_blank"
-                  class="btn btn-whatsapp btn-full"
-                >
-                  💬 Contactar por WhatsApp
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- =================== TAB: PROFILE =================== -->
-          <div class="tab-section" id="tab-profile">
-            <div class="page-header">
-              <div class="page-title">👤 Mi Perfil</div>
-              <div class="page-subtitle">
-                Gestiona tu información personal y preferencias.
-              </div>
-            </div>
-            <div class="profile-layout">
-              <div class="profile-main">
-                <div class="profile-avatar-big">👤</div>
-                <div id="profileDisplay">
-                  <div class="profile-full-name" id="displayName">
-                    Juan Pérez
-                  </div>
-                  <div class="profile-detail" id="displayEmail">
-                    juan.perez@email.com
-                  </div>
-                  <div class="profile-detail" id="displayPhone">
-                    +57 310 123 4567
-                  </div>
-                  <button
-                    class="btn btn-secondary btn-full"
-                    style="margin-top: 18px"
-                    onclick="toggleProfileForm(true)"
-                  >
-                    ✏️ Actualizar Datos
-                  </button>
-                </div>
-                <div
-                  id="profileForm"
-                  style="display: none; text-align: left; margin-top: 18px"
-                >
-                  <div class="form-group">
-                    <label class="form-label">Nombre</label>
-                    <input
-                      class="form-input"
-                      type="text"
-                      id="profileName"
-                      value="Juan Pérez"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input
-                      class="form-input"
-                      type="email"
-                      id="profileEmail"
-                      value="juan.perez@email.com"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Celular</label>
-                    <input
-                      class="form-input"
-                      type="tel"
-                      id="profilePhone"
-                      value="+57 310 123 4567"
-                    />
-                  </div>
-                  <div class="btn-group">
-                    <button
-                      class="btn btn-secondary"
-                      onclick="toggleProfileForm(false)"
-                    >
-                      Cancelar
-                    </button>
-                    <button class="btn btn-primary" onclick="saveProfile()">
-                      💾 Guardar
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="profile-options-card">
-                <button class="profile-option" onclick="showTab('home')">
-                  <div class="profile-option-left">
-                    <div class="profile-option-icon icon-blue">📊</div>
-                    Mi Historial
-                  </div>
-                  <span class="option-arrow">›</span>
-                </button>
-                <div class="option-divider"></div>
-                <button class="profile-option" onclick="showLevelInfo()">
-                  <div class="profile-option-left">
-                    <div class="profile-option-icon icon-gold">🥇</div>
-                    Mi Nivel
-                  </div>
-                  <span class="option-arrow">›</span>
-                </button>
-                <div class="option-divider"></div>
-                <button
-                  class="profile-option"
-                  onclick="openModal('notifModal')"
-                >
-                  <div class="profile-option-left">
-                    <div class="profile-option-icon icon-purple">🔔</div>
-                    Notificaciones
-                  </div>
-                  <span class="option-arrow">›</span>
-                </button>
-                <div class="option-divider"></div>
-                <button
-                  class="profile-option"
-                  onclick="openModal('passwordModal')"
-                >
-                  <div class="profile-option-left">
-                    <div class="profile-option-icon icon-red">🔐</div>
-                    Cambiar Contraseña
-                  </div>
-                  <span class="option-arrow">›</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /content-area -->
-      </main>
-    </div>
-    <!-- /app-layout -->
-
-    <!-- ===== BOTTOM NAV (mobile) ===== -->
-    <nav class="bottom-nav">
-      <button
-        class="bottom-tab active"
-        onclick="showTab('home')"
-        id="btab-home"
-      >
-        <span class="bottom-tab-icon">🏠</span>
-        <span class="bottom-tab-label">Inicio</span>
-      </button>
-      <button
-        class="bottom-tab"
-        onclick="showTab('vehicles')"
-        id="btab-vehicles"
-      >
-        <span class="bottom-tab-icon">🚗</span>
-        <span class="bottom-tab-label">Vehículos</span>
-      </button>
-      <button class="bottom-tab" onclick="showTab('reserve')" id="btab-reserve">
-        <span class="bottom-tab-icon">📝</span>
-        <span class="bottom-tab-label">Reservar</span>
-      </button>
-      <button
-        class="bottom-tab"
-        onclick="showTab('location')"
-        id="btab-location"
-      >
-        <span class="bottom-tab-icon">📍</span>
-        <span class="bottom-tab-label">Ubicación</span>
-      </button>
-      <button class="bottom-tab" onclick="showTab('profile')" id="btab-profile">
-        <span class="bottom-tab-icon">👤</span>
-        <span class="bottom-tab-label">Perfil</span>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="showTab('home')" id="nav-home"><span class="material-symbols-outlined">home</span> Inicio</button>
+      <button class="nav-item" onclick="showTab('vehicles')" id="nav-vehicles"><span class="material-symbols-outlined">directions_car</span> Mis Vehículos</button>
+      <button class="nav-item" onclick="showTab('reserve')" id="nav-reserve"><span class="material-symbols-outlined">event_seat</span> Reservar</button>
+      <button class="nav-item" onclick="showTab('location')" id="nav-location"><span class="material-symbols-outlined">location_on</span> Ubicación</button>
+      <button class="nav-item" onclick="showTab('profile')" id="nav-profile"><span class="material-symbols-outlined">person</span> Mi Perfil</button>
+      <div class="nav-divider"></div>
+      <button class="nav-item" onclick="toggleNotifDropdown()">
+        <span class="material-symbols-outlined">notifications</span> Notificaciones
+        <span style="margin-left:auto;background:var(--danger);color:white;border-radius:50%;width:17px;height:17px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</span>
       </button>
     </nav>
-
-    <!-- ===== MODAL: EDIT VEHICLE ===== -->
-    <div class="modal-overlay" id="editModal">
-      <div class="modal-box">
-        <div class="modal-header">
-          <span class="modal-title">✏️ Editar Vehículo</span>
-          <button class="modal-close" onclick="closeModal('editModal')">
-            ×
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Placa / Código</label>
-            <input
-              class="form-input readonly"
-              type="text"
-              id="editPlate"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Marca y Modelo</label>
-            <input class="form-input" type="text" id="editBrand" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Color</label>
-            <input class="form-input" type="text" id="editColor" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Año</label>
-            <input class="form-input" type="text" id="editYear" />
-          </div>
-          <div class="btn-group btn-group-3">
-            <button class="btn btn-secondary" onclick="closeModal('editModal')">
-              Cancelar
-            </button>
-            <button class="btn btn-danger" onclick="deleteVehicle()">
-              🗑️ Eliminar
-            </button>
-            <button class="btn btn-primary" onclick="saveEdit()">
-              💾 Guardar
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="sidebar-footer">
+      <button class="btn-logout-side" onclick="logout()"><span class="material-symbols-outlined icon-sm">logout</span> Cerrar Sesión</button>
     </div>
+  </aside>
 
-    <!-- ===== MODAL: ADD VEHICLE ===== -->
-    <div class="modal-overlay" id="addModal">
-      <div class="modal-box">
-        <div class="modal-header">
-          <span class="modal-title" id="addModalTitle"
-            >➕ Agregar Vehículo</span
-          >
-          <button class="modal-close" onclick="closeModal('addModal')">
-            ×
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Step 1: Type selector -->
-          <div id="addStep1">
-            <div class="form-label" style="margin-bottom: 12px">
-              Tipo de Vehículo
-            </div>
-            <div class="type-selector">
-              <button
-                class="type-btn selected"
-                id="typeCarro"
-                onclick="selectType('Carro')"
-              >
-                <span class="type-btn-icon">🚗</span> CARRO
-              </button>
-              <button
-                class="type-btn"
-                id="typeMoto"
-                onclick="selectType('Moto')"
-              >
-                <span class="type-btn-icon">🏍️</span> MOTO
-              </button>
-              <button
-                class="type-btn"
-                id="typeBici"
-                onclick="selectType('Bicicleta')"
-              >
-                <span class="type-btn-icon">🚲</span> BICICLETA
-              </button>
-            </div>
-          </div>
-          <!-- Step 2: Dynamic form -->
-          <div id="addStep2">
-            <div id="fieldPlacaGroup" class="form-group">
-              <label class="form-label" id="fieldPlacaLabel">Placa</label>
-              <input
-                class="form-input"
-                type="text"
-                id="addPlate"
-                placeholder="Ej: ABC-123"
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Marca y Modelo</label>
-              <input
-                class="form-input"
-                type="text"
-                id="addBrand"
-                placeholder="Ej: Chevrolet Spark"
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Color</label>
-              <input
-                class="form-input"
-                type="text"
-                id="addColor"
-                placeholder="Ej: Rojo"
-              />
-            </div>
-            <div class="form-group" id="fieldYearGroup">
-              <label class="form-label">Año</label>
-              <input
-                class="form-input"
-                type="text"
-                id="addYear"
-                placeholder="Ej: 2022"
-              />
-            </div>
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-secondary" onclick="closeModal('addModal')">
-              Cancelar
-            </button>
-            <button class="btn btn-primary" onclick="saveNewVehicle()">
-              ✅ Registrar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <main class="main-content">
+    <div class="content-area">
 
-    <!-- ===== MODAL: NOTIFICATIONS ===== -->
-    <div class="modal-overlay" id="notifModal">
-      <div class="modal-box">
-        <div class="modal-header">
-          <span class="modal-title">🔔 Configurar Notificaciones</span>
-          <button class="modal-close" onclick="closeModal('notifModal')">
-            ×
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="notif-section-label">Canales</div>
-          <div class="toggle-row">
-            <div class="toggle-info">
-              <div class="toggle-name">📱 SMS</div>
-              <div class="toggle-desc">
-                Mensajes de texto al +57 310 123 4567
+      <!-- TAB HOME -->
+      <div class="tab-section active" id="tab-home">
+        <div class="welcome-card">
+          <div class="welcome-top">
+            <div>
+              <div class="welcome-title">Hola, Juan</div>
+              <div class="welcome-sub">Bienvenido de vuelta a tu espacio.</div>
+            </div>
+            <div class="membership-badge">
+              <div class="membership-label">
+                <span class="material-symbols-outlined">workspace_premium</span> Cliente Frecuente
+              </div>
+              <div class="membership-progress-wrap">
+                <div class="membership-progress-bar"><div class="membership-progress-fill" style="width:80%;"></div></div>
+                <div class="membership-progress-text">24 visitas · 6 para siguiente nivel</div>
               </div>
             </div>
-            <input
-              type="checkbox"
-              class="toggle-switch"
-              id="notifSMS"
-              checked
-            />
           </div>
-          <div class="toggle-row">
-            <div class="toggle-info">
-              <div class="toggle-name">💬 WhatsApp</div>
-              <div class="toggle-desc">Mensajes por WhatsApp</div>
-            </div>
-            <input
-              type="checkbox"
-              class="toggle-switch"
-              id="notifWhatsApp"
-              checked
-            />
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-info">
-              <div class="toggle-name">🔔 Notificaciones Push</div>
-              <div class="toggle-desc">Alertas en tiempo real en la app</div>
-            </div>
-            <input
-              type="checkbox"
-              class="toggle-switch"
-              id="notifPush"
-              checked
-            />
-          </div>
-
-          <div class="info-alert">
-            📧 <strong>Email:</strong> Las facturas se envían automáticamente al
-            correo registrado después de cada pago.
-          </div>
-
-          <div class="notif-section-label">Eventos</div>
-          <div class="toggle-row">
-            <div class="toggle-name">🚗 Confirmación de ingreso</div>
-            <input
-              type="checkbox"
-              class="toggle-switch"
-              id="notifIngreso"
-              checked
-            />
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-name">⏰ Tiempo por vencer (15 min)</div>
-            <input
-              type="checkbox"
-              class="toggle-switch"
-              id="notifTiempo"
-              checked
-            />
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-name">🚨 Tiempo vencido</div>
-            <input
-              type="checkbox"
-              class="toggle-switch"
-              id="notifVencido"
-              checked
-            />
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-name">✅ Confirmación de pago</div>
-            <input
-              type="checkbox"
-              class="toggle-switch"
-              id="notifPago"
-              checked
-            />
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-name">🎁 Subida de nivel / Beneficios</div>
-            <input
-              type="checkbox"
-              class="toggle-switch"
-              id="notifNivel"
-              checked
-            />
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-name">💰 Promociones y descuentos</div>
-            <input type="checkbox" class="toggle-switch" id="notifPromo" />
-          </div>
-
-          <button
-            class="btn btn-primary btn-full btn-lg"
-            style="margin-top: 22px"
-            onclick="saveNotificationSettings()"
-          >
-            💾 Guardar Configuración
-          </button>
         </div>
-      </div>
-    </div>
 
-    <!-- ===== MODAL: CHANGE PASSWORD ===== -->
-    <div class="modal-overlay" id="passwordModal">
-      <div class="modal-box">
-        <div class="modal-header">
-          <span class="modal-title">🔐 Cambiar Contraseña</span>
-          <button class="modal-close" onclick="closeModal('passwordModal')">
-            ×
-          </button>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-outlined icon-lg">directions_car</span></div>
+            <div class="stat-value">24</div><div class="stat-label">Visitas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-outlined icon-lg">credit_card</span></div>
+            <div class="stat-value">$450K</div><div class="stat-label">Gastado</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-outlined icon-lg">emoji_events</span></div>
+            <div class="stat-value">10%</div><div class="stat-label">Descuento</div>
+          </div>
         </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Contraseña Actual</label>
-            <input
-              class="form-input"
-              type="password"
-              id="passOld"
-              placeholder="••••••••"
-            />
+
+        <div id="activeReservationContainer"></div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;">
+          <div class="section-header">
+            <span class="section-title"><span class="material-symbols-outlined">history</span> Historial Reciente</span>
+            <button class="link-btn">Ver todo</button>
           </div>
-          <div class="form-group">
-            <label class="form-label">Nueva Contraseña</label>
-            <input
-              class="form-input"
-              type="password"
-              id="passNew"
-              placeholder="Mínimo 6 caracteres"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Confirmar Nueva Contraseña</label>
-            <input
-              class="form-input"
-              type="password"
-              id="passConfirm"
-              placeholder="Repite la nueva contraseña"
-            />
-          </div>
-          <div class="btn-group">
-            <button
-              class="btn btn-secondary"
-              onclick="closeModal('passwordModal')"
-            >
-              Cancelar
-            </button>
-            <button class="btn btn-primary" onclick="changePassword()">
-              🔐 Actualizar
-            </button>
+          <div class="history-list">
+            <div class="history-item">
+              <div class="history-left">
+                <div class="history-icon"><span class="material-symbols-outlined icon-sm">directions_car</span></div>
+                <div><div class="history-plate">ABC-123 · Espacio B2</div><div class="history-meta">28 Oct, 2025 · 3h 15min</div></div>
+              </div>
+              <div><div class="history-amount">$9.000</div><div class="history-status">PAGADO</div></div>
+            </div>
+            <div class="history-item">
+              <div class="history-left">
+                <div class="history-icon"><span class="material-symbols-outlined icon-sm">two_wheeler</span></div>
+                <div><div class="history-plate">XYZ-789 · Espacio C4</div><div class="history-meta">22 Oct, 2025 · 1h 45min</div></div>
+              </div>
+              <div><div class="history-amount">$5.000</div><div class="history-status">PAGADO</div></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
-  </body>
+      <!-- TAB VEHICLES -->
+      <div class="tab-section" id="tab-vehicles">
+        <div class="page-header"><div class="page-title">Mis Vehículos</div><div class="page-subtitle">Gestiona los vehículos registrados en tu cuenta.</div></div>
+        <div class="vehicles-grid" id="vehiclesList"></div>
+        <button class="btn btn-primary btn-lg btn-full" onclick="openAddModal()"><span class="material-symbols-outlined">add</span> Agregar Vehículo</button>
+      </div>
+
+      <!-- TAB RESERVE -->
+      <div class="tab-section" id="tab-reserve">
+        <div class="page-header"><div class="page-title">Nueva Reserva</div><div class="page-subtitle">Selecciona tu vehículo y tipo de pago para reservar.</div></div>
+        <div class="reserve-grid">
+          <div class="form-card">
+            <div class="form-group"><label class="form-label">Vehículo</label><select class="form-select" id="reserveVehicle"></select></div>
+            <div class="form-group">
+              <label class="form-label">Tipo de Pago</label>
+              <select class="form-select" id="reservePayment">
+                <option value="prepaid">Prepagar (5% descuento)</option>
+                <option value="postpaid">Pagar al salir</option>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-lg btn-full" onclick="makeReservation()"><span class="material-symbols-outlined">check_circle</span> Confirmar Reserva</button>
+          </div>
+          <div class="reserve-info-card">
+            <div class="reserve-info-title"><span class="material-symbols-outlined" style="font-size:15px;">info</span> Información</div>
+            <div class="info-row"><span class="material-symbols-outlined">credit_card</span> Prepago: 5% descuento vía PSE</div>
+            <div class="info-row"><span class="material-symbols-outlined">videocam</span> Cámara IA reconoce tu vehículo al ingresar</div>
+            <div class="info-row"><span class="material-symbols-outlined">workspace_premium</span> Tu membresía aplica 10% adicional</div>
+            <div class="info-row"><span class="material-symbols-outlined">schedule</span> Tarifa base: $3.000 por primera hora</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB LOCATION -->
+      <div class="tab-section" id="tab-location">
+        <div class="page-header"><div class="page-title">Ubicación</div><div class="page-subtitle">Encuentra el parqueadero fácilmente.</div></div>
+        <div class="location-grid">
+          <div class="location-info-card">
+            <div class="location-field">
+              <div class="location-field-icon"><span class="material-symbols-outlined icon-sm">location_on</span></div>
+              <div><div class="location-field-label">Dirección</div><div class="location-field-value">Calle 82 # 15-35<br>Bogotá, Colombia</div></div>
+            </div>
+            <div class="location-field">
+              <div class="location-field-icon"><span class="material-symbols-outlined icon-sm">call</span></div>
+              <div><div class="location-field-label">Teléfono</div><div class="location-field-value">(+57) 310 123 4567</div></div>
+            </div>
+            <div class="location-field">
+              <div class="location-field-icon"><span class="material-symbols-outlined icon-sm">schedule</span></div>
+              <div><div class="location-field-label">Horario</div><div class="location-field-value">Lun–Sáb: 6am – 10pm<br>Dom: 7am – 8pm</div></div>
+            </div>
+            <div class="location-field">
+              <div class="location-field-icon"><span class="material-symbols-outlined icon-sm">local_parking</span></div>
+              <div><div class="location-field-label">Disponibilidad</div><div class="location-field-value" style="color:var(--success);">18 / 50 espacios libres</div></div>
+            </div>
+          </div>
+          <div class="map-card">
+            <div class="map-placeholder"><span class="material-symbols-outlined" style="font-size:46px;position:relative;z-index:1;">map</span></div>
+            <div class="map-btn-grid" style="margin-bottom:10px;">
+              <a href="#" class="btn btn-google" onclick="openGoogleMaps();return false;"><span class="material-symbols-outlined icon-sm">location_on</span> Google Maps</a>
+              <a href="#" class="btn btn-waze" onclick="openWaze();return false;"><span class="material-symbols-outlined icon-sm">navigation</span> Waze</a>
+            </div>
+            <a href="https://wa.me/573101234567" target="_blank" class="btn btn-whatsapp btn-full"><span class="material-symbols-outlined icon-sm">chat</span> Contactar por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB PROFILE -->
+      <div class="tab-section" id="tab-profile">
+        <div class="page-header"><div class="page-title">Mi Perfil</div><div class="page-subtitle">Gestiona tu información personal y preferencias.</div></div>
+        <div class="profile-layout">
+          <div class="profile-main">
+            <div class="profile-avatar-big"><span class="material-symbols-outlined icon-xl">person</span></div>
+            <div id="profileDisplay">
+              <div class="profile-full-name" id="displayName">Juan Pérez</div>
+              <div class="profile-detail" id="displayEmail">juan.perez@email.com</div>
+              <div class="profile-detail" id="displayPhone">+57 310 123 4567</div>
+              <div class="membership-card">
+                <div class="membership-card-top">
+                  <div class="membership-card-label"><span class="material-symbols-outlined">workspace_premium</span> Membresía</div>
+                  <div class="membership-count">24 visitas</div>
+                </div>
+                <div class="membership-bar"><div class="membership-bar-fill" style="width:80%;"></div></div>
+                <div class="membership-next">6 visitas para el siguiente beneficio</div>
+              </div>
+              <button class="btn btn-secondary btn-full" style="margin-top:14px;" onclick="toggleProfileForm(true)">
+                <span class="material-symbols-outlined icon-sm">edit</span> Actualizar Datos
+              </button>
+            </div>
+            <div id="profileForm" style="display:none;text-align:left;margin-top:14px;">
+              <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" type="text" id="profileName" value="Juan Pérez"></div>
+              <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="profileEmail" value="juan.perez@email.com"></div>
+              <div class="form-group"><label class="form-label">Celular</label><input class="form-input" type="tel" id="profilePhone" value="+57 310 123 4567"></div>
+              <div class="btn-group">
+                <button class="btn btn-secondary" onclick="toggleProfileForm(false)">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveProfile()"><span class="material-symbols-outlined icon-sm">save</span> Guardar</button>
+              </div>
+            </div>
+          </div>
+          <div class="profile-options-card">
+            <button class="profile-option" onclick="showTab('home')">
+              <div class="profile-option-left"><div class="profile-option-icon icon-bg-blue"><span class="material-symbols-outlined icon-sm">history</span></div> Mi Historial</div>
+              <span class="option-arrow material-symbols-outlined icon-sm">chevron_right</span>
+            </button>
+            <div class="option-divider"></div>
+            <button class="profile-option" onclick="showMembershipInfo()">
+              <div class="profile-option-left"><div class="profile-option-icon icon-bg-blue"><span class="material-symbols-outlined icon-sm">workspace_premium</span></div> Mi Membresía</div>
+              <span class="option-arrow material-symbols-outlined icon-sm">chevron_right</span>
+            </button>
+            <div class="option-divider"></div>
+            <button class="profile-option" onclick="openModal('notifModal')">
+              <div class="profile-option-left"><div class="profile-option-icon icon-bg-purple"><span class="material-symbols-outlined icon-sm">notifications</span></div> Notificaciones</div>
+              <span class="option-arrow material-symbols-outlined icon-sm">chevron_right</span>
+            </button>
+            <div class="option-divider"></div>
+            <button class="profile-option" onclick="openModal('passwordModal')">
+              <div class="profile-option-left"><div class="profile-option-icon icon-bg-red"><span class="material-symbols-outlined icon-sm">lock</span></div> Cambiar Contraseña</div>
+              <span class="option-arrow material-symbols-outlined icon-sm">chevron_right</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="bottom-tab active" onclick="showTab('home')" id="btab-home"><span class="material-symbols-outlined">home</span><span class="bottom-tab-label">Inicio</span></button>
+  <button class="bottom-tab" onclick="showTab('vehicles')" id="btab-vehicles"><span class="material-symbols-outlined">directions_car</span><span class="bottom-tab-label">Vehículos</span></button>
+  <button class="bottom-tab" onclick="showTab('reserve')" id="btab-reserve"><span class="material-symbols-outlined">event_seat</span><span class="bottom-tab-label">Reservar</span></button>
+  <button class="bottom-tab" onclick="showTab('location')" id="btab-location"><span class="material-symbols-outlined">location_on</span><span class="bottom-tab-label">Ubicación</span></button>
+  <button class="bottom-tab" onclick="showTab('profile')" id="btab-profile"><span class="material-symbols-outlined">person</span><span class="bottom-tab-label">Perfil</span></button>
+</nav>
+
+<!-- MODAL EDIT VEHICLE -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title"><span class="material-symbols-outlined">edit</span> Editar Vehículo</span>
+      <button class="modal-close" onclick="closeModal('editModal')"><span class="material-symbols-outlined icon-sm">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Placa / Código</label><input class="form-input readonly" type="text" id="editPlate" readonly></div>
+      <div class="form-group"><label class="form-label">Marca y Modelo</label><input class="form-input" type="text" id="editBrand"></div>
+      <div class="form-group"><label class="form-label">Color</label><input class="form-input" type="text" id="editColor"></div>
+      <div class="form-group"><label class="form-label">Año</label><input class="form-input" type="text" id="editYear"></div>
+      <div class="btn-group btn-group-3">
+        <button class="btn btn-secondary" onclick="closeModal('editModal')">Cancelar</button>
+        <button class="btn btn-danger" onclick="deleteVehicle()"><span class="material-symbols-outlined icon-sm">delete</span> Eliminar</button>
+        <button class="btn btn-primary" onclick="saveEdit()"><span class="material-symbols-outlined icon-sm">save</span> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADD VEHICLE -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title"><span class="material-symbols-outlined">add</span> Agregar Vehículo</span>
+      <button class="modal-close" onclick="closeModal('addModal')"><span class="material-symbols-outlined icon-sm">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-label" style="margin-bottom:10px;">Tipo de Vehículo</div>
+      <div class="type-selector">
+        <button class="type-btn selected" id="typeCarro" onclick="selectType('Carro')"><span class="material-symbols-outlined">directions_car</span> CARRO</button>
+        <button class="type-btn" id="typeMoto" onclick="selectType('Moto')"><span class="material-symbols-outlined">two_wheeler</span> MOTO</button>
+        <button class="type-btn" id="typeBici" onclick="selectType('Bicicleta')"><span class="material-symbols-outlined">pedal_bike</span> BICICLETA</button>
+      </div>
+      <div class="form-group"><label class="form-label" id="fieldPlacaLabel">Placa</label><input class="form-input" type="text" id="addPlate" placeholder="Ej: ABC-123"></div>
+      <div class="form-group"><label class="form-label">Marca y Modelo</label><input class="form-input" type="text" id="addBrand" placeholder="Ej: Chevrolet Spark"></div>
+      <div class="form-group"><label class="form-label">Color</label><input class="form-input" type="text" id="addColor" placeholder="Ej: Rojo"></div>
+      <div class="form-group" id="fieldYearGroup"><label class="form-label">Año</label><input class="form-input" type="text" id="addYear" placeholder="Ej: 2022"></div>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="closeModal('addModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveNewVehicle()"><span class="material-symbols-outlined icon-sm">check_circle</span> Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTIFICATIONS -->
+<div class="modal-overlay" id="notifModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title"><span class="material-symbols-outlined">notifications</span> Notificaciones</span>
+      <button class="modal-close" onclick="closeModal('notifModal')"><span class="material-symbols-outlined icon-sm">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="notif-section-label">Canales</div>
+      <div class="toggle-row"><div class="toggle-info"><div class="toggle-name">SMS</div><div class="toggle-desc">Mensajes de texto al +57 310 123 4567</div></div><input type="checkbox" class="toggle-switch" id="notifSMS" checked></div>
+      <div class="toggle-row"><div class="toggle-info"><div class="toggle-name">WhatsApp</div><div class="toggle-desc">Mensajes por WhatsApp</div></div><input type="checkbox" class="toggle-switch" id="notifWhatsApp" checked></div>
+      <div class="toggle-row"><div class="toggle-info"><div class="toggle-name">Notificaciones Push</div><div class="toggle-desc">Alertas en tiempo real en la app</div></div><input type="checkbox" class="toggle-switch" id="notifPush" checked></div>
+      <div class="info-alert">Las facturas se envían automáticamente al correo registrado después de cada pago.</div>
+      <div class="notif-section-label">Eventos</div>
+      <div class="toggle-row"><div class="toggle-name">Confirmación de ingreso</div><input type="checkbox" class="toggle-switch" id="notifIngreso" checked></div>
+      <div class="toggle-row"><div class="toggle-name">Tiempo por vencer (15 min)</div><input type="checkbox" class="toggle-switch" id="notifTiempo" checked></div>
+      <div class="toggle-row"><div class="toggle-name">Tiempo vencido</div><input type="checkbox" class="toggle-switch" id="notifVencido" checked></div>
+      <div class="toggle-row"><div class="toggle-name">Confirmación de pago</div><input type="checkbox" class="toggle-switch" id="notifPago" checked></div>
+      <div class="toggle-row"><div class="toggle-name">Subida de nivel / Beneficios</div><input type="checkbox" class="toggle-switch" id="notifNivel" checked></div>
+      <div class="toggle-row"><div class="toggle-name">Promociones y descuentos</div><input type="checkbox" class="toggle-switch" id="notifPromo"></div>
+      <button class="btn btn-primary btn-full btn-lg" style="margin-top:18px;" onclick="saveNotificationSettings()"><span class="material-symbols-outlined icon-sm">save</span> Guardar Configuración</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PASSWORD -->
+<div class="modal-overlay" id="passwordModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title"><span class="material-symbols-outlined">lock</span> Cambiar Contraseña</span>
+      <button class="modal-close" onclick="closeModal('passwordModal')"><span class="material-symbols-outlined icon-sm">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Contraseña Actual</label><input class="form-input" type="password" id="passOld" placeholder="••••••••"></div>
+      <div class="form-group"><label class="form-label">Nueva Contraseña</label><input class="form-input" type="password" id="passNew" placeholder="Mínimo 6 caracteres"></div>
+      <div class="form-group"><label class="form-label">Confirmar Nueva Contraseña</label><input class="form-input" type="password" id="passConfirm" placeholder="Repite la nueva contraseña"></div>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="closeModal('passwordModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="changePassword()"><span class="material-symbols-outlined icon-sm">lock</span> Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+</body>
 </html>

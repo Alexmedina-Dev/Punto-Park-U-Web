@@ -659,8 +659,8 @@ footer::after {
 }
 
 .rate-card-img {
-    height: 10rem;
-    margin-bottom: 2rem;
+    height: 12rem; 
+     margin-bottom: 2rem;
     background: var(--surface-highest);
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -669,7 +669,6 @@ footer::after {
 .rate-card-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
 }
 
 .rate-type {
@@ -1609,6 +1608,10 @@ footer {
         width: 90%;
         max-width: 450px; /* Un poco más grande para estas pantallas */
         height: auto;
+    }
+
+    .rate-card-img {
+        height: 15rem; 
     }
 }
 
