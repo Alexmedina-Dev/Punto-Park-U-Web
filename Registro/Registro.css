@@ -380,52 +380,6 @@ input[type="date"] {
     border-color: rgba(65, 71, 83, 0.5);
 }
 
-footer {
-    width: 100%;
-    margin-top: 6rem;
-    padding: 4rem 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    background: linear-gradient(to right, #001d3d, #0074d9);
-    position: fixed;
-    bottom: 0;
-    z-index: 0;
-}
-
-.footer-copyright {
-    font-family: "Space Grotesk", sans-serif;
-    font-weight: 900;
-    font-style: italic;
-    color: white;
-    font-size: 0.625rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-}
-
-.footer-links {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.footer-links a {
-    color: white;
-    opacity: 0.8;
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    text-decoration: none;
-    transition: all 0.5s;
-}
-
-.footer-links a:hover {
-    opacity: 1;
-    letter-spacing: 0.25em;
-}
 
 @media (min-width: 640px) {
     .social-buttons {
@@ -449,9 +403,5 @@ footer {
     .form-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
-    }
-
-    footer {
-        flex-direction: row;
     }
 }

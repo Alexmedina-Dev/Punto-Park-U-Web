@@ -4,294 +4,553 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administrador - "Punto Park U"</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="panel.css">
     <script src="panel.js" defer></script>
-
 </head>
 <body>
-    <!-- Header -->
-    <div class="admin-header">
-        <div class="admin-title">
-            <h1>🅿️ Panel de Administrador</h1>
-            <div class="welcome-text">
-                Bienvenido, <strong>Parking</strong>
+
+    <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">🅿️</span>
+            <div>
+                <h1 class="brand-name">Punto Park U</h1>
+                <p class="brand-sub">Panel Administrador</p>
             </div>
         </div>
-        <a href="../Admi.html" class="btn-logout">🚪 Cerrar Sesión</a>
-    </div>
 
-    <!-- Dashboard Stats -->
-    <div class="stats-container">
-        <div class="stat-card">
-            <div class="stat-header">
-                <div>
-                    <div class="stat-value" id="vehiclesToday">24</div>
-                    <div class="stat-label">Vehículos Hoy</div>
+        <ul class="nav-menu">
+            <li>
+                <a href="#" class="nav-item active">
+                    <span class="material-symbols-outlined">grid_view</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-item">
+                    <span class="material-symbols-outlined">map</span>
+                    <span>Mapa en Vivo</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-item">
+                    <span class="material-symbols-outlined">payments</span>
+                    <span>Ingresos</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-item">
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-item">
+                    <span class="material-symbols-outlined">monitor_heart</span>
+                    <span>Estado del Sistema</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item nav-item--small">
+                <span class="material-symbols-outlined">help_outline</span>
+                <span>Soporte</span>
+            </a>
+            <a href="../Admi.html" class="nav-item nav-item--small nav-item--logout">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Cerrar Sesión</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Overlay para sidebar en móvil -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- ═══════════════════════ HEADER ═══════════════════════ -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menú">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <div class="topbar-title">
+                <span>Panel de Administrador</span>
+                <span class="topbar-badge">Bienvenido, Parking</span>
+            </div>
+        </div>
+        <a href="../Admi.html" class="btn-logout-header">
+            <span class="material-symbols-outlined">logout</span>
+            <span>Cerrar Sesión</span>
+        </a>
+    </header>
+
+    <!-- ═══════════════════════ CONTENIDO PRINCIPAL ═══════════════════════ -->
+    <main class="main-content">
+
+        <!-- MÉTRICAS -->
+        <section class="section">
+            <h2 class="section-title">Resumen del Día</h2>
+            <div class="stats-grid">
+                <div class="stat-card stat-card--blue">
+                    <div class="stat-icon">
+                        <span class="material-symbols-outlined">directions_car</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="vehiclesToday">24</div>
+                        <div class="stat-label">Vehículos Hoy</div>
+                    </div>
+                    <div class="stat-tag">Hoy</div>
                 </div>
-                <div class="stat-icon blue">🚗</div>
-            </div>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-header">
-                <div>
-                    <div class="stat-value" id="incomesToday">$450.000</div>
-                    <div class="stat-label">Ingresos del Día</div>
+                <div class="stat-card stat-card--green">
+                    <div class="stat-icon">
+                        <span class="material-symbols-outlined">payments</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="incomesToday">$450.000</div>
+                        <div class="stat-label">Ingresos del Día</div>
+                    </div>
+                    <div class="stat-tag">Hoy</div>
                 </div>
-                <div class="stat-icon green">💰</div>
-            </div>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-header">
-                <div>
-                    <div class="stat-value" id="currentOccupancy">18/50</div>
-                    <div class="stat-label">Ocupación Actual</div>
+                <div class="stat-card stat-card--orange">
+                    <div class="stat-icon">
+                        <span class="material-symbols-outlined">local_parking</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="currentOccupancy">18<span class="stat-value-sub">/50</span></div>
+                        <div class="stat-label">Ocupación Actual</div>
+                    </div>
+                    <div class="stat-tag">Ahora</div>
                 </div>
-                <div class="stat-icon orange">📊</div>
-            </div>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-header">
-                <div>
-                    <div class="stat-value" id="avgTime">3.5h</div>
-                    <div class="stat-label">Tiempo Promedio</div>
+                <div class="stat-card stat-card--purple">
+                    <div class="stat-icon">
+                        <span class="material-symbols-outlined">timer</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="avgTime">3.5<span class="stat-value-sub">h</span></div>
+                        <div class="stat-label">Tiempo Promedio</div>
+                    </div>
+                    <div class="stat-tag">Promedio</div>
                 </div>
-                <div class="stat-icon purple">⏱️</div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Main Action Cards -->
-    <div class="main-cards">
-        <div class="action-card" onclick="openModal('pricesModal')">
-            <div class="action-icon">💰</div>
-            <h3>Cambio de Precios</h3>
-            <p>Modificar tarifas de carros, motos y bicicletas</p>
-        </div>
+        <!-- CONTROLES + HISTORIAL -->
+        <div class="controls-layout">
 
-        <div class="action-card" onclick="openModal('scheduleModal')">
-            <div class="action-icon">🕐</div>
-            <h3>Cambio de Horarios</h3>
-            <p>Ajustar horarios de atención del parqueadero</p>
-        </div>
+            <!-- CARDS DE ACCIONES -->
+            <section class="section controls-section">
+                <h2 class="section-title">Controles del Sistema</h2>
+                <div class="action-cards">
 
-        <div class="action-card" onclick="openModal('reportsModal')">
-            <div class="action-icon">📊</div>
-            <h3>Descarga de Informes</h3>
-            <p>Generar reportes en PDF o Excel</p>
-        </div>
-    </div>
+                    <button class="action-card" onclick="openModal('pricesModal')">
+                        <div class="action-card__icon action-card__icon--cyan">
+                            <span class="material-symbols-outlined">currency_exchange</span>
+                        </div>
+                        <div class="action-card__body">
+                            <h3>Cambio de Precios</h3>
+                            <p>Modificar tarifas de carros, motos y bicicletas</p>
+                        </div>
+                        <span class="material-symbols-outlined action-card__arrow">chevron_right</span>
+                    </button>
 
-    <!-- History Section -->
-    <div class="history-section">
-        <h2>📜 Historial de Cambios</h2>
-        <div id="historyContainer">
-            <div class="history-item">
-                <div class="time">Hoy, 10:30 AM</div>
-                <div class="action">Se modificaron los precios de motos</div>
-            </div>
-            <div class="history-item">
-                <div class="time">Ayer, 3:45 PM</div>
-                <div class="action">Se actualizaron los horarios de domingo</div>
-            </div>
-            <div class="history-item">
-                <div class="time">25 Oct, 9:15 AM</div>
-                <div class="action">Se generó reporte mensual en PDF</div>
-            </div>
-        </div>
-    </div>
+                    <button class="action-card" onclick="openModal('scheduleModal')">
+                        <div class="action-card__icon action-card__icon--blue">
+                            <span class="material-symbols-outlined">schedule</span>
+                        </div>
+                        <div class="action-card__body">
+                            <h3>Cambio de Horarios</h3>
+                            <p>Ajustar horarios de atención del parqueadero</p>
+                        </div>
+                        <span class="material-symbols-outlined action-card__arrow">chevron_right</span>
+                    </button>
 
-    <!-- Modal: Cambio de Precios -->
-    <div id="pricesModal" class="modal">
-        <div class="modal-content">
+                    <button class="action-card" onclick="openModal('reportsModal')">
+                        <div class="action-card__icon action-card__icon--purple">
+                            <span class="material-symbols-outlined">download</span>
+                        </div>
+                        <div class="action-card__body">
+                            <h3>Descarga de Informes</h3>
+                            <p>Generar reportes en PDF o Excel</p>
+                        </div>
+                        <span class="material-symbols-outlined action-card__arrow">chevron_right</span>
+                    </button>
+
+                </div>
+            </section>
+
+            <!-- HISTORIAL -->
+            <section class="section history-section">
+                <h2 class="section-title">
+                    <span class="material-symbols-outlined">history</span>
+                    Historial de Cambios
+                </h2>
+                <div class="history-list" id="historyContainer">
+                    <div class="history-item history-item--normal">
+                        <div class="history-dot"></div>
+                        <div class="history-body">
+                            <span class="history-time">Hoy, 14:30</span>
+                            <p class="history-action">Ingreso Vehículo MTP-456</p>
+                        </div>
+                    </div>
+                    <div class="history-item history-item--normal">
+                        <div class="history-dot"></div>
+                        <div class="history-body">
+                            <span class="history-time">Hoy, 13:15</span>
+                            <p class="history-action">Actualización de tarifas guardada</p>
+                        </div>
+                    </div>
+                    <div class="history-item history-item--normal">
+                        <div class="history-dot"></div>
+                        <div class="history-body">
+                            <span class="history-time">Hoy, 11:45</span>
+                            <p class="history-action">Salida Vehículo AB-123 — Pago: $15.000</p>
+                        </div>
+                    </div>
+                    <div class="history-item history-item--error">
+                        <div class="history-dot history-dot--error"></div>
+                        <div class="history-body">
+                            <span class="history-time history-time--error">Hoy, 09:00</span>
+                            <p class="history-action">⚠ Fallo en barrera de salida #2</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-history-full">Ver Historial Completo</button>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ════════════════════════════════════════════════
+         MODAL: CAMBIO DE PRECIOS
+    ════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="pricesModal" onclick="handleOverlayClick(event, 'pricesModal')">
+        <div class="modal modal--lg">
             <div class="modal-header">
-                <h2>💰 Cambio de Precios</h2>
-                <button class="close-modal" onclick="closeModal('pricesModal')">×</button>
+                <div class="modal-header__title">
+                    <span class="material-symbols-outlined modal-header__icon modal-header__icon--cyan">currency_exchange</span>
+                    <div>
+                        <h2>Cambio de Precios</h2>
+                        <p>Modifica las tarifas por tipo de vehículo y período</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('pricesModal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
             </div>
 
-            <div class="pricing-table">
-                <!-- Carros -->
-                <div class="vehicle-section">
-                    <h3>🚗 Carros (incluye camionetas)</h3>
-                    <div class="price-row">
-                        <div class="price-item">
-                            <label>Por Hora</label>
-                            <input type="number" id="carHour" value="3000" oninput="updatePreview()">
+            <div class="modal-body">
+                <!-- TABLA DE PRECIOS — 3 columnas -->
+                <div class="price-table">
+
+                    <!-- Encabezados -->
+                    <div class="price-table__header">
+                        <div class="price-table__period-label">Período</div>
+                        <div class="price-table__col-header">
+                            <span class="vehicle-badge vehicle-badge--car">🚗 Carros</span>
+                            <small>(incluye camionetas)</small>
                         </div>
-                        <div class="price-item">
-                            <label>Por Día</label>
-                            <input type="number" id="carDay" value="15000" oninput="updatePreview()">
+                        <div class="price-table__col-header">
+                            <span class="vehicle-badge vehicle-badge--moto">🏍️ Motos</span>
+                        </div>
+                        <div class="price-table__col-header">
+                            <span class="vehicle-badge vehicle-badge--bike">🚴 Bicicletas</span>
                         </div>
                     </div>
-                    <div class="price-row">
-                        <div class="price-item">
-                            <label>Mensualidad</label>
-                            <input type="number" id="carMonth" value="250000" oninput="updatePreview()">
+
+                    <!-- Fila: Por Hora -->
+                    <div class="price-table__row">
+                        <div class="price-table__row-label">
+                            <span class="material-symbols-outlined">schedule</span>
+                            Por Hora
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="carHour" value="3000" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="motoHour" value="1500" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="bikeHour" value="1000" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila: Por Día -->
+                    <div class="price-table__row">
+                        <div class="price-table__row-label">
+                            <span class="material-symbols-outlined">calendar_today</span>
+                            Por Día
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="carDay" value="15000" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="motoDay" value="8000" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="bikeDay" value="5000" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila: Mensualidad -->
+                    <div class="price-table__row">
+                        <div class="price-table__row-label">
+                            <span class="material-symbols-outlined">date_range</span>
+                            Mensualidad
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="carMonth" value="250000" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="motoMonth" value="120000" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
+                        </div>
+                        <div class="price-table__cell">
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="bikeMonth" value="80000" class="price-input" min="0" oninput="updatePricePreview()">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Motos -->
-                <div class="vehicle-section">
-                    <h3>🏍️ Motos</h3>
-                    <div class="price-row">
-                        <div class="price-item">
-                            <label>Por Hora</label>
-                            <input type="number" id="motoHour" value="1500" oninput="updatePreview()">
-                        </div>
-                        <div class="price-item">
-                            <label>Por Día</label>
-                            <input type="number" id="motoDay" value="8000" oninput="updatePreview()">
-                        </div>
+                <!-- VISTA PREVIA EN VIVO -->
+                <div class="preview-box">
+                    <div class="preview-box__header">
+                        <span class="material-symbols-outlined">visibility</span>
+                        <h4>Vista Previa en Vivo</h4>
+                        <span class="preview-badge">Se actualiza automáticamente</span>
                     </div>
-                    <div class="price-row">
-                        <div class="price-item">
-                            <label>Mensualidad</label>
-                            <input type="number" id="motoMonth" value="120000" oninput="updatePreview()">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bicicletas -->
-                <div class="vehicle-section">
-                    <h3>🚴 Bicicletas</h3>
-                    <div class="price-row">
-                        <div class="price-item">
-                            <label>Por Hora</label>
-                            <input type="number" id="bikeHour" value="1000" oninput="updatePreview()">
-                        </div>
-                        <div class="price-item">
-                            <label>Por Día</label>
-                            <input type="number" id="bikeDay" value="5000" oninput="updatePreview()">
-                        </div>
-                    </div>
-                    <div class="price-row">
-                        <div class="price-item">
-                            <label>Mensualidad</label>
-                            <input type="number" id="bikeMonth" value="80000" oninput="updatePreview()">
-                        </div>
+                    <div class="preview-grid" id="pricePreview">
+                        <!-- Generado por JS -->
                     </div>
                 </div>
             </div>
 
-            <!-- Preview -->
-            <div class="preview-section">
-                <h4>👁️ Vista Previa de Cambios</h4>
-                <div class="preview-grid" id="pricePreview">
-                    <!-- Se llenará dinámicamente -->
-                </div>
-            </div>
-
-            <div class="modal-buttons">
+            <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('pricesModal')">Cancelar</button>
-                <button class="btn btn-primary" onclick="savePrices()">💾 Guardar Cambios</button>
+                <button class="btn btn-primary" onclick="savePrices()">
+                    <span class="material-symbols-outlined">save</span>
+                    Guardar Cambios
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Cambio de Horarios -->
-    <div id="scheduleModal" class="modal">
-        <div class="modal-content">
+    <!-- ════════════════════════════════════════════════
+         MODAL: CAMBIO DE HORARIOS
+    ════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="scheduleModal" onclick="handleOverlayClick(event, 'scheduleModal')">
+        <div class="modal modal--md">
             <div class="modal-header">
-                <h2>🕐 Cambio de Horarios</h2>
-                <button class="close-modal" onclick="closeModal('scheduleModal')">×</button>
+                <div class="modal-header__title">
+                    <span class="material-symbols-outlined modal-header__icon modal-header__icon--blue">schedule</span>
+                    <div>
+                        <h2>Cambio de Horarios</h2>
+                        <p>Ajusta los horarios de atención del parqueadero</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('scheduleModal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
             </div>
 
-            <div class="schedule-table">
-                <!-- Lunes a Sábado -->
-                <div class="vehicle-section">
-                    <h3>📅 Lunes a Sábado</h3>
-                    <div class="schedule-row">
-                        <div class="schedule-day">Apertura</div>
-                        <div class="price-item">
-                            <input type="time" id="weekdayOpen" value="07:00" oninput="updateSchedulePreview()">
+            <div class="modal-body">
+                <div class="schedule-grid">
+                    <!-- Lunes a Sábado -->
+                    <div class="schedule-block">
+                        <div class="schedule-block__header">
+                            <span class="schedule-badge schedule-badge--weekday">📅 Lunes a Sábado</span>
+                        </div>
+                        <div class="schedule-block__inputs">
+                            <div class="time-field">
+                                <label>
+                                    <span class="material-symbols-outlined">wb_sunny</span>
+                                    Apertura
+                                </label>
+                                <input type="time" id="weekdayOpen" value="07:00" class="time-input" oninput="updateSchedulePreview()">
+                            </div>
+                            <div class="time-field-separator">→</div>
+                            <div class="time-field">
+                                <label>
+                                    <span class="material-symbols-outlined">nights_stay</span>
+                                    Cierre
+                                </label>
+                                <input type="time" id="weekdayClose" value="19:00" class="time-input" oninput="updateSchedulePreview()">
+                            </div>
                         </div>
                     </div>
-                    <div class="schedule-row">
-                        <div class="schedule-day">Cierre</div>
-                        <div class="price-item">
-                            <input type="time" id="weekdayClose" value="19:00" oninput="updateSchedulePreview()">
+
+                    <!-- Domingo y Festivos -->
+                    <div class="schedule-block">
+                        <div class="schedule-block__header">
+                            <span class="schedule-badge schedule-badge--holiday">🎉 Domingos y Festivos</span>
+                        </div>
+                        <div class="schedule-block__inputs">
+                            <div class="time-field">
+                                <label>
+                                    <span class="material-symbols-outlined">wb_sunny</span>
+                                    Apertura
+                                </label>
+                                <input type="time" id="sundayOpen" value="09:00" class="time-input" oninput="updateSchedulePreview()">
+                            </div>
+                            <div class="time-field-separator">→</div>
+                            <div class="time-field">
+                                <label>
+                                    <span class="material-symbols-outlined">nights_stay</span>
+                                    Cierre
+                                </label>
+                                <input type="time" id="sundayClose" value="17:00" class="time-input" oninput="updateSchedulePreview()">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Domingo y Festivos -->
-                <div class="vehicle-section">
-                    <h3>🎉 Domingo y Festivos</h3>
-                    <div class="schedule-row">
-                        <div class="schedule-day">Apertura</div>
-                        <div class="price-item">
-                            <input type="time" id="sundayOpen" value="09:00" oninput="updateSchedulePreview()">
-                        </div>
+                <!-- Vista previa horarios -->
+                <div class="preview-box">
+                    <div class="preview-box__header">
+                        <span class="material-symbols-outlined">visibility</span>
+                        <h4>Vista Previa en Vivo</h4>
                     </div>
-                    <div class="schedule-row">
-                        <div class="schedule-day">Cierre</div>
-                        <div class="price-item">
-                            <input type="time" id="sundayClose" value="17:00" oninput="updateSchedulePreview()">
-                        </div>
+                    <div class="schedule-preview" id="schedulePreview">
+                        <!-- Generado por JS -->
                     </div>
                 </div>
             </div>
 
-            <!-- Preview -->
-            <div class="preview-section">
-                <h4>👁️ Vista Previa de Horarios</h4>
-                <div id="schedulePreview">
-                    <!-- Se llenará dinámicamente -->
-                </div>
-            </div>
-
-            <div class="modal-buttons">
+            <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('scheduleModal')">Cancelar</button>
-                <button class="btn btn-primary" onclick="saveSchedule()">💾 Guardar Cambios</button>
+                <button class="btn btn-primary" onclick="saveSchedule()">
+                    <span class="material-symbols-outlined">save</span>
+                    Guardar Horarios
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Descarga de Informes -->
-    <div id="reportsModal" class="modal">
-        <div class="modal-content">
+    <!-- ════════════════════════════════════════════════
+         MODAL: DESCARGA DE INFORMES
+    ════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="reportsModal" onclick="handleOverlayClick(event, 'reportsModal')">
+        <div class="modal modal--md">
             <div class="modal-header">
-                <h2>📊 Generar Informe</h2>
-                <button class="close-modal" onclick="closeModal('reportsModal')">×</button>
+                <div class="modal-header__title">
+                    <span class="material-symbols-outlined modal-header__icon modal-header__icon--purple">download</span>
+                    <div>
+                        <h2>Generar Informe</h2>
+                        <p>Selecciona el tipo y formato del reporte</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('reportsModal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
             </div>
 
-            <h3 style="color: #1e3c72; margin-bottom: 15px;">Selecciona el tipo de reporte:</h3>
-            <div class="report-options">
-                <div class="report-card" onclick="selectReport('daily')">
-                    <div style="font-size: 40px;">📅</div>
-                    <h4>Reporte Diario</h4>
-                    <p style="font-size: 13px; color: #666;">Actividad de hoy</p>
+            <div class="modal-body">
+                <!-- Paso 1: Tipo de reporte -->
+                <div class="report-section">
+                    <h3 class="report-section__title">
+                        <span class="step-badge">1</span>
+                        Selecciona el tipo de reporte
+                    </h3>
+                    <div class="report-types">
+                        <button class="report-type-card" id="report-daily" onclick="selectReport('daily', this)">
+                            <span class="report-type-icon">📅</span>
+                            <h4>Reporte Diario</h4>
+                            <p>Actividad de hoy</p>
+                        </button>
+                        <button class="report-type-card" id="report-monthly" onclick="selectReport('monthly', this)">
+                            <span class="report-type-icon">📆</span>
+                            <h4>Reporte Mensual</h4>
+                            <p>Resumen del mes</p>
+                        </button>
+                        <button class="report-type-card" id="report-vehicle" onclick="selectReport('vehicle', this)">
+                            <span class="report-type-icon">🚗</span>
+                            <h4>Por Vehículo</h4>
+                            <p>Historial específico</p>
+                        </button>
+                        <button class="report-type-card" id="report-financial" onclick="selectReport('financial', this)">
+                            <span class="report-type-icon">💰</span>
+                            <h4>Financiero</h4>
+                            <p>Análisis de ingresos</p>
+                        </button>
+                    </div>
                 </div>
-                <div class="report-card" onclick="selectReport('monthly')">
-                    <div style="font-size: 40px;">📆</div>
-                    <h4>Reporte Mensual</h4>
-                    <p style="font-size: 13px; color: #666;">Resumen del mes</p>
+
+                <!-- Contenido del informe -->
+                <div class="report-info-box">
+                    <span class="material-symbols-outlined">info</span>
+                    <div>
+                        <strong>Contenido según normativa colombiana:</strong>
+                        <span>Placa · Tipo de vehículo · Fecha y hora · Conductor · Tarifa · Método de pago</span>
+                    </div>
                 </div>
-                <div class="report-card" onclick="selectReport('vehicle')">
-                    <div style="font-size: 40px;">🚗</div>
-                    <h4>Por Vehículo</h4>
-                    <p style="font-size: 13px; color: #666;">Historial específico</p>
-                </div>
-                <div class="report-card" onclick="selectReport('financial')">
-                    <div style="font-size: 40px;">💰</div>
-                    <h4>Financiero</h4>
-                    <p style="font-size: 13px; color: #666;">Análisis de ingresos</p>
+
+                <!-- Paso 2: Formato -->
+                <div class="report-section">
+                    <h3 class="report-section__title">
+                        <span class="step-badge">2</span>
+                        Selecciona el formato de descarga
+                    </h3>
+                    <div class="format-buttons">
+                        <button class="format-btn format-btn--pdf" onclick="downloadReport('pdf')">
+                            <span class="material-symbols-outlined">picture_as_pdf</span>
+                            <div>
+                                <strong>Descargar PDF</strong>
+                                <small>Formato para imprimir o compartir</small>
+                            </div>
+                        </button>
+                        <button class="format-btn format-btn--excel" onclick="downloadReport('excel')">
+                            <span class="material-symbols-outlined">table_chart</span>
+                            <div>
+                                <strong>Descargar Excel</strong>
+                                <small>Formato para análisis de datos</small>
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <h3 style="color: #1e3c72; margin: 25px 0 15px;">Formato de descarga:</h3>
-            <div class="format-buttons">
-                <button class="btn-format" onclick="downloadReport('pdf')">📄 Descargar PDF</button>
-                <button class="btn-format" onclick="downloadReport('excel')">📊 Descargar Excel</button>
-            </div>
-
-            <div class="modal-buttons" style="margin-top: 30px;">
+            <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('reportsModal')">Cancelar</button>
             </div>
         </div>
     </div>
+
+    <!-- Toast de confirmación -->
+    <div class="toast" id="toast">
+        <span class="material-symbols-outlined toast__icon">check_circle</span>
+        <span class="toast__text" id="toastText">Cambios guardados</span>
+    </div>
+
+    <script src="panel.js"></script>
 </body>
 </html>
