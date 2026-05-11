@@ -22,12 +22,13 @@ function navigate(view) {
     if (target) target.classList.add('active');
 
     const titles = {
-        dashboard: 'Dashboard',
-        mapa:      'Mapa en Vivo',
-        tarifas:   'Tarifas',
-        horarios:  'Horarios',
-        informes:  'Informes',
-        sistema:   'Estado del Sistema'
+        dashboard: 'dashboard',
+        mapa:      'mapa en Vivo',
+        tarifas:   'tarifas',
+        horarios:  'horarios',
+        informes:  'informes',
+        monitoreo: 'monitoreo',
+        sistema:   'estado del Sistema'
     };
     const titleEl = document.getElementById('topbarViewTitle');
     if (titleEl) titleEl.textContent = titles[view] || view;
@@ -40,6 +41,12 @@ function navigate(view) {
 
     if (view === 'tarifas') updatePricePreview();
     if (view === 'horarios') updateSchedulePreview();
+    if (view === 'informes') {
+        reportState.type = 'financial';
+        setTimeout(initCharts, 100);
+        renderInfTable();
+        updateInfKpis();
+    }
 }
 
 // ─── SIDEBAR MÓVIL ────────────────────────
@@ -119,6 +126,183 @@ function updatePricePreview() {
             <span class="preview-item__value">${formatCOP(getVal(item.id))}</span>
         </div>
     `).join('');
+}
+
+// ─── SWITCH VEHICLE TAB ────────────────────
+function switchVehicleTab(vehicle, btn) {
+    document.querySelectorAll('.vehicle-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tariff-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById('panel-' + vehicle);
+    if (panel) panel.classList.add('active');
+}
+
+// ─── UPDATE LIVE TARIFF CARD ──────────────
+function updateTariffLiveCard(vehicle) {
+    ['Hour', 'Day', 'Month'].forEach(period => {
+        const id = vehicle + period;
+        const input = document.getElementById(id);
+        const preview = document.getElementById('live-' + id);
+        if (input && preview) {
+            preview.textContent = formatCOP(input.value);
+        }
+    });
+}
+
+// ─── INFORME: FILTROS ─────────────────────
+function setInfPeriod(period, btn) {
+    document.querySelectorAll('.inf-period-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const customRange = document.getElementById('infCustomRange');
+    if (customRange) customRange.style.display = period === 'custom' ? 'flex' : 'none';
+}
+
+function setInfType(type, btn) {
+    document.querySelectorAll('.inf-type-pill').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+function applyCustomRange() {
+    showToast('✅ Rango personalizado aplicado');
+}
+
+function filterInfTable(query) {
+    document.querySelectorAll('#infTableBody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query.toLowerCase()) ? '' : 'none';
+    });
+}
+
+// ─── INFORME: KPIs ────────────────────────
+function updateInfKpis() {
+    const data = {
+        ingresos: 245000 + Math.floor(Math.random() * 50000),
+        vehiculos: 24 + Math.floor(Math.random() * 6),
+        ocupacion: 68 + Math.floor(Math.random() * 10),
+        ticket: 10208 + Math.floor(Math.random() * 2000),
+        tiempo: '3h 20m',
+        ingHora: 28375 + Math.floor(Math.random() * 5000),
+    };
+    const els = {
+        kpiIngresos: '$' + data.ingresos.toLocaleString('es-CO'),
+        kpiVehiculos: data.vehiculos,
+        kpiOcupacion: data.ocupacion + '%',
+        kpiTicket: '$' + data.ticket.toLocaleString('es-CO'),
+        kpiTiempo: data.tiempo,
+        kpiIngHora: '$' + data.ingHora.toLocaleString('es-CO'),
+    };
+    Object.keys(els).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = els[id];
+    });
+}
+
+// ─── INFORME: TABLA ───────────────────────
+function renderInfTable() {
+    const tbody = document.getElementById('infTableBody');
+    if (!tbody) return;
+    const plates = ['ABC123','XYZ456','BCD789','DEF012','GHI345','JKL678','MNO901','PQR234','STU567','VWX890'];
+    const types = ['Carro','Moto','Bicicleta'];
+    const methods = ['Efectivo','Transferencia','Tarjeta','ePayco'];
+    const rows = Array.from({ length: 12 }, (_, i) => {
+        const h = 7 + Math.floor(Math.random() * 10);
+        const stay = 1 + Math.floor(Math.random() * 5);
+        const type = types[Math.floor(Math.random() * types.length)];
+        const rate = type === 'Carro' ? 3000 : type === 'Moto' ? 1500 : 1000;
+        return `<tr>
+            <td><span class="plate-badge">${plates[i % plates.length]}</span></td>
+            <td><span class="tipo-badge"><span class="material-symbols-outlined">directions_car</span> ${type}</span></td>
+            <td>${String(h).padStart(2,'0')}:${Math.floor(Math.random()*60).toString().padStart(2,'0')}</td>
+            <td>${String(h+stay).padStart(2,'0')}:${Math.floor(Math.random()*60).toString().padStart(2,'0')}</td>
+            <td>${stay}h</td>
+            <td><span class="tarifa-value">$${(rate*stay).toLocaleString('es-CO')}</span></td>
+            <td>${methods[Math.floor(Math.random() * methods.length)]}</td>
+        </tr>`;
+    }).join('');
+    tbody.innerHTML = rows;
+    const countEl = document.getElementById('infTableCount');
+    if (countEl) countEl.textContent = 'Mostrando ' + (rows.length) + ' registros';
+}
+
+// ─── INFORME: CHART.JS ────────────────────
+function initCharts() {
+    if (typeof Chart === 'undefined') return;
+    // Destroy previous instances if any
+    if (window._chartIngresos) { window._chartIngresos.destroy(); }
+    if (window._chartDistribucion) { window._chartDistribucion.destroy(); }
+    if (window._chartOcupacion) { window._chartOcupacion.destroy(); }
+
+    const ingresosCtx = document.getElementById('chartIngresos');
+    if (ingresosCtx) {
+        window._chartIngresos = new Chart(ingresosCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'],
+                datasets: [
+                    { label: 'Actual', data: [32,45,38,52,48,28,15], backgroundColor: 'rgba(0,240,255,0.6)', borderRadius: 4 },
+                    { label: 'Anterior', data: [28,40,35,48,42,25,12], backgroundColor: 'rgba(65,71,83,0.5)', borderRadius: 4 },
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } } }
+            }
+        });
+    }
+
+    const distCtx = document.getElementById('chartDistribucion');
+    if (distCtx) {
+        window._chartDistribucion = new Chart(distCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Carros','Motos','Bicicletas'],
+                datasets: [{ data: [60, 29, 11], backgroundColor: ['#4facfe','#00f0ff','#c084fc'], borderWidth: 0 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                cutout: '70%'
+            }
+        });
+        const legendEl = document.getElementById('donutLegend');
+        if (legendEl) {
+            const items = [
+                { label: 'Carros', color: '#4facfe', value: '60%' },
+                { label: 'Motos', color: '#00f0ff', value: '29%' },
+                { label: 'Bicicletas', color: '#c084fc', value: '11%' },
+            ];
+            legendEl.innerHTML = items.map(i => `
+                <div class="donut-legend-item">
+                    <span class="donut-legend-item__label">
+                        <span class="donut-legend-item__dot" style="background:${i.color}"></span>
+                        ${i.label}
+                    </span>
+                    <span class="donut-legend-item__value">${i.value}</span>
+                </div>`).join('');
+        }
+    }
+
+    const ocupaCtx = document.getElementById('chartOcupacion');
+    if (ocupaCtx) {
+        window._chartOcupacion = new Chart(ocupaCtx, {
+            type: 'bar',
+            data: {
+                labels: ['6-8','8-10','10-12','12-14','14-16','16-18','18-20','20-22'],
+                datasets: [{
+                    label: 'Ocupación %',
+                    data: [25, 55, 78, 65, 82, 88, 60, 30],
+                    backgroundColor: ['#4ade80','#a3e635','#facc15','#fb923c','#f87171','#f87171','#fb923c','#a3e635'],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                plugins: { legend: { display: false } },
+                scales: { x: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' } } }
+            }
+        });
+    }
 }
 
 // ─── GUARDAR HORARIOS ─────────────────────
@@ -235,12 +419,7 @@ function fmt12h(time) {
 }
 
 function labelPriceCellsForMobile() {
-    const labels = ['🚗 Carros', '🏍️ Motos', '🚴 Bicicletas'];
-    document.querySelectorAll('.price-table__row').forEach(row => {
-        row.querySelectorAll('.price-table__cell').forEach((cell, i) => {
-            if (labels[i]) cell.setAttribute('data-label', labels[i]);
-        });
-    });
+    // Deprecado — la UI de tarifas usa .tariff-card y no necesita labels móviles
 }
 
 
@@ -435,7 +614,7 @@ function setFinancialRange(range, btn) {
     document.querySelectorAll('.frange-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    const customRange = document.getElementById('financial-custom-range');
+    const customRange = document.getElementById('infCustomRange');
     customRange.style.display = range === 'custom' ? 'flex' : 'none';
 
     if (range !== 'custom') {
@@ -496,8 +675,8 @@ function validateReportState() {
     }
 
     if (reportState.type === 'financial' && reportState.financialRange === 'custom') {
-        const from = document.getElementById('financialFrom')?.value;
-        const to   = document.getElementById('financialTo')?.value;
+        const from = document.getElementById('infFrom')?.value;
+        const to   = document.getElementById('infTo')?.value;
         if (!from || !to) {
             showToast('⚠️ Selecciona el rango de fechas personalizado', true);
             return false;
@@ -1015,4 +1194,4 @@ function fmt(date) {
 // ─── ESC KEY ──────────────────────────────
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeSidebar();
-});F
+});
