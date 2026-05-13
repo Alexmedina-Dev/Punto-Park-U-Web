@@ -166,7 +166,7 @@ function openModal(id){document.getElementById(id).classList.add('active');}
 function closeModal(id){document.getElementById(id).classList.remove('active');}
 document.addEventListener('click',function(e){if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');});
 
-function showToast(msg){
+function showToast(msg){   
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
   clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),3000);

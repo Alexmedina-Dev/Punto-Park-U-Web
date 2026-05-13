@@ -129,9 +129,23 @@
       return;
     }
 
-    if (user === 'admin' && pass === 'admin123') {
-      alert('¡Bienvenido, ' + user + '!');
-      // window.location.href = '/dashboard'; // Redirigir al dashboard real
+    // Usuario de prueba hardcodeado (se reemplazará con backend)
+    const validUsers = {
+      'admin': 'admin123',
+      'cliente': 'cliente123',
+      'juan': 'juan123'
+    };
+
+    if (validUsers[user] && validUsers[user] === pass) {
+      // Guardar sesión en localStorage
+      const userData = {
+        username: user,
+        loginTime: new Date().toISOString()
+      };
+      localStorage.setItem('puntoParkUser', JSON.stringify(userData));
+      
+      // Redirigir a la pantalla de usuario
+      window.location.href = '../Login/Pantalla%20Usuario/PantallaUsuario.html';
     } else {
       showError('Usuario o contraseña incorrectos.');
     }
