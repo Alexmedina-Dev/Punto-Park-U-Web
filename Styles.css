@@ -713,23 +713,7 @@ footer::after {
     font-size: 1rem;
 }
 
-.btn-rate {
-    width: 100%;
-    padding: 1rem;
-    border-radius: var(--radius-lg);
-    background: var(--surface-variant);
-    color: var(--on-surface);
-    font-weight: 700;
-    font-size: 1rem;
-    transition:
-        background 0.2s,
-        color 0.2s;
-}
 
-.btn-rate:hover {
-    background: var(--primary-container);
-    color: var(--on-primary-container);
-}
 
 /* ── ABOUT ── */
 .about {
