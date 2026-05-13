@@ -5,6 +5,11 @@
 // ─── Estado global ───────────────────────
 let selectedReportType = null;
 
+// Guard mínimo — válido solo para demo/académico
+if (sessionStorage.getItem('adminAuth') !== 'true') {
+  window.location.href = '../Admi.html';
+}
+
 // ─── Init ─────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
     loadSavedData();

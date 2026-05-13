@@ -1,27 +1,40 @@
-  document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+/* ══════════════════════════════════════════
+   PUNTO PARK U — Admin Login
+   Credenciales de prueba: admin / admin123
+══════════════════════════════════════════ */
 
-          const user = document.getElementById("loginUser").value;
-          const password = document.getElementById("loginPassword").value;
+// Función llamada por onsubmit="handleLogin(event)" en el HTML
+function handleLogin(e) {
+  e.preventDefault();
 
-          if (user.length < 3) {
-            window.location.href =
-              "../error/error.html?msg=El usuario debe tener al menos 3 caracteres";
-            return;
-          }
+  const user     = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
 
-          if (password.length < 6) {
-            window.location.href =
-              "../error/error.html?msg=La contraseña debe tener al menos 6 caracteres";
-            return;
-          }
+  // Validaciones
+  if (user.length < 3) {
+    showError(errorMsg, 'El usuario debe tener al menos 3 caracteres.');
+    return;
+  }
 
-          if (user === "admin" && password === "admin123") {
-            alert("¡Bienvenido! Inicio de sesión exitoso");
-          } else {
-            window.location.href =
-              "../error/error.html?msg=Usuario o contraseña incorrectos";
-          }
-        });
+  if (password.length < 6) {
+    showError(errorMsg, 'La contraseña debe tener al menos 6 caracteres.');
+    return;
+  }
+
+  // Credencial de prueba — reemplazar por backend real en producción
+  const ADMIN_USER = 'admin';
+  const ADMIN_PASS = 'admin123';
+
+  if (user === ADMIN_USER && password === ADMIN_PASS) {
+    sessionStorage.setItem('adminAuth', 'true');
+    window.location.href = 'Panel/PanelAdmi.html';
+  } else {
+    showError(errorMsg, 'Usuario o contraseña incorrectos.');
+  }
+}
+
+function showError(el, msg) {
+  el.textContent = msg;
+  el.style.display = 'block';
+}
