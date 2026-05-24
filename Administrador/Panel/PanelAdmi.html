@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <!-- Título de la página -->
     <title>Panel Administrador - &ldquo;Punto Park U&rdquo;</title>
     <!-- Información: -->
@@ -19,7 +19,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,1&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="panel.css">
+    <!-- 1. Librerías externas primero -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.28/dist/jspdf.plugin.autotable.js"></script>
+
+    <!-- 2. Tus archivos de lógica después con defer -->
     <script src="panel.js" defer></script>
     <script src="modules.js" defer></script>
 </head>
@@ -49,15 +55,9 @@
             </a>
         </li>
         <li>
-            <a class="nav-item" data-view="tarifas" onclick="navigate('tarifas')">
-                <span class="material-symbols-outlined">currency_exchange</span>
-                <span>Tarifas</span>
-            </a>
-        </li>
-        <li>
-            <a class="nav-item" data-view="horarios" onclick="navigate('horarios')">
-                <span class="material-symbols-outlined">schedule</span>
-                <span>Horarios</span>
+            <a class="nav-item" data-view="tarifas-horarios" onclick="navigate('tarifas-horarios')">
+                <span class="material-symbols-outlined">tune</span>
+                <span>Tarifas y Horarios</span>
             </a>
         </li>
         <li>
@@ -96,15 +96,28 @@
 
 <!-- ═══════════════ TOPBAR ═══════════════ -->
 <header class="topbar">
+
+    <!-- IZQUIERDA: título + status -->
     <div class="topbar-left">
         <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menú">
             <span class="material-symbols-outlined">menu</span>
         </button>
-        <div class="topbar-title">
-            <span id="topbarViewTitle">Dashboard</span>
-            <span class="topbar-badge">Bienvenido, Parking</span>
+
+        <div class="topbar-title-group">
+            <span id="topbarViewTitle" class="topbar-view-title">Dashboard</span>
+            <span class="material-symbols-outlined topbar-arrow">expand_more</span>
+        </div>
+
+        <div class="topbar-status">
+            <span class="topbar-update-dot"></span>
+            <span class="topbar-update-text" id="topbarLastUpdate">Última actualización: 0s ago</span>
+            <span class="topbar-live-badge">
+                <span class="topbar-live-dot"></span>
+                En vivo
+            </span>
         </div>
     </div>
+
 </header>
 
 <!-- ═══════════════ CONTENIDO PRINCIPAL ═══════════════ -->
@@ -112,81 +125,421 @@
 
     <!-- ── VISTA: DASHBOARD ── -->
     <div id="view-dashboard" class="view active">
-        <section class="section">
-            <h2 class="section-title">Resumen del Día</h2>
-            <div class="stats-grid">
-                <div class="stat-card stat-card--blue">
-                    <div class="stat-icon"><span class="material-symbols-outlined">directions_car</span></div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="vehiclesToday">24</div>
-                        <div class="stat-label">Vehículos Hoy</div>
-                    </div>
-                    <div class="stat-tag">Hoy</div>
-                </div>
-                <div class="stat-card stat-card--green">
-                    <div class="stat-icon"><span class="material-symbols-outlined">payments</span></div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="incomesToday">$450.000</div>
-                        <div class="stat-label">Ingresos del Día</div>
-                    </div>
-                    <div class="stat-tag">Hoy</div>
-                </div>
-                <div class="stat-card stat-card--orange">
-                    <div class="stat-icon"><span class="material-symbols-outlined">local_parking</span></div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="currentOccupancy">18<span class="stat-value-sub">/50</span></div>
-                        <div class="stat-label">Ocupación Actual</div>
-                    </div>
-                    <div class="stat-tag">Ahora</div>
-                </div>
-                <div class="stat-card stat-card--purple">
-                    <div class="stat-icon"><span class="material-symbols-outlined">timer</span></div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="avgTime">3.5<span class="stat-value-sub">h</span></div>
-                        <div class="stat-label">Tiempo Promedio</div>
-                    </div>
-                    <div class="stat-tag">Promedio</div>
-                </div>
-            </div>
-        </section>
 
-        <section class="section">
-            <h2 class="section-title">
-                <span class="material-symbols-outlined">history</span>
-                Historial de Cambios
-            </h2>
-            <div class="history-list" id="historyContainer">
-                <div class="history-item">
-                    <div class="history-dot"></div>
-                    <div class="history-body">
-                        <span class="history-time">Hoy, 14:30</span>
-                        <p class="history-action">Ingreso Vehículo MTP-456</p>
+    <!-- ── STATS (full width) ── -->
+<section class="section">
+    <div class="stats-grid-v2">
+
+        <!-- CARD 1: Vehículos Hoy -->
+        <div class="kpi-card kpi-card--blue">
+            <div class="kpi-card__top">
+                <div class="kpi-icon kpi-icon--blue">
+                    <span class="material-symbols-outlined">directions_car</span>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value" id="vehiclesToday">124</div>
+                    <div class="kpi-label">Vehículos Hoy</div>
+                </div>
+            </div>
+            <div class="kpi-trend kpi-trend--up" id="trendVehicles">
+                <span class="material-symbols-outlined">trending_up</span>
+                +18% vs ayer
+            </div>
+            <div class="kpi-chart-wrap">
+                <canvas id="sparkVehicles" class="kpi-spark"></canvas>
+            </div>
+        </div>
+
+        <!-- CARD 2: Ingresos Hoy -->
+        <div class="kpi-card kpi-card--green">
+            <div class="kpi-card__top">
+                <div class="kpi-icon kpi-icon--green">
+                    <span class="material-symbols-outlined">payments</span>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value" id="incomesToday">$2.450.000</div>
+                    <div class="kpi-label">Ingresos Hoy</div>
+                </div>
+            </div>
+            <div class="kpi-trend kpi-trend--up" id="trendIncome">
+                <span class="material-symbols-outlined">trending_up</span>
+                +22% vs ayer
+            </div>
+            <div class="kpi-chart-wrap">
+                <canvas id="sparkIncome" class="kpi-spark"></canvas>
+            </div>
+        </div>
+
+        <!-- CARD 3: Ocupación Actual (donut mini) -->
+        <div class="kpi-card kpi-card--orange">
+            <div class="kpi-card__top">
+                <div class="kpi-donut-wrap">
+                    <canvas id="sparkOcupacion" class="kpi-donut-canvas"></canvas>
+                    <span class="kpi-donut-label" id="currentOccupancy">78%</span>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value">78%</div>
+                    <div class="kpi-label">Ocupación Actual</div>
+                </div>
+            </div>
+            <div class="kpi-trend kpi-trend--up" id="trendOcupacion">
+                <span class="material-symbols-outlined">trending_up</span>
+                +5% vs hace 1h
+            </div>
+            <div class="kpi-subdata">39<span class="kpi-subdata__sep">/</span>50 ocupados</div>
+        </div>
+
+        <!-- CARD 4: Tiempo Promedio -->
+        <div class="kpi-card kpi-card--purple">
+            <div class="kpi-card__top">
+                <div class="kpi-icon kpi-icon--purple">
+                    <span class="material-symbols-outlined">timer</span>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value" id="avgTime">2h 45m</div>
+                    <div class="kpi-label">Tiempo Promedio</div>
+                </div>
+            </div>
+            <div class="kpi-trend kpi-trend--down" id="trendTime">
+                <span class="material-symbols-outlined">trending_down</span>
+                -5m vs ayer
+            </div>
+            <div class="kpi-chart-wrap">
+                <canvas id="sparkTime" class="kpi-spark"></canvas>
+            </div>
+        </div>
+
+        <!-- CARD 5: Operadores Activos (avatars) -->
+        <div class="kpi-card kpi-card--cyan">
+            <div class="kpi-card__top">
+                <div class="kpi-icon kpi-icon--cyan">
+                    <span class="material-symbols-outlined">group</span>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value">6</div>
+                    <div class="kpi-label">Operadores Activos</div>
+                </div>
+            </div>
+            <div class="kpi-trend kpi-trend--up">
+                <span class="material-symbols-outlined">check_circle</span>
+                100% activos
+            </div>
+            <div class="kpi-avatars">
+                <div class="kpi-avatar" style="background:var(--cyan-dim);color:var(--cyan)">CM</div>
+                <div class="kpi-avatar" style="background:var(--blue-dim);color:var(--blue)">LG</div>
+                <div class="kpi-avatar" style="background:var(--purple-dim);color:var(--purple)">AP</div>
+                <div class="kpi-avatar kpi-avatar--more">+3</div>
+            </div>
+        </div>
+
+        <!-- CARD 6: Hora Pico (mini bar) -->
+        <div class="kpi-card kpi-card--red">
+            <div class="kpi-card__top">
+                <div class="kpi-icon kpi-icon--red">
+                    <span class="material-symbols-outlined">bar_chart</span>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value">17:00</div>
+                    <div class="kpi-label">Hora Pico Hoy</div>
+                </div>
+            </div>
+            <div class="kpi-trend kpi-trend--neutral">
+                <span class="material-symbols-outlined">info</span>
+                Mayor flujo del día
+            </div>
+            <div class="kpi-chart-wrap">
+                <canvas id="sparkPico" class="kpi-spark"></canvas>
+            </div>
+        </div>
+
+    </div>
+</section> 
+
+    <!-- ── GRID 2 COLUMNAS ── -->
+    <div class="dashboard-grid">
+
+        <!-- ═══ COLUMNA PRINCIPAL (izquierda) ═══ -->
+        <div class="dash-main">
+
+            <!-- Historial -->
+            <div class="dash-card">
+                <div class="dash-card__header">
+                    <div class="dash-card__title">
+                        <span class="material-symbols-outlined" style="color:var(--cyan);font-size:18px">history</span>
+                        Historial de Cambios
                     </div>
                 </div>
-                <div class="history-item">
-                    <div class="history-dot"></div>
-                    <div class="history-body">
-                        <span class="history-time">Hoy, 13:15</span>
-                        <p class="history-action">Actualización de tarifas guardada</p>
+                <div class="history-list" id="historyContainer">
+                    <div class="history-item">
+                        <div class="history-dot"></div>
+                        <div class="history-body">
+                            <span class="history-time">Hoy, 14:30</span>
+                            <p class="history-action">Ingreso Vehículo MTP-456</p>
+                        </div>
                     </div>
-                </div>
-                <div class="history-item">
-                    <div class="history-dot"></div>
-                    <div class="history-body">
-                        <span class="history-time">Hoy, 11:45</span>
-                        <p class="history-action">Salida Vehículo AB-123 — Pago: $15.000</p>
+                    <div class="history-item">
+                        <div class="history-dot"></div>
+                        <div class="history-body">
+                            <span class="history-time">Hoy, 13:15</span>
+                            <p class="history-action">Actualización de tarifas guardada</p>
+                        </div>
                     </div>
-                </div>
-                <div class="history-item history-item--error">
-                    <div class="history-dot history-dot--error"></div>
-                    <div class="history-body">
-                        <span class="history-time history-time--error">Hoy, 09:00</span>
-                        <p class="history-action">⚠ Fallo en barrera de salida #2</p>
+                    <div class="history-item">
+                        <div class="history-dot"></div>
+                        <div class="history-body">
+                            <span class="history-time">Hoy, 11:45</span>
+                            <p class="history-action">Salida Vehículo AB-123 — Pago: $15.000</p>
+                        </div>
+                    </div>
+                    <div class="history-item history-item--error">
+                        <div class="history-dot history-dot--error"></div>
+                        <div class="history-body">
+                            <span class="history-time history-time--error">Hoy, 09:00</span>
+                            <p class="history-action">⚠ Fallo en barrera de salida #2</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+
+            <!-- ── TABLA VEHÍCULOS EN PARQUEADERO ── -->
+         <div class="dash-card">
+    <div class="dash-card__header">
+        <div class="dash-card__title">
+            <span class="material-symbols-outlined" style="color:var(--cyan);font-size:18px">directions_car</span>
+            Vehículos en Parqueadero
+        </div>
     </div>
+
+    <!-- Filtros -->
+    <div class="veh-filters">
+        <div class="veh-search">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" id="vehSearch" placeholder="Buscar placa..." oninput="filterVehTable()">
+        </div>
+        <div class="veh-filter-row">
+            <div class="veh-tabs">
+                <button class="veh-tab active" aria-pressed="true" onclick="setVehType('all',this)">Todos</button>
+                <button class="veh-tab" aria-pressed="false" onclick="setVehType('car',this)">
+                    <span class="material-symbols-outlined">directions_car</span>Automóviles
+                </button>
+                <button class="veh-tab" aria-pressed="false" onclick="setVehType('moto',this)">
+                    <span class="material-symbols-outlined">two_wheeler</span>Motos
+                </button>
+                <button class="veh-tab" aria-pressed="false" onclick="setVehType('bike',this)">
+                    <span class="material-symbols-outlined">pedal_bike</span>Bicicletas
+                </button>
+            </div>
+            <div class="veh-tabs">
+                <button class="veh-pay active" aria-pressed="true" onclick="setVehPay('all',this)">Todos</button>
+                <button class="veh-pay" aria-pressed="false" onclick="setVehPay('paid',this)">Pagado</button>
+                <button class="veh-pay" aria-pressed="false" onclick="setVehPay('pending',this)">Pendiente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="veh-table-wrap">
+        <table class="veh-table">
+            <thead>
+                <tr>
+                    <th>PLACA</th>
+                    <th>TIPO</th>
+                    <th>ENTRADA</th>
+                    <th>DURACIÓN</th>
+                    <th>ZONA</th>
+                    <th>ESTADO</th>
+                    <th>PAGO</th>
+                    <th>OPERADOR</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody id="vehTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="veh-table-footer">
+        <span class="veh-count" id="vehCount"></span>
+        <div class="veh-pages" id="vehPages"></div>
+    </div>
+         </div>
+
+        </div>
+
+        <!-- ═══ COLUMNA ASIDE (derecha) ═══ -->
+        <div class="dash-aside">
+
+            <!-- Alertas Activas -->
+            <div class="dash-card">
+                <div class="dash-card__header">
+                    <div class="dash-card__title">
+                        Alertas Activas
+                        <span class="alert-count">4</span>
+                    </div>
+                    <span class="link-muted">Ver todas</span>
+                </div>
+                <div class="alerts-list">
+                    <div class="alert-item alert-item--error">
+                        <div class="alert-item__icon alert-item__icon--error">
+                            <span class="material-symbols-outlined">warning</span>
+                        </div>
+                        <div class="alert-item__body">
+                            <span class="alert-item__name">Barrera de entrada</span>
+                            <span class="alert-item__sub">Desconectada</span>
+                        </div>
+                        <div class="alert-item__right">
+                            <span class="alert-item__time">Hace 2m</span>
+                            <span class="alert-badge alert-badge--error">Crítica</span>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-item--warn">
+                        <div class="alert-item__icon alert-item__icon--warn">
+                            <span class="material-symbols-outlined">local_parking</span>
+                        </div>
+                        <div class="alert-item__body">
+                            <span class="alert-item__name">Ocupación alta</span>
+                            <span class="alert-item__sub">Zona B al 85%</span>
+                        </div>
+                        <div class="alert-item__right">
+                            <span class="alert-item__time">Hace 5m</span>
+                            <span class="alert-badge alert-badge--warn">Advertencia</span>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-item--warn">
+                        <div class="alert-item__icon alert-item__icon--warn">
+                            <span class="material-symbols-outlined">videocam_off</span>
+                        </div>
+                        <div class="alert-item__body">
+                            <span class="alert-item__name">Cámara 03</span>
+                            <span class="alert-item__sub">Sin conexión</span>
+                        </div>
+                        <div class="alert-item__right">
+                            <span class="alert-item__time">Hace 12m</span>
+                            <span class="alert-badge alert-badge--warn">Advertencia</span>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-item--info">
+                        <div class="alert-item__icon alert-item__icon--info">
+                            <span class="material-symbols-outlined">sensors</span>
+                        </div>
+                        <div class="alert-item__body">
+                            <span class="alert-item__name">Sensores Zona C</span>
+                            <span class="alert-item__sub">Batería baja</span>
+                        </div>
+                        <div class="alert-item__right">
+                            <span class="alert-item__time">Hace 18m</span>
+                            <span class="alert-badge alert-badge--info">Informativa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actividad Reciente -->
+            <div class="dash-card">
+                <div class="dash-card__header">
+                    <div class="dash-card__title">
+                        Actividad Reciente
+                    </div>
+                    <span class="link-muted">Ver todas</span>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon activity-icon--entrada">
+                            <span class="material-symbols-outlined">arrow_downward</span>
+                        </div>
+                        <div class="activity-body">
+                            <span class="activity-title">Entrada: ABC-123</span>
+                            <span class="activity-sub">Zona B · Automóvil</span>
+                        </div>
+                        <div class="activity-right">
+                            <span class="activity-time">14:32:45</span>
+                            <span class="activity-status">Completado</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon activity-icon--salida">
+                            <span class="material-symbols-outlined">arrow_upward</span>
+                        </div>
+                        <div class="activity-body">
+                            <span class="activity-title">Salida: XYZ-789</span>
+                            <span class="activity-sub">Zona A · Automóvil</span>
+                        </div>
+                        <div class="activity-right">
+                            <span class="activity-time">14:28:12</span>
+                            <span class="activity-status">Completado</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon activity-icon--pago">
+                            <span class="material-symbols-outlined">payments</span>
+                        </div>
+                        <div class="activity-body">
+                            <span class="activity-title">Pago procesado</span>
+                            <span class="activity-sub">ABC-123 · $8.000</span>
+                        </div>
+                        <div class="activity-right">
+                            <span class="activity-time">14:27:33</span>
+                            <span class="activity-status">Completado</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon activity-icon--moto">
+                            <span class="material-symbols-outlined">two_wheeler</span>
+                        </div>
+                        <div class="activity-body">
+                            <span class="activity-title">Entrada: MOTO-456</span>
+                            <span class="activity-sub">Zona B · Motocicleta</span>
+                        </div>
+                        <div class="activity-right">
+                            <span class="activity-time">14:25:10</span>
+                            <span class="activity-status">Completado</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon activity-icon--bici">
+                            <span class="material-symbols-outlined">pedal_bike</span>
+                        </div>
+                        <div class="activity-body">
+                            <span class="activity-title">Entrada: BIKE-001</span>
+                            <span class="activity-sub">Zona C · Bicicleta</span>
+                        </div>
+                        <div class="activity-right">
+                            <span class="activity-time">14:20:05</span>
+                            <span class="activity-status">Completado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ── GRÁFICO OCUPACIÓN POR HORA ── -->
+<div class="dash-card">
+    <div class="dash-card__header">
+        <div class="dash-card__title">
+            <span class="material-symbols-outlined" style="color:var(--cyan);font-size:18px">bar_chart</span>
+            Ocupación por Hora
+        </div>
+        <select class="select-sm" id="ocupHoraRange" onchange="updateOcupHoraChart(this.value)">
+            <option value="today">Hoy</option>
+            <option value="week">Semana</option>
+        </select>
+    </div>
+    <div class="ocup-hora-wrap">
+        <canvas id="chartOcupHora"></canvas>
+    </div>
+    <div class="ocup-hora-footer">
+        <span class="ocup-hora-avg">
+            Promedio <strong id="ocupHoraAvg">58%</strong>
+        </span>
+        <div class="ocup-hora-legend">
+            <span class="mini-legend-dot" style="background:var(--cyan)"></span>
+            <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-label)">% ocupación</span>
+        </div>
+    </div>
+</div>
+        </div>
+    </div><!-- /dashboard-grid -->
+
+</div>
 
     <!-- ── VISTA: MAPA EN VIVO ── -->
     <div id="view-mapa" class="view">
@@ -218,226 +571,227 @@
         </div>
     </div>
 
-    <!-- ── VISTA: TARIFAS ── -->
-    <!-- ══════════════════════════════════════════
-     REEMPLAZA tu bloque completo:
-     <div id="view-tarifas" class="view"> ... </div>
-══════════════════════════════════════════ -->
+    <!-- ── VISTA: TARIFAS + HORARIOS ── -->
+    <div id="view-tarifas-horarios" class="view">
 
-<div id="view-tarifas" class="view">
-    <div class="view-header">
-        <div>
-            <h2 class="view-header__title">Tarifas</h2>
-            <p class="view-header__sub">Configura las tarifas por tipo de vehículo y período</p>
-        </div>
-        <button class="btn btn-primary" onclick="savePrices()">
-            <span class="material-symbols-outlined">save</span>
-            Guardar Cambios
-        </button>
-    </div>
-
-    <!-- Selector de vehículo -->
-    <div class="vehicle-tabs">
-        <button class="vehicle-tab active" data-vehicle="car" onclick="switchVehicleTab('car', this)">
-            <span class="material-symbols-outlined">directions_car</span>
-            <div class="vehicle-tab__text">
-                <span class="vehicle-tab__name">Carros</span>
-                <span class="vehicle-tab__sub">Incluye camionetas</span>
+    <!-- ═══ SECCIÓN: TARIFAS ═══ -->
+    <section class="combined-section">
+        <div class="view-header">
+            <div>
+                <h2 class="view-header__title">Tarifas</h2>
+                <p class="view-header__sub">Configura las tarifas por tipo de vehículo y período</p>
             </div>
-        </button>
-        <button class="vehicle-tab" data-vehicle="moto" onclick="switchVehicleTab('moto', this)">
-            <span class="material-symbols-outlined">two_wheeler</span>
-            <div class="vehicle-tab__text">
-                <span class="vehicle-tab__name">Motos</span>
-                <span class="vehicle-tab__sub">Motocicletas</span>
-            </div>
-        </button>
-        <button class="vehicle-tab" data-vehicle="bike" onclick="switchVehicleTab('bike', this)">
-            <span class="material-symbols-outlined">pedal_bike</span>
-            <div class="vehicle-tab__text">
-                <span class="vehicle-tab__name">Bicicletas</span>
-                <span class="vehicle-tab__sub">Ciclas y patinetas</span>
-            </div>
-        </button>
-    </div>
-
-    <!-- Paneles por vehículo -->
-    <div class="tariff-panels">
-
-        <!-- CARROS -->
-        <div class="tariff-panel active" id="panel-car">
-            <div class="tariff-cards">
-                <div class="tariff-card">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">schedule</span>
-                        <div>
-                            <h4>Por Hora</h4>
-                            <p>Tarifa mínima de ingreso</p>
-                        </div>
-                    </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="carHour" value="3000" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('car')">
-                    </div>
-                    <div class="tariff-card__preview" id="live-carHour">$3.000</div>
-                </div>
-
-                <div class="tariff-card">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">calendar_today</span>
-                        <div>
-                            <h4>Por Día</h4>
-                            <p>Estadía de hasta 24 horas</p>
-                        </div>
-                    </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="carDay" value="15000" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('car')">
-                    </div>
-                    <div class="tariff-card__preview" id="live-carDay">$15.000</div>
-                </div>
-
-                <div class="tariff-card tariff-card--featured">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">date_range</span>
-                        <div>
-                            <h4>Mensualidad</h4>
-                            <p>Cupo fijo mensual</p>
-                        </div>
-                    </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="carMonth" value="250000" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('car')">
-                    </div>
-                    <div class="tariff-card__preview" id="live-carMonth">$250.000</div>
-                </div>
-            </div>
+            <button class="btn btn-primary" onclick="savePrices()">
+                <span class="material-symbols-outlined">save</span>
+                Guardar Cambios
+            </button>
         </div>
 
-        <!-- MOTOS -->
-        <div class="tariff-panel" id="panel-moto">
-            <div class="tariff-cards">
-                <div class="tariff-card">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">schedule</span>
-                        <div>
-                            <h4>Por Hora</h4>
-                            <p>Tarifa mínima de ingreso</p>
-                        </div>
-                    </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="motoHour" value="1500" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('moto')">
-                    </div>
-                    <div class="tariff-card__preview" id="live-motoHour">$1.500</div>
+        <!-- Selector de vehículo -->
+        <div class="vehicle-tabs">
+            <button class="vehicle-tab active" aria-pressed="true" data-vehicle="car" onclick="switchVehicleTab('car', this)">
+                <span class="material-symbols-outlined">directions_car</span>
+                <div class="vehicle-tab__text">
+                    <span class="vehicle-tab__name">Carros</span>
+                    <span class="vehicle-tab__sub">Incluye camionetas</span>
                 </div>
-
-                <div class="tariff-card">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">calendar_today</span>
-                        <div>
-                            <h4>Por Día</h4>
-                            <p>Estadía de hasta 24 horas</p>
-                        </div>
-                    </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="motoDay" value="8000" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('moto')">
-                    </div>
-                    <div class="tariff-card__preview" id="live-motoDay">$8.000</div>
+            </button>
+            <button class="vehicle-tab" aria-pressed="false" data-vehicle="moto" onclick="switchVehicleTab('moto', this)">
+                <span class="material-symbols-outlined">two_wheeler</span>
+                <div class="vehicle-tab__text">
+                    <span class="vehicle-tab__name">Motos</span>
+                    <span class="vehicle-tab__sub">Motocicletas</span>
                 </div>
+            </button>
+            <button class="vehicle-tab" aria-pressed="false" data-vehicle="bike" onclick="switchVehicleTab('bike', this)">
+                <span class="material-symbols-outlined">pedal_bike</span>
+                <div class="vehicle-tab__text">
+                    <span class="vehicle-tab__name">Bicicletas</span>
+                    <span class="vehicle-tab__sub">Ciclas y patinetas</span>
+                </div>
+            </button>
+        </div>
 
-                <div class="tariff-card tariff-card--featured">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">date_range</span>
-                        <div>
-                            <h4>Mensualidad</h4>
-                            <p>Cupo fijo mensual</p>
+        <!-- Paneles por vehículo -->
+        <div class="tariff-panels">
+
+            <!-- CARROS -->
+            <div class="tariff-panel active" id="panel-car">
+                <div class="tariff-cards">
+                    <div class="tariff-card">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">schedule</span>
+                            <div>
+                                <h4>Por Hora</h4>
+                                <p>Tarifa mínima de ingreso</p>
+                            </div>
                         </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="carHour" value="3000" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('car')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-carHour">$3.000</div>
                     </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="motoMonth" value="120000" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('moto')">
+
+                    <div class="tariff-card">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">calendar_today</span>
+                            <div>
+                                <h4>Por Día</h4>
+                                <p>Estadía de hasta 24 horas</p>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="carDay" value="15000" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('car')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-carDay">$15.000</div>
                     </div>
-                    <div class="tariff-card__preview" id="live-motoMonth">$120.000</div>
+
+                    <div class="tariff-card tariff-card--featured">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">date_range</span>
+                            <div>
+                                <h4>Mensualidad</h4>
+                                <p>Cupo fijo mensual</p>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="carMonth" value="250000" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('car')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-carMonth">$250.000</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- BICICLETAS -->
-        <div class="tariff-panel" id="panel-bike">
-            <div class="tariff-cards">
-                <div class="tariff-card">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">schedule</span>
-                        <div>
-                            <h4>Por Hora</h4>
-                            <p>Tarifa mínima de ingreso</p>
+            <!-- MOTOS -->
+            <div class="tariff-panel" id="panel-moto">
+                <div class="tariff-cards">
+                    <div class="tariff-card">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">schedule</span>
+                            <div>
+                                <h4>Por Hora</h4>
+                                <p>Tarifa mínima de ingreso</p>
+                            </div>
                         </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="motoHour" value="1500" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('moto')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-motoHour">$1.500</div>
                     </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="bikeHour" value="1000" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('bike')">
-                    </div>
-                    <div class="tariff-card__preview" id="live-bikeHour">$1.000</div>
-                </div>
 
-                <div class="tariff-card">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">calendar_today</span>
-                        <div>
-                            <h4>Por Día</h4>
-                            <p>Estadía de hasta 24 horas</p>
+                    <div class="tariff-card">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">calendar_today</span>
+                            <div>
+                                <h4>Por Día</h4>
+                                <p>Estadía de hasta 24 horas</p>
+                            </div>
                         </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="motoDay" value="8000" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('moto')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-motoDay">$8.000</div>
                     </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="bikeDay" value="5000" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('bike')">
-                    </div>
-                    <div class="tariff-card__preview" id="live-bikeDay">$5.000</div>
-                </div>
 
-                <div class="tariff-card tariff-card--featured">
-                    <div class="tariff-card__header">
-                        <span class="material-symbols-outlined">date_range</span>
-                        <div>
-                            <h4>Mensualidad</h4>
-                            <p>Cupo fijo mensual</p>
+                    <div class="tariff-card tariff-card--featured">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">date_range</span>
+                            <div>
+                                <h4>Mensualidad</h4>
+                                <p>Cupo fijo mensual</p>
+                            </div>
                         </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="motoMonth" value="120000" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('moto')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-motoMonth">$120.000</div>
                     </div>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">$</span>
-                        <input type="number" id="bikeMonth" value="80000" class="price-input" min="0"
-                               oninput="updatePricePreview(); updateTariffLiveCard('bike')">
-                    </div>
-                    <div class="tariff-card__preview" id="live-bikeMonth">$80.000</div>
                 </div>
             </div>
+
+            <!-- BICICLETAS -->
+            <div class="tariff-panel" id="panel-bike">
+                <div class="tariff-cards">
+                    <div class="tariff-card">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">schedule</span>
+                            <div>
+                                <h4>Por Hora</h4>
+                                <p>Tarifa mínima de ingreso</p>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="bikeHour" value="1000" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('bike')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-bikeHour">$1.000</div>
+                    </div>
+
+                    <div class="tariff-card">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">calendar_today</span>
+                            <div>
+                                <h4>Por Día</h4>
+                                <p>Estadía de hasta 24 horas</p>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="bikeDay" value="5000" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('bike')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-bikeDay">$5.000</div>
+                    </div>
+
+                    <div class="tariff-card tariff-card--featured">
+                        <div class="tariff-card__header">
+                            <span class="material-symbols-outlined">date_range</span>
+                            <div>
+                                <h4>Mensualidad</h4>
+                                <p>Cupo fijo mensual</p>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="bikeMonth" value="80000" class="price-input" min="0"
+                                   oninput="updatePricePreview(); updateTariffLiveCard('bike')">
+                        </div>
+                        <div class="tariff-card__preview" id="live-bikeMonth">$80.000</div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /tariff-panels -->
+
+        <!-- Vista previa comparativa (todas las tarifas) -->
+        <div class="preview-box">
+            <div class="preview-box__header">
+                <span class="material-symbols-outlined">visibility</span>
+                <h4>Resumen de Tarifas</h4>
+                <span class="preview-badge">Se actualiza automáticamente</span>
+            </div>
+            <div class="preview-grid" id="pricePreview"></div>
         </div>
+    </section>
 
-    </div><!-- /tariff-panels -->
+    <!-- ── DIVISOR ── -->
+    <hr class="section-divider">
 
-    <!-- Vista previa comparativa (todas las tarifas) -->
-    <div class="preview-box">
-        <div class="preview-box__header">
-            <span class="material-symbols-outlined">visibility</span>
-            <h4>Resumen de Tarifas</h4>
-            <span class="preview-badge">Se actualiza automáticamente</span>
-        </div>
-        <div class="preview-grid" id="pricePreview"></div>
-    </div>
-</div>
-
-    <!-- ── VISTA: HORARIOS ── -->
-    <div id="view-horarios" class="view">
+    <!-- ═══ SECCIÓN: HORARIOS ═══ -->
+    <section class="combined-section">
         <div class="view-header">
             <div>
                 <h2 class="view-header__title">Horarios de Atención</h2>
@@ -491,7 +845,9 @@
             </div>
             <div class="schedule-preview" id="schedulePreview"></div>
         </div>
-    </div>
+    </section>
+
+</div>
 
     <!-- ── VISTA: INFORMES ── -->
 
@@ -512,11 +868,11 @@
             <p class="view-header__sub">Ingresos, ocupación y rendimiento operativo</p>
         </div>
         <div class="inf-actions">
-            <button class="btn btn-secondary btn-sm" onclick="downloadReport('excel')">
+            <button class="btn btn-secondary btn-sm" data-format="excel" onclick="downloadReport('excel')">
                 <span class="material-symbols-outlined">table_chart</span>
                 Excel
             </button>
-            <button class="btn btn-primary btn-sm" onclick="downloadReport('pdf')">
+            <button class="btn btn-primary btn-sm" data-format="pdf" onclick="downloadReport('pdf')">
                 <span class="material-symbols-outlined">picture_as_pdf</span>
                 PDF
             </button>
@@ -525,38 +881,57 @@
 
     <!-- ── BARRA DE FILTROS COMPACTA ── -->
     <div class="inf-filters">
-        <div class="inf-filter-group">
-            <label class="inf-filter-label">Período</label>
+        <!-- PERÍODO -->
+        <div class="inf-filter-row">
+            <span class="inf-filter-label">Período</span>
             <div class="inf-period-tabs">
-                <button class="inf-period-tab active" data-period="today"   onclick="setInfPeriod('today',   this)">Hoy</button>
-                <button class="inf-period-tab"         data-period="week"   onclick="setInfPeriod('week',    this)">Semana</button>
-                <button class="inf-period-tab"         data-period="month"  onclick="setInfPeriod('month',   this)">Mes</button>
-                <button class="inf-period-tab"         data-period="custom" onclick="setInfPeriod('custom',  this)">Personalizado</button>
+                <button class="inf-period-tab active" aria-pressed="true" data-period="today"   onclick="setInfPeriod('today',   this)">Hoy</button>
+                <button class="inf-period-tab" aria-pressed="false"        data-period="week"   onclick="setInfPeriod('week',    this)">Semana</button>
+                <button class="inf-period-tab" aria-pressed="false"        data-period="month"  onclick="setInfPeriod('month',   this)">Mes</button>
+                <button class="inf-period-tab" aria-pressed="false"        data-period="custom" onclick="setInfPeriod('custom',  this)">Personalizado</button>
             </div>
         </div>
-        <div class="inf-filter-group inf-date-range" id="infCustomRange" style="display:none">
-            <label class="inf-filter-label">Desde</label>
-            <input type="date" id="infFrom" class="filter-input filter-input--sm">
-            <label class="inf-filter-label">Hasta</label>
-            <input type="date" id="infTo"   class="filter-input filter-input--sm">
-            <button class="btn btn-primary btn-sm" onclick="applyCustomRange()">
-                <span class="material-symbols-outlined">search</span>
-            </button>
-        </div>
-        <div class="inf-filter-group">
-            <label class="inf-filter-label">Tipo</label>
+        <!-- TIPO -->
+        <div class="inf-filter-row">
+            <span class="inf-filter-label">Tipo</span>
             <div class="inf-type-pills">
-                <button class="inf-type-pill active" data-type="all"  onclick="setInfType('all',  this)">Todos</button>
-                <button class="inf-type-pill"        data-type="car"  onclick="setInfType('car',  this)">
+                <button class="inf-type-pill active" aria-pressed="true" data-type="all"  onclick="setInfType('all',  this)">Todos</button>
+                <button class="inf-type-pill" aria-pressed="false"       data-type="car"  onclick="setInfType('car',  this)">
                     <span class="material-symbols-outlined" style="font-size:14px">directions_car</span> Carros
                 </button>
-                <button class="inf-type-pill"        data-type="moto" onclick="setInfType('moto', this)">
+                <button class="inf-type-pill" aria-pressed="false"       data-type="moto" onclick="setInfType('moto', this)">
                     <span class="material-symbols-outlined" style="font-size:14px">two_wheeler</span> Motos
                 </button>
-                <button class="inf-type-pill"        data-type="bike" onclick="setInfType('bike', this)">
+                <button class="inf-type-pill" aria-pressed="false"       data-type="bike" onclick="setInfType('bike', this)">
                     <span class="material-symbols-outlined" style="font-size:14px">pedal_bike</span> Bicicletas
                 </button>
             </div>
+        </div>
+        <!-- MÉTODO DE PAGO -->
+        <div class="inf-filter-row">
+            <span class="inf-filter-label">Método de pago</span>
+            <div class="inf-metodo-pills">
+                <button class="inf-metodo-pill active" aria-pressed="true" data-metodo="all"     onclick="setInfMetodoPago('all',     this)">Todos</button>
+                <button class="inf-metodo-pill" aria-pressed="false"       data-metodo="Efectivo" onclick="setInfMetodoPago('Efectivo', this)">
+                    <span class="material-symbols-outlined" style="font-size:14px">payments</span> Efectivo
+                </button>
+                <button class="inf-metodo-pill" aria-pressed="false"       data-metodo="POS"      onclick="setInfMetodoPago('POS',      this)">
+                    <span class="material-symbols-outlined" style="font-size:14px">credit_card</span> POS
+                </button>
+                <button class="inf-metodo-pill" aria-pressed="false"       data-metodo="ePayco"   onclick="setInfMetodoPago('ePayco',   this)">
+                    <span class="material-symbols-outlined" style="font-size:14px">phone_iphone</span> ePayco
+                </button>
+            </div>
+        </div>
+        <!-- RANGO PERSONALIZADO (oculto por defecto) -->
+        <div class="inf-filter-row inf-date-range" id="infCustomRange" style="display:none">
+            <span class="inf-filter-label">Desde</span>
+            <input type="date" id="infFrom" class="filter-input filter-input--sm">
+            <span class="inf-filter-label">Hasta</span>
+            <input type="date" id="infTo"   class="filter-input filter-input--sm">
+            <button class="btn btn-primary btn-sm" onclick="applyCustomRange()" aria-label="Buscar">
+                <span class="material-symbols-outlined">search</span>
+            </button>
         </div>
     </div>
 
@@ -634,6 +1009,47 @@
                 </div>
             </div>
         </div>
+        <!-- ── KPIs MÉTODO DE PAGO ── -->
+        <div class="inf-kpi">
+            <div class="inf-kpi__icon" style="background:var(--green-dim);color:var(--green)">
+                <span class="material-symbols-outlined">payments</span>
+            </div>
+            <div class="inf-kpi__data">
+                <div class="inf-kpi__value" id="kpiMetodoEfectivo">$0</div>
+                <div class="inf-kpi__label">Efectivo</div>
+            </div>
+        </div>
+        <div class="inf-kpi">
+            <div class="inf-kpi__icon" style="background:var(--blue-dim);color:var(--blue)">
+                <span class="material-symbols-outlined">credit_card</span>
+            </div>
+            <div class="inf-kpi__data">
+                <div class="inf-kpi__value" id="kpiMetodoPOS">$0</div>
+                <div class="inf-kpi__label">POS</div>
+            </div>
+        </div>
+        <div class="inf-kpi">
+            <div class="inf-kpi__icon" style="background:var(--purple-dim);color:var(--purple)">
+                <span class="material-symbols-outlined">phone_iphone</span>
+            </div>
+            <div class="inf-kpi__data">
+                <div class="inf-kpi__value" id="kpiMetodoEpayco">$0</div>
+                <div class="inf-kpi__label">ePayco</div>
+            </div>
+        </div>
+        <!-- ── KPI PROYECCIÓN ── -->
+        <div class="inf-kpi">
+            <div class="inf-kpi__icon" style="background:var(--green-dim);color:var(--green)">
+                <span class="material-symbols-outlined">trending_up</span>
+            </div>
+            <div class="inf-kpi__data">
+                <div class="inf-kpi__value" id="kpiProyeccion">$0</div>
+                <div class="inf-kpi__label">Proyección del mes</div>
+                <div class="inf-kpi__trend inf-kpi__trend--neutral" id="kpiProyeccionSub" style="font-size:11px;color:var(--text-muted);font-weight:600">
+                    Basado en 0 días
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ── GRÁFICOS ── -->
@@ -684,6 +1100,24 @@
             </div>
         </div>
 
+        <!-- Método de pago (stacked bar) -->
+        <div class="inf-chart-card inf-chart-card--wide">
+            <div class="inf-chart-card__header">
+                <div>
+                    <h4>Ingresos por método de pago</h4>
+                    <p>Desglose diario de ingresos según método</p>
+                </div>
+                <div class="inf-chart-legend">
+                    <span class="legend-dot" style="background:#4ade80"></span> Efectivo
+                    <span class="legend-dot" style="background:#4facfe"></span> POS
+                    <span class="legend-dot" style="background:#c084fc"></span> ePayco
+                </div>
+            </div>
+            <div class="inf-chart-wrap">
+                <canvas id="chartMetodoPago"></canvas>
+            </div>
+        </div>
+
     </div><!-- /inf-charts -->
 
     <!-- ── TABLA DE MOVIMIENTOS ── -->
@@ -696,6 +1130,13 @@
             <div class="inf-table-filters">
                 <input type="text" class="filter-input filter-input--sm" id="infTableSearch"
                        placeholder="Buscar placa…" oninput="filterInfTable(this.value)">
+                <select class="filter-input filter-input--sm" id="infOperatorFilter"
+                        onchange="filterInfByOperator(this.value)">
+                    <option value="all">Todos los operadores</option>
+                    <option value="Carlos Martínez">Carlos Martínez</option>
+                    <option value="Laura González">Laura González</option>
+                    <option value="Andrés Pérez">Andrés Pérez</option>
+                </select>
             </div>
         </div>
         <div class="inf-table-wrap">
@@ -709,6 +1150,8 @@
                         <th>Duración</th>
                         <th>Tarifa</th>
                         <th>Pago</th>
+                        <th>Zona</th>
+                        <th>Operador</th>
                     </tr>
                 </thead>
                 <tbody id="infTableBody">
@@ -860,4 +1303,3 @@
 </div>
 </body>
 </html>
-
