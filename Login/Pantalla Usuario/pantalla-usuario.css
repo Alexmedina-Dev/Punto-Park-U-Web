@@ -138,7 +138,7 @@ a {
 
 .logo-row {
   display: flex;
-  align-items: center;
+  align-items: center;  
   gap: 12px;
 }
 
