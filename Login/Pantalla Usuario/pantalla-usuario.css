@@ -330,12 +330,19 @@ a {
 }
 
 .logo-icon-sm {
-  width: 90px;
-  height: 90px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+@media (min-width: 769px) {
+  .logo-icon-sm {
+    width: 90px;
+    height: 90px;
+  }
 }
 
 .header-actions {
