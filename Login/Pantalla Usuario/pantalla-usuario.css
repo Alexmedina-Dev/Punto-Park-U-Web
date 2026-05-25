@@ -143,12 +143,13 @@ a {
 }
 
 .logo-icon {
-  width: 56px;
-  height: 56px;
+  width: 120px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin: 0 auto;
 }
 
 .logo-icon picture,
@@ -329,8 +330,8 @@ a {
 }
 
 .logo-icon-sm {
-  width: 44px;
-  height: 44px;
+  width: 90px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
