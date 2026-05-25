@@ -28,8 +28,8 @@
     <div class="card">
 
     
-    <!-- Botón de cerrar -->
-    <button class="close-btn" aria-label="Cerrar">&times;</button>
+    <!-- Botón de cerrar -> va al login -->
+    <button class="close-btn" onclick="goToLogin()" aria-label="Cerrar">&times;</button>
     
 
       <!-- Icon -->
@@ -56,12 +56,22 @@
           <p class="info-value mono" id="userId">*** *** ****</p>
         </div>
       </div>
+
+      <!-- Boton para ir a iniciar sesion -->
+      <button class="btn-login" onclick="goToLogin()">
+        <span class="material-symbols-outlined">login</span>
+        Ir a Iniciar Sesión
+      </button>
     </div>
   </main>
 
   <div class="footer-bar"></div>
 
   <script>
+    function goToLogin() {
+      window.location.href = '../../Login/Login.html';
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(window.location.search);
       const nombre = params.get("nombre");

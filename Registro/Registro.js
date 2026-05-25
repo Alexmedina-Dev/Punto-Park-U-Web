@@ -9,19 +9,19 @@ document.getElementById('registrationForm').addEventListener('submit', function 
 
   // Validar nombres y apellidos
   if (nombres.length < 2 || apellidos.length < 2) {
-    window.location.href = 'error.html?msg=' + encodeURIComponent('Nombres y apellidos deben tener al menos 2 caracteres.');
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('Nombres y apellidos deben tener al menos 2 caracteres.');
     return;
   }
 
   // Validar cédula
   if (!/^\d{6,12}$/.test(cedula)) {
-    window.location.href = 'error.html?msg=' + encodeURIComponent('La cédula debe contener entre 6 y 12 números.');
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('La cédula debe contener entre 6 y 12 números.');
     return;
   }
 
   // Validar fecha
   if (!fecha) {
-    window.location.href = 'error.html?msg=' + encodeURIComponent('Debe ingresar una fecha de nacimiento.');
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('Debe ingresar una fecha de nacimiento.');
     return;
   }
 
@@ -30,7 +30,7 @@ document.getElementById('registrationForm').addEventListener('submit', function 
 
   // Validar que la fecha no sea futura
   if (birthDate > today) {
-    window.location.href = 'error.html?msg=' + encodeURIComponent('La fecha de nacimiento no puede ser en el futuro.');
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('La fecha de nacimiento no puede ser en el futuro.');
     return;
   }
 
@@ -43,7 +43,7 @@ document.getElementById('registrationForm').addEventListener('submit', function 
 
   // Validar edad mínima
   if (age < 18) {
-    window.location.href = 'error.html?msg=' + encodeURIComponent('Debe ser mayor de 18 años para registrarse.');
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('Debe ser mayor de 18 años para registrarse.');
     return;
   }
 

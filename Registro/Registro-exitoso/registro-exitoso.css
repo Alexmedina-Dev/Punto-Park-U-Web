@@ -100,6 +100,36 @@ main {
     display: none;
 }
 
+/* Boton para ir a iniciar sesion */
+.btn-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.9rem 1.75rem;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 12px 32px rgba(0,116,217,0.2);
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-fixed-dim);
+    transform: translateY(-1px);
+}
+
+.btn-login .material-symbols-outlined {
+    font-size: 1.25rem;
+}
+
 
 /* ── Icon ───────────────────────────────────────────── */
 .icon-wrapper {

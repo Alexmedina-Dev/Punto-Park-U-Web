@@ -80,7 +80,7 @@
             </p>
           </div>
 
-          <button class="btn-primary" onclick="closeErrorModal()">
+          <button class="btn-primary" onclick="goBackToRegister()">
             Registrarse de nuevo
             <span class="icon">arrow_forward</span>
           </button>
@@ -159,19 +159,31 @@
     }
 
     function closeErrorModal() {
-      const overlay = document.getElementById('error-modal');
-      overlay.classList.remove('is-open');
-      document.body.style.overflow = '';
+      // Navegar de regreso al formulario de registro
+      window.location.href = '../Registro.html';
     }
 
-    // Cerrar al hacer clic en el overlay (fuera del modal)
+    function goBackToRegister() {
+      window.location.href = '../Registro.html';
+    }
+
+    // Cerrar al hacer clic en el overlay (fuera del modal) → volver al registro
     document.getElementById('error-modal').addEventListener('click', function(e) {
       if (e.target === this) closeErrorModal();
     });
 
-    // Cerrar con tecla Escape
+    // Cerrar con tecla Escape → volver al registro
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeErrorModal();
+    });
+
+    // Auto‑leer parámetro 'msg' de la URL al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const msg = params.get('msg');
+      if (msg) {
+        showErrorModal(msg);
+      }
     });
   </script>
 
