@@ -143,13 +143,12 @@ a {
 }
 
 .logo-icon {
-  width: 120px;
-  height: 120px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin: 0 auto;
 }
 
 .logo-icon picture,
@@ -330,19 +329,12 @@ a {
 }
 
 .logo-icon-sm {
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-}
-
-@media (min-width: 769px) {
-  .logo-icon-sm {
-    width: 90px;
-    height: 90px;
-  }
 }
 
 .header-actions {
