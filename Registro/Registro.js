@@ -6,6 +6,9 @@ document.getElementById('registrationForm').addEventListener('submit', function 
   const apellidos = document.getElementById('apellidos').value.trim();
   const cedula = document.getElementById('cedula').value.trim();
   const fecha = document.getElementById('fecha_nacimiento').value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
 
   // Validar nombres y apellidos
   if (nombres.length < 2 || apellidos.length < 2) {
@@ -47,9 +50,64 @@ document.getElementById('registrationForm').addEventListener('submit', function 
     return;
   }
 
+  // Validar usuario
+  if (username.length < 3) {
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('El usuario debe tener al menos 3 caracteres.');
+    return;
+  }
+
+  // Validar contraseña
+  if (password.length < 8) {
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('La contraseña debe tener al menos 8 caracteres.');
+    return;
+  }
+
+  // Validar que las contraseñas coincidan
+  if (password !== confirmPassword) {
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('Las contraseñas no coinciden.');
+    return;
+  }
+
+  // Verificar que el usuario no exista ya
+  const existing = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+  if (existing.some(u => u.username === username)) {
+    window.location.href = 'Pantalla-error/Pantalla de Error.html?msg=' + encodeURIComponent('El nombre de usuario ya está registrado.');
+    return;
+  }
+
+  // Guardar en localStorage
+  const userData = {
+    username: username,
+    password: password,
+    nombres: nombres,
+    apellidos: apellidos,
+    cedula: cedula,
+    fechaNacimiento: fecha,
+    registeredAt: new Date().toISOString()
+  };
+
+  existing.push(userData);
+  localStorage.setItem('registeredUsers', JSON.stringify(existing));
+
   // Si todo es válido, redirigir a página de éxito
   const nombreCompleto = nombres + ' ' + apellidos;
   window.location.href = 'Registro-exitoso/registro-exitoso.html?nombre=' + encodeURIComponent(nombreCompleto) + '&cedula=' + encodeURIComponent(cedula);
+});
+
+// ── Toggle visibilidad de contraseñas ─────────────────────
+document.querySelectorAll('.toggle-password').forEach(btn => {
+  btn.addEventListener('click', function () {
+    const targetId = this.getAttribute('data-target');
+    const input = document.getElementById(targetId);
+    if (!input) return;
+
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+
+    const icon = this.querySelector('.material-symbols-outlined');
+    icon.textContent = isPassword ? 'visibility' : 'visibility_off';
+    this.setAttribute('aria-label', isPassword ? 'Ocultar contraseña' : 'Mostrar contraseña');
+  });
 });
 
 // Login con Google

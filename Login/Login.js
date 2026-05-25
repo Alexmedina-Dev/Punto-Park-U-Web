@@ -16,19 +16,23 @@
       return;
     }
 
-    if (pass.length < 6) {
-      showError('La contraseña debe tener al menos 6 caracteres.');
+    if (pass.length < 8) {
+      showError('La contraseña debe tener al menos 8 caracteres.');
       return;
     }
 
-    // Usuario de prueba hardcodeado (se reemplazará con backend)
+    // Usuarios hardcodeados (temporales, se reemplazarán con backend)
     const validUsers = {
-      'admin': 'admin123',
-      'cliente': 'cliente123',
-      'juan': 'juan123'
+      'admin': 'admin1234',
+      'cliente': 'cliente1234',
+      'juan': 'juan1234'
     };
 
-    if (validUsers[user] && validUsers[user] === pass) {
+    // Buscar también entre usuarios registrados vía formulario
+    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    const registeredMatch = registeredUsers.find(u => u.username === user && u.password === pass);
+
+    if ((validUsers[user] && validUsers[user] === pass) || registeredMatch) {
       // Guardar sesión en localStorage
       const userData = {
         username: user,
@@ -48,6 +52,22 @@
     errorMsg.textContent = msg;
     errorMsg.style.display = 'block';
   }
+
+  // ── Toggle visibilidad de contraseña ─────────────────────
+  document.querySelectorAll('.toggle-password').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const targetId = this.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      if (!input) return;
+
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+
+      const icon = this.querySelector('.material-symbols-outlined');
+      icon.textContent = isPassword ? 'visibility' : 'visibility_off';
+      this.setAttribute('aria-label', isPassword ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    });
+  });
 
   // ── Año automático en footer ──────────────────────────────
 document.getElementById("footer-year").textContent = new Date().getFullYear();

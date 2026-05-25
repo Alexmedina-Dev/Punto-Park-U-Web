@@ -112,6 +112,39 @@
       outline: none;
       transition: box-shadow 0.3s;
     }
+
+    .password-field .input-wrapper {
+      position: relative;
+    }
+
+    .password-field input {
+      padding-right: 3rem;
+    }
+
+    .password-field .toggle-password {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(139, 145, 158, 0.5);
+      padding: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.3s;
+      line-height: 1;
+    }
+
+    .password-field .toggle-password:hover {
+      color: var(--color-primary);
+    }
+
+    .password-field .toggle-password .material-symbols-outlined {
+      font-size: 1.25rem;
+    }
     .field input::placeholder { color: rgba(139,145,158,0.5); }
     .field input:focus { box-shadow: 0 0 0 2px var(--color-primary); }
 

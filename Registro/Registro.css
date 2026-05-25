@@ -381,6 +381,75 @@ input[type="date"] {
 }
 
 
+/* ── Sección de Credenciales ── */
+.credentials-section {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.credentials-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(65, 71, 83, 0.3);
+}
+
+input[type="password"] {
+    width: 100%;
+    background-color: var(--surface-container-highest);
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    padding-right: 3rem;
+    color: var(--on-surface);
+    font-family: "Manrope", sans-serif;
+    font-size: 1rem;
+    height: 4rem;
+    transition: all 0.3s;
+    outline: none;
+}
+
+input[type="password"]::placeholder {
+    color: rgba(193, 198, 213, 0.5);
+}
+
+input[type="password"]:focus {
+    border-color: rgba(167, 200, 255, 0.5);
+    box-shadow: 0 0 15px rgba(167, 200, 255, 0.1);
+}
+
+/* ── Toggle visibilidad de contraseña ── */
+.toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(193, 198, 213, 0.5);
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+    line-height: 1;
+}
+
+.toggle-password:hover {
+    color: var(--primary);
+}
+
+.toggle-password .material-symbols-outlined {
+    font-size: 1.25rem;
+    font-variation-settings: "FILL" 0;
+}
+
 @media (min-width: 640px) {
     .social-buttons {
         grid-template-columns: repeat(3, 1fr);

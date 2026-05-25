@@ -34,10 +34,12 @@
 <!-- ═══════════════ SIDEBAR ═══════════════ -->
 <nav class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-        <span class="brand-icon">🅿️</span>
-        <div>
-            <h1 class="brand-name">Punto Park U</h1>
-            <p class="brand-sub">Panel Administrador</p>
+        <div class="brand-logo">
+            <picture>
+                <source srcset="../../Images/Logo.avif" type="image/avif" />
+                <source srcset="../../Images/Logo.webp" type="image/webp" />
+                <img src="../../Images/Logo.png" alt="Punto Park U" loading="lazy" decoding="async" onerror="this.style.display='none'" />
+            </picture>
         </div>
     </div>
 
@@ -81,10 +83,6 @@
     </ul>
 
     <div class="sidebar-footer">
-        <a href="#" class="nav-item nav-item--small">
-            <span class="material-symbols-outlined">help_outline</span>
-            <span>Soporte</span>
-        </a>
         <a href="../Admi.html" class="nav-item nav-item--small nav-item--logout">
             <span class="material-symbols-outlined">logout</span>
             <span>Cerrar Sesión</span>
