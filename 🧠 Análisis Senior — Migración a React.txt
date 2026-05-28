@@ -488,36 +488,39 @@
  8. ESTRATEGIA CON OPENCODE GO
 ════════════════════════════════════════════════════════
 
-   ── Modelos recomendados ──
+   ── Modelos disponibles (OpenCode Go, Mayo 2026) ──
 
-   Tareas de código cotidiano (migrar componentes, CSS, lógica):
-   → claude-sonnet-4-6 (punto dulce entre velocidad y calidad)
+   Alto volumen (trabajo repetitivo, migración de componentes):
+   → DeepSeek V4 Flash  — 31.650 req/5h  (CSS→Tailwind, componentes simples)
+   → MiMo-V2.5          — 30.100 req/5h  (iteraciones rápidas, refactors menores)
+   → Qwen3.5 Plus       — 10.200 req/5h  (TypeScript, hooks sencillos)
 
-   Decisiones de arquitectura, refactors complejos, debugging:
-   → claude-opus-4-6 (consumo mayor, usarlo con intención)
-
-   Configuración: Sonnet como modelo base, Opus manualmente
-   cuando el problema sea genuinamente complejo.
-
+   Alta calidad (lógica compleja, arquitectura):
+   → DeepSeek V4 Pro    — 3.450 req/5h   (panel.js, charts, authStore)
+   → Kimi K2.6          — 1.150 req/5h   (decisiones de arquitectura)
+   → GLM-5.1            — 880 req/5h     (debugging fino, TypeScript complejo)
 
    ── Asignación por escenario ──
 
-   ┌────────────────────────────────┬────────────┬──────────────────┐
-   │ Escenario                      │ Modelo     │ Skill activo     │
-   ├────────────────────────────────┼────────────┼──────────────────┤
-   │ Setup inicial del proyecto     │ Opus       │ plan-maestro     │
-   │ Migrar 1 componente (ej. Form) │ Sonnet     │ frontend-design  │
-   │ Migrar panel.js (charts)       │ Opus       │ nodejs-backend   │
-   │ CSS → Tailwind                 │ Sonnet     │ web-design-guide │
-   │ Debug de re-renders            │ Sonnet     │ vercel-react     │
-   │ authStore + ProtectedRoute    │ Opus       │ security         │
-   └────────────────────────────────┴────────────┴──────────────────┘
+   ┌────────────────────────────────┬──────────────────┬──────────────────┐
+   │ Escenario                      │ Modelo Go        │ Skill activo     │
+   ├────────────────────────────────┼──────────────────┼──────────────────┤
+   │ Setup inicial del proyecto     │ Kimi K2.6        │ plan-maestro     │
+   │ Migrar 1 componente (ej. Form) │ DeepSeek V4 Flash│ frontend-design  │
+   │ CSS → Tailwind                 │ MiMo-V2.5        │ web-design-guide │
+   │ TypeScript / interfaces        │ Qwen3.5 Plus     │ (sin skill extra)│
+   │ authStore + ProtectedRoute     │ DeepSeek V4 Pro  │ security         │
+   │ Migrar panel.js (charts)       │ DeepSeek V4 Pro  │ vercel-react     │
+   │ Debug de re-renders            │ Qwen3.5 Plus     │ vercel-react     │
+   │ Decisiones de arquitectura     │ Kimi K2.6        │ senior-systems   │
+   └────────────────────────────────┴──────────────────┴──────────────────┘
 
+   ── Regla operativa ──
 
-   ── Regla de sesión ──
-
-   Cada sesión = 1 componente o 1 hook. Si el modelo recibe
-   demasiado contexto de una vez, pierde precisión y alucina.
+   Cada sesión = 1 componente o 1 hook.
+   Modelos de alto volumen para trabajo repetitivo.
+   Modelos de alta calidad para lógica compleja o decisiones críticas.
+   Si el modelo alucina en 2 intentos seguidos, subir de tier.
 
 
 ════════════════════════════════════════════════════════
