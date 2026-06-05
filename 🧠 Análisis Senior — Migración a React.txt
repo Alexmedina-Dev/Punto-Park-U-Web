@@ -1,6 +1,6 @@
 🧠 ANÁLISIS SENIOR — MIGRACIÓN A REACT
    Punto Park U — Ingeniero Full Stack Alex
-   Fecha: 25 Mayo 2026 (v2.0 — actualizado con análisis conjunto)
+   Fecha: Junio 2026 (v3.0 — MongoDB + Tailwind + Estrategia OpenCode)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ════════════════════════════════════════════════════════
@@ -13,7 +13,8 @@
    Páginas: 7 (index, login, registro, user-panel, admin-panel,
              registro-exitoso, pantalla-error)
    Tipo: 100% Vanilla HTML/CSS/JS
-
+   Base de datos: FICTICIA (localStorage/sessionStorage)
+                  → Proyecto educativo. Backend real en Fase 5.
 
    ── Los 6 puntos críticos que van a morder si no se planean ──
 
@@ -56,7 +57,7 @@
          oninput="updatePricePreview()"
 
       En React → props de evento + useCallback. Si no se
-      memoizan, cada render recrea las funciones y causes
+      memoizan, cada render recrea las funciones y causa
       re-renders innecesarios en componentes hijos.
 
    🔴 4. Guard de auth en top-level del módulo
@@ -107,6 +108,7 @@
    🟡 CSS global sin aislamiento
       Styles.css (1,738) + panel.css (3,068) + pantalla-usuario.css
       (1,796) = ~6,600 líneas de CSS global. Sin encapsulación.
+      → Solución: Tailwind CSS (ver Sección 3 — decisión CSS)
 
    🟡 Rutas relativas frágiles con espacios
       Ej: '../Login/Pantalla%20Usuario/PantallaUsuario.html'
@@ -120,7 +122,7 @@
  2. ARQUITECTURA POLÍGLOTA (React + Node.js + Python)
 ════════════════════════════════════════════════════════
 
-   El plan Flux AI ya define la arquitectura como poliglota
+   El plan Flux AI define la arquitectura como políglota
    por diseño. No hay conflicto entre React y Flux AI:
 
                         ┌──────────────────┐
@@ -138,10 +140,10 @@
             ┌────────────────────┼────────────────────┐
             ▼                    ▼                    ▼
    ┌────────────────┐  ┌────────────────┐  ┌────────────────┐
-   │ PostgreSQL      │  │ Módulo Visión  │  │ Módulo Analítica│
-   │ (Supabase)      │  │ CV (Python)    │  │ Pred. (Python)  │
-   │ Datos del       │  │ FastAPI        │  │ FastAPI         │
-   │ negocio         │  │ Puerto 4001    │  │ Puerto 4002     │
+   │ MongoDB Atlas  │  │ Módulo Visión  │  │ Módulo Analítica│
+   │ (Mongoose)     │  │ CV (Python)    │  │ Pred. (Python)  │
+   │ Free tier      │  │ FastAPI        │  │ FastAPI         │
+   │ 512MB          │  │ Puerto 4001    │  │ Puerto 4002     │
    └────────────────┘  └────────────────┘  └────────────────┘
 
    Regla de oro:
@@ -163,36 +165,53 @@
  3. STACK COMPLETO
 ════════════════════════════════════════════════════════
 
-   ┌────────────────────┬────────────────────────┬──────────────────┐
-   │ Capa               │ Tecnología             │ Razón            │
-   ├────────────────────┼────────────────────────┼──────────────────┤
-   │ Frontend           │ React 18 + TypeScript  │ Tipado fuerte    │
-   │ Build              │ Vite 5                 │ Estándar, rápido │
-   │ Ruteo              │ React Router v6        │ Rutas limpias    │
-   │ Estado global      │ Zustand + persist MW   │ Simple, liviano  │
-   │ Estilos            │ Tailwind CSS v3.4      │ ⚠️ NO v4 (riesgo)│
-   │ Auth               │ Zustand + ProtectedRoute│ Preparado backend │
-   │ HTTP               │ Axios                  │ Service layer     │
-   │ Charts             │ Chart.js + react-chartjs-2│ useRef+cleanup │
-   │ PDF                │ jsPDF (npm)            │ Sacar de CDN     │
-   │ Spreadsheets       │ xlsx (npm)             │ Sacar de CDN     │
-   │ DB                 │ PostgreSQL (Supabase)  │ Gratis empezar   │
-   │ Backend            │ Node.js + Express      │ API REST + JWT   │
-   │ Tiempo real        │ socket.io              │ Badge "En vivo"  │
-   │ IA (Fase 2+)       │ Python + FastAPI       │ Módulos indep.   │
-   │ Deploy frontend    │ Vercel                 │ Gratis, fácil    │
-   │ Deploy backend     │ Railway / Render       │ Node.js + Python │
-   └────────────────────┴────────────────────────┴──────────────────┘
+   ┌────────────────────┬──────────────────────────┬────────────────────┐
+   │ Capa               │ Tecnología               │ Razón              │
+   ├────────────────────┼──────────────────────────┼────────────────────┤
+   │ Frontend           │ React 18 + TypeScript    │ Tipado fuerte      │
+   │ Build              │ Vite 5                   │ Estándar, rápido   │
+   │ Ruteo              │ React Router v6          │ Rutas limpias      │
+   │ Estado global      │ Zustand + persist MW     │ Simple, liviano    │
+   │ Estilos            │ Tailwind CSS v3.4        │ ⚠️ NO v4 (riesgo) │
+   │ Auth frontend      │ Zustand + ProtectedRoute │ Preparado backend  │
+   │ HTTP               │ Axios                    │ Service layer      │
+   │ Charts             │ Chart.js + react-chartjs │ useRef + cleanup   │
+   │ PDF                │ jsPDF (npm)              │ Sacar de CDN       │
+   │ Spreadsheets       │ xlsx (npm)               │ Sacar de CDN       │
+   │ Base de datos      │ MongoDB Atlas (Mongoose) │ Free tier, SENA    │
+   │ Backend            │ Node.js + Express        │ API REST + JWT     │
+   │ Auth backend       │ JWT + bcryptjs           │ Hasheo de passwords│
+   │ Tiempo real        │ socket.io                │ Badge "En vivo"    │
+   │ IA (Fase 2+)       │ Python + FastAPI         │ Módulos indep.     │
+   │ Deploy frontend    │ Vercel (free)            │ Gratis, fácil      │
+   │ Deploy backend     │ Railway / Render (free)  │ Free tier suficiente│
+   └────────────────────┴──────────────────────────┴────────────────────┘
 
-   ⚠️ Tailwind v3.4, NO v4: V4 tiene breaking changes activos y
-   documentación incompleta. Usar v3.4 para esta migración.
-   Evaluar v4 cuando el proyecto esté estable en React.
+   ── Decisión CSS: ¿Por qué Tailwind y no CSS Modules? ──
 
-   ¿Por qué NO Next.js todavía?
-   El proyecto es 100% client-side con localStorage. Next.js trae
-   SSR/SSG que choca con localStorage en el servidor (errores de
-   hidratación). Primero React + Vite, estabilizar, después evaluar
-   Next.js para el landing público.
+   CSS Modules: CSS normal con scope automático. Cero nueva sintaxis.
+   Tailwind: clases utilitarias. Primera hora cuesta, después es más
+   rápido que cualquier alternativa.
+
+   ✅ Decisión: Tailwind CSS v3.4
+   Razones:
+   - Estándar de la industria en proyectos React 2026
+   - Los tokens de color del proyecto ya están definidos
+     (#10131a, #a7c8ff, etc.) → van directo al tailwind.config.ts
+   - Con OpenCode/Copilot la curva de aprendizaje se reduce a la mitad
+   - CSS Modules hay que aprenderlo igual eventualmente
+   ⚠️ NO Tailwind v4: breaking changes activos, documentación incompleta.
+
+   ── Dependencias frontend ──
+
+   npm install react-router-dom zustand axios \
+     tailwindcss@^3 postcss autoprefixer \
+     chart.js react-chartjs-2 jspdf xlsx lucide-react
+
+   ── Dependencias backend ──
+
+   npm install express cors dotenv mongoose bcryptjs jsonwebtoken
+   npm install -D nodemon
 
 
 ════════════════════════════════════════════════════════
@@ -200,16 +219,15 @@
 ════════════════════════════════════════════════════════
 
    // src/types/index.ts
-   // ======================
 
-   type VehicleType = 'car' | 'moto' | 'bike'
+   export type VehicleType = 'car' | 'moto' | 'bike'
 
-   interface User {
+   export interface User {
        username: string
        loginTime: string
    }
 
-   interface RegisteredUser {
+   export interface RegisteredUser {
        nombres: string
        apellidos: string
        cedula: string
@@ -218,7 +236,7 @@
        fechaNacimiento: string
    }
 
-   interface Vehicle {
+   export interface Vehicle {
        id: string
        plate: string
        type: VehicleType
@@ -227,29 +245,29 @@
        year: string
    }
 
-   interface PricingConfig {
+   export interface PricingConfig {
        car: PriceSet
        moto: PriceSet
        bike: PriceSet
    }
 
-   interface PriceSet {
+   export interface PriceSet {
        hour: number
        day: number
        month: number
    }
 
-   interface Schedule {
+   export interface Schedule {
        weekday: TimeRange
        sunday: TimeRange
    }
 
-   interface TimeRange {
-       open: string   // "07:00"
-       close: string  // "19:00"
+   export interface TimeRange {
+       open: string    // "07:00"
+       close: string   // "19:00"
    }
 
-   interface ParkingSpot {
+   export interface ParkingSpot {
        id: string
        zone: 'A' | 'B' | 'C'
        status: 'libre' | 'ocupado' | 'reservado'
@@ -257,38 +275,38 @@
        plate?: string
    }
 
-   interface ParkingStats {
-       cars: { used: number; total: number }
+   export interface ParkingStats {
+       cars:  { used: number; total: number }
        motos: { used: number; total: number }
        bikes: { used: number; total: number }
    }
 
    // Vehículo DENTRO del parqueadero (tabla del panel admin)
    // NO confundir con Vehicle del usuario registrado
-   interface ParkingEntry {
-       plate: string
-       type: VehicleType
+   export interface ParkingEntry {
+       plate:     string
+       type:      VehicleType
        entryTime: string
-       duration: string
-       zone: 'A' | 'B' | 'C'
-       status: 'active'
-       payment: 'paid' | 'pending'
-       operator: string
+       duration:  string
+       zone:      'A' | 'B' | 'C'
+       status:    'active'
+       payment:   'paid' | 'pending'
+       operator:  string
    }
 
    // Reserva activa del usuario (pantalla-usuario)
-   interface Reservation {
-       id: string
-       plate: string
-       spot: string
-       startTime: string
+   export interface Reservation {
+       id:          string
+       plate:       string
+       spot:        string
+       startTime:   string
        paymentType: 'prepaid' | 'postpaid'
-       status: 'active' | 'cancelled' | 'completed'
+       status:      'active' | 'cancelled' | 'completed'
    }
 
-   interface NotificationSettings {
-       email: boolean
-       sms: boolean
+   export interface NotificationSettings {
+       email:    boolean
+       sms:      boolean
        whatsapp: boolean
    }
 
@@ -297,14 +315,16 @@
  5. ESTRUCTURA DE CARPETAS
 ════════════════════════════════════════════════════════
 
-   punto-park-u/
+   ── Frontend (Punto-Park-U/) ──
+
+   Punto-Park-U/
    ├── src/
-   │   ├── components/            ← Componentes reutilizables
-   │   │   ├── ui/                ← Button, Input, Card, Modal
-   │   │   ├── layout/            ← Header, Sidebar, Footer, MobileMenu
-   │   │   └── parking/           ← AvailabilityGauge, RateCard, etc.
+   │   ├── components/
+   │   │   ├── ui/           ← Button, Input, Card, Modal, Badge
+   │   │   ├── layout/       ← Header, Sidebar, Footer, MobileMenu
+   │   │   └── parking/      ← AvailabilityGauge, RateCard, SpotGrid
    │   │
-   │   ├── pages/                 ← Páginas completas
+   │   ├── pages/
    │   │   ├── Home/
    │   │   │   └── HomePage.tsx
    │   │   ├── Login/
@@ -327,26 +347,26 @@
    │   │       ├── LiveOccupancy.tsx
    │   │       └── UserManagement.tsx
    │   │
-   │   ├── hooks/                 ← Custom hooks
+   │   ├── hooks/
    │   │   ├── useAuth.ts
    │   │   └── useParkingData.ts
    │   │
-   │   ├── services/              ← Capa de API (mock → real)
+   │   ├── services/          ← Capa de API (mock → real en Fase 5)
    │   │   ├── auth.service.ts
    │   │   ├── parking.service.ts
    │   │   └── admin.service.ts
    │   │
-   │   ├── store/                 ← Zustand stores (única fuente de verdad)
-   │   │   ├── authStore.ts       ← login, logout, user, isAdmin, token
-   │   │   ├── parkingStore.ts    ← prices, schedule, spots, entries
-   │   │   └── uiStore.ts         ← sidebar open, toast, activeTab, theme
+   │   ├── store/
+   │   │   ├── authStore.ts      ← login, logout, user, isAdmin, token
+   │   │   ├── parkingStore.ts   ← prices, schedule, spots, entries
+   │   │   └── uiStore.ts        ← sidebar, toast, activeTab, theme
    │   │
-   │   ├── types/                 ← TypeScript interfaces
+   │   ├── types/
    │   │   └── index.ts
    │   │
-   │   │── App.tsx
-   │   │── main.tsx
-   │   └── index.css              ← Tailwind directives
+   │   ├── App.tsx
+   │   ├── main.tsx
+   │   └── index.css             ← Tailwind directives
    │
    ├── public/
    │   └── Images/
@@ -358,96 +378,208 @@
    ├── tsconfig.json
    └── package.json
 
+   ── Backend (punto-park-backend/) ──
+   ⚠️ El backend se crea en Fase 5. Esta estructura es referencia.
+
+   punto-park-backend/
+   ├── src/
+   │   ├── controllers/
+   │   │   ├── authController.js
+   │   │   ├── usuarioController.js
+   │   │   └── vehiculoController.js
+   │   ├── models/
+   │   │   ├── Usuario.js        ← Mongoose Schema
+   │   │   ├── Vehiculo.js
+   │   │   └── Reserva.js
+   │   ├── routes/
+   │   │   ├── auth.js
+   │   │   ├── usuarios.js
+   │   │   └── vehiculos.js
+   │   ├── middleware/
+   │   │   └── authMiddleware.js  ← verifyToken JWT
+   │   └── app.js
+   ├── .env                       ← MONGO_URI + JWT_SECRET
+   └── package.json
+
 
 ════════════════════════════════════════════════════════
- 6. PLAN DE MIGRACIÓN POR FASES
+ 6. ESTRATEGIA OPENCODE GO — REFERENCIA CRUZADA DE REPOS
 ════════════════════════════════════════════════════════
 
-   ── Fase 0 — Preparación (1-2 h) ── 🟢 Fácil
+   ── Setup local obligatorio (hacer ANTES de Fase 0) ──
 
-   • Crear proyecto: npm create vite@latest -- --template react-ts
-   • Instalar: react-router-dom zustand axios tailwindcss@^3
-     postcss autoprefixer chart.js react-chartjs-2 jspdf xlsx
-   • Configurar Tailwind con colores del proyecto actual
-     (--primary: #a7c8ff, --bg: #10131a, etc.)
+   Los dos repos deben estar en la misma carpeta padre:
+
+   C:\Projects\
+   ├── Punto-Park-Web\     ← vanilla (referencia, NUNCA se toca)
+   └── Punto-Park-U\       ← React (aquí construimos todo)
+
+   Si Punto-Park-Web no está clonado localmente:
+
+   cd C:\Projects
+   git clone https://github.com/Alexmedina-Dev/Punto-Park-Web.git
+
+   ── Cómo clonar e inicializar Punto-Park-U ──
+
+   cd C:\Projects
+   git clone https://github.com/Alexmedina-Dev/Punto-Park-U.git Punto-Park-U
+   cd Punto-Park-U
+   npm create vite@latest . -- --template react-ts
+
+   ── Cómo usar la referencia cruzada en OpenCode Go ──
+
+   OpenCode lee el sistema de archivos local. Con ambos repos
+   como carpetas hermanas, cada prompt puede incluir:
+
+   Ejemplo de prompt para OpenCode:
+   ─────────────────────────────────────────────────
+   Lee ../Punto-Park-Web/Admin/panel.js y migra la
+   función renderChartIngresos() como componente React
+   con Tailwind + react-chartjs-2 en:
+   src/pages/AdminDashboard/LiveOccupancy.tsx
+   ─────────────────────────────────────────────────
+
+   Ventaja: OpenCode va al archivo vanilla, extrae la lógica,
+   y produce el componente React. Sin copiar y pegar manual.
+
+   ── Modelos OpenCode Go por escenario ──
+
+   Alto volumen (trabajo repetitivo):
+   → DeepSeek V4 Flash  — CSS→Tailwind, componentes simples
+   → MiMo-V2.5          — iteraciones rápidas, refactors menores
+   → Qwen3.5 Plus       — TypeScript, hooks sencillos
+
+   Alta calidad (lógica compleja):
+   → DeepSeek V4 Pro    — panel.js, charts, authStore
+   → Kimi K2.6          — decisiones de arquitectura
+   → GLM-5.1            — debugging fino, TypeScript complejo
+
+   ┌────────────────────────────────┬──────────────────┬──────────────┐
+   │ Escenario                      │ Modelo Go        │ Skill        │
+   ├────────────────────────────────┼──────────────────┼──────────────┤
+   │ Setup inicial del proyecto     │ Kimi K2.6        │ plan-maestro │
+   │ Migrar 1 componente simple     │ DeepSeek V4 Flash│ frontend-design│
+   │ CSS → Tailwind                 │ MiMo-V2.5        │ web-design   │
+   │ TypeScript / interfaces        │ Qwen3.5 Plus     │ —            │
+   │ authStore + ProtectedRoute     │ DeepSeek V4 Pro  │ security     │
+   │ Migrar panel.js (charts)       │ DeepSeek V4 Pro  │ vercel-react │
+   │ Debug de re-renders            │ Qwen3.5 Plus     │ vercel-react │
+   │ Decisiones de arquitectura     │ Kimi K2.6        │ senior-sys   │
+   └────────────────────────────────┴──────────────────┴──────────────┘
+
+   Regla: 1 componente o 1 hook por sesión de OpenCode.
+   Si el modelo alucina 2 veces seguidas → subir de tier.
+
+
+════════════════════════════════════════════════════════
+ 7. PLAN DE MIGRACIÓN POR FASES
+════════════════════════════════════════════════════════
+
+   ── Fase 0 — Preparación (1-2 h) ── 🟢 Fácil ──
+
+   • Clonar repo y scaffoldear:
+       git clone https://github.com/Alexmedina-Dev/Punto-Park-U.git Punto-Park-U
+       cd Punto-Park-U
+       npm create vite@latest . -- --template react-ts
+
+   • Instalar dependencias:
+       npm install react-router-dom zustand axios \
+         tailwindcss@^3 postcss autoprefixer \
+         chart.js react-chartjs-2 jspdf xlsx lucide-react
+
+   • Inicializar Tailwind:
+       npx tailwindcss init -p
+
+   • Configurar tailwind.config.ts con tokens del proyecto:
+       primary: '#a7c8ff', bg: '#10131a', surface: '#1d1f27'
+       surface-high: '#272a32', cyan: '#00f0ff', etc.
+
    • Crear estructura de carpetas completa
+
    • Crear src/types/index.ts con todas las interfaces
-   • Crear authStore (Zustand) + ProtectedRoute como infraestructura base
-   • Configurar lazy loading con React.lazy() + Suspense
-     para separar bundle de admin y usuario
+
+   • Crear authStore (Zustand) + ProtectedRoute
+
+   • Configurar lazy loading:
+       React.lazy(() => import('./pages/AdminDashboard/AdminPage'))
+
    • Copiar Images/ a public/
 
+   • Verificar: npm run dev → debe mostrar pantalla Vite vacía
 
-   ── Fase 1 — Login + Registro (2-3 h) ── 🟢 Fácil
-
-   ⚠️ Migrar estas páginas PRIMERO porque fuerzan a crear
-   la infraestructura de auth desde el inicio:
-      • authStore (Zustand)
-      • Servicios de auth (auth.service.ts)
-      • React Router con rutas protegidas
-      • LoginForm component con validación
-      • RegisterForm component con validación
-
-   Si se migran páginas más simples primero (registro-exitoso,
-   pantalla-error), no establecen infraestructura y hay que
-   refactorizar después.
+   • Commit inicial: git add . && git commit -m "feat: fase 0 scaffolding"
 
 
-   ── Fase 2 — Páginas públicas (2-3 h) ── 🟢 Fácil
+   ── Fase 1 — Login + Registro (2-3 h) ── 🟢 Fácil ──
 
-   • HomePage.tsx ← migrar index.html completo
-     (hero, why, about, rates, availability, flux AI, location)
+   Migrar PRIMERO porque establecen infraestructura de auth:
+   • authStore (Zustand) — login, logout, isAdmin, token
+   • auth.service.ts — mock data (sin backend aún)
+   • React Router con ProtectedRoute
+   • LoginPage.tsx + LoginForm.tsx con Tailwind
+   • RegisterPage.tsx con validación
+   Ref: ../Punto-Park-Web/Login/ + ../Punto-Park-Web/Registro/
+
+
+   ── Fase 2 — Páginas públicas (2-3 h) ── 🟢 Fácil ──
+
+   • HomePage.tsx ← hero, why, about, rates, availability,
+     sección Flux AI, ubicación
    • Página de error / registro exitoso
    • Footer + WhatsApp float + ScrollTop como componentes
+   Ref: ../Punto-Park-Web/index.html + Styles.css
 
 
-   ── Fase 3 — Dashboard usuario (2-3 h) ── 🟡 Media
+   ── Fase 3 — Dashboard usuario (2-3 h) ── 🟡 Media ──
 
    • DashboardPage.tsx ← layout general
    • ParkingStatus.tsx ← gauge de disponibilidad
    • ReservationCard.tsx ← tarjetas de reserva
    • HistoryList.tsx ← historial de ingresos
    • UserProfile.tsx ← perfil del usuario
-   → Desglosar pantalla-usuario.js (354 líneas)
+   Ref: ../Punto-Park-Web/Login/Pantalla Usuario/pantalla-usuario.js
+        (354 líneas a desglosar)
 
 
-   ── Fase 4 — Dashboard admin (4-5 h) ── 🔴 Difícil (la más pesada)
+   ── Fase 4 — Dashboard admin (4-5 h) ── 🔴 Difícil ──
 
    ⚠️ Aquí están los charts y la lógica más compleja.
 
-   • AdminPage.tsx ← layout + tabs de navegación
+   • AdminPage.tsx ← layout + tabs
    • AdminStats.tsx ← tarjetas de estadísticas
    • VehicleTable.tsx ← tabla de vehículos en parqueadero
    • PriceManager.tsx ← CRUD de precios
    • ScheduleManager.tsx ← horarios
-   • LiveOccupancy.tsx ← CHART.js con useRef + useEffect cleanup
+   • LiveOccupancy.tsx ← Chart.js con useRef + cleanup
    • UserManagement.tsx ← gestión de usuarios
-   → Desglosar panel.js (1,658 líneas) + modules.js (296 líneas)
-   → Migrar jsPDF + xlsx de CDN a npm
+   Ref: ../Punto-Park-Web/Admin/panel.js (1,658 líneas)
+        ../Punto-Park-Web/Admin/modules.js (296 líneas)
+   ⚠️ jsPDF + xlsx → migrar de CDN a npm (ya en deps)
 
 
-   ── Fase 5 — Service layer + Backend (1-2 h) ── 🟢 Fácil
+   ── Fase 5 — Backend Node.js + MongoDB (2-3 h) ── 🟢 Fácil ──
 
-   • auth.service.ts con mock data
-   • parking.service.ts con mock data
-   • admin.service.ts con mock data
-   • Cuando exista backend real, solo cambiar implementación
-     del service, ningún componente se toca.
+   • Crear repo punto-park-backend/ (separado del frontend)
+   • Instalar: express cors dotenv mongoose bcryptjs jsonwebtoken
+   • Instalar dev: nodemon
+   • Conectar MongoDB Atlas (free tier M0, 512MB)
+   • Crear modelos Mongoose: Usuario, Vehiculo, Reserva
+   • Crear rutas: /api/auth, /api/usuarios, /api/vehiculos
+   • Reemplazar mock data en services/ por llamadas Axios reales
+   • Ningún componente React se toca — solo los services cambian
 
 
 ════════════════════════════════════════════════════════
- 7. PATRONES CRÍTICOS PARA CHART.JS EN REACT
+ 8. PATRONES CRÍTICOS PARA CHART.JS EN REACT
 ════════════════════════════════════════════════════════
-
-   ⚠️ Este es el punto que más errores causa en la migración.
 
    ── MAL (patrón actual en panel.js) ──
 
    window._chartIngresos = new Chart(...)
-   // sin cleanup, sin useRef, global scope
+   // sin cleanup, sin useRef, scope global → memory leak
 
 
-   ── BIEN (patrón React) ──
+   ── BIEN (patrón React con useRef) ──
 
    const chartRef = useRef<HTMLCanvasElement>(null)
    const chartInstance = useRef<Chart | null>(null)
@@ -455,14 +587,12 @@
    useEffect(() => {
        const ctx = chartRef.current?.getContext('2d')
        if (!ctx) return
-
        chartInstance.current = new Chart(ctx, { ... })
-
        return () => {
            chartInstance.current?.destroy()
            chartInstance.current = null
        }
-   }, [data]) // ← dependencies controlan recreación
+   }, [data])
 
    return <canvas ref={chartRef} />
 
@@ -470,57 +600,13 @@
    ── MEJOR (con react-chartjs-2) ──
 
    import { Doughnut } from 'react-chartjs-2'
-
-   function LiveOccupancy() {
-       const data = { /* ... */ }
-       const options = { /* ... */ }
-
-       return <Doughnut data={data} options={options} />
-   }
-
-   // react-chartjs-2 maneja el lifecycle automáticamente
-   // pero hay que registrar los componentes globalmente:
    import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
    Chart.register(ArcElement, Tooltip, Legend)
 
-
-════════════════════════════════════════════════════════
- 8. ESTRATEGIA CON OPENCODE GO
-════════════════════════════════════════════════════════
-
-   ── Modelos disponibles (OpenCode Go, Mayo 2026) ──
-
-   Alto volumen (trabajo repetitivo, migración de componentes):
-   → DeepSeek V4 Flash  — 31.650 req/5h  (CSS→Tailwind, componentes simples)
-   → MiMo-V2.5          — 30.100 req/5h  (iteraciones rápidas, refactors menores)
-   → Qwen3.5 Plus       — 10.200 req/5h  (TypeScript, hooks sencillos)
-
-   Alta calidad (lógica compleja, arquitectura):
-   → DeepSeek V4 Pro    — 3.450 req/5h   (panel.js, charts, authStore)
-   → Kimi K2.6          — 1.150 req/5h   (decisiones de arquitectura)
-   → GLM-5.1            — 880 req/5h     (debugging fino, TypeScript complejo)
-
-   ── Asignación por escenario ──
-
-   ┌────────────────────────────────┬──────────────────┬──────────────────┐
-   │ Escenario                      │ Modelo Go        │ Skill activo     │
-   ├────────────────────────────────┼──────────────────┼──────────────────┤
-   │ Setup inicial del proyecto     │ Kimi K2.6        │ plan-maestro     │
-   │ Migrar 1 componente (ej. Form) │ DeepSeek V4 Flash│ frontend-design  │
-   │ CSS → Tailwind                 │ MiMo-V2.5        │ web-design-guide │
-   │ TypeScript / interfaces        │ Qwen3.5 Plus     │ (sin skill extra)│
-   │ authStore + ProtectedRoute     │ DeepSeek V4 Pro  │ security         │
-   │ Migrar panel.js (charts)       │ DeepSeek V4 Pro  │ vercel-react     │
-   │ Debug de re-renders            │ Qwen3.5 Plus     │ vercel-react     │
-   │ Decisiones de arquitectura     │ Kimi K2.6        │ senior-systems   │
-   └────────────────────────────────┴──────────────────┴──────────────────┘
-
-   ── Regla operativa ──
-
-   Cada sesión = 1 componente o 1 hook.
-   Modelos de alto volumen para trabajo repetitivo.
-   Modelos de alta calidad para lógica compleja o decisiones críticas.
-   Si el modelo alucina en 2 intentos seguidos, subir de tier.
+   // react-chartjs-2 maneja el lifecycle automáticamente
+   function LiveOccupancy() {
+       return <Doughnut data={data} options={options} />
+   }
 
 
 ════════════════════════════════════════════════════════
@@ -528,42 +614,37 @@
 ════════════════════════════════════════════════════════
 
    🚩 NO migrar todo de golpe
-      Hacerlo página por página. La app vanilla sigue funcionando
-      mientras migras (strangler fig). No paralizar el proyecto.
+      Página por página. La app vanilla sigue funcionando.
 
    🚩 NO mantener ambos paneles en el mismo bundle
-      Admin y usuario son experiencias distintas. Usar lazy loading
-      con React.lazy(() => import('./pages/Admin/AdminPage')) + Suspense.
+      Usar React.lazy() + Suspense para admin y usuario.
 
    🚩 NO usar Redux
-      Zustand es suficiente y mucho más simple para este proyecto.
+      Zustand es suficiente y más simple para este proyecto.
 
-   🚩 NO mezclar CSS vainilla con Tailwind
-      Cuando migres una página, migra TAMBIÉN su CSS. No dejar
-      archivos .css sueltos conviviendo con Tailwind.
+   🚩 NO mezclar CSS vanilla con Tailwind
+      Cuando migres una página, migra TAMBIÉN su CSS.
 
    🚩 NO escribir componentes sin TypeScript primero
-      Las interfaces deben definirse ANTES de cualquier componente.
-      Esto evita retrabajo y errores de tipo.
+      Las interfaces van ANTES de cualquier componente.
 
    🚩 NO mantener auth fragmentado
-      Unificar en authStore (Zustand) desde el día 1. No repetir el patrón
-      de 3 sistemas de almacenamiento diferentes.
+      Unificar en authStore (Zustand) desde el día 1.
 
    🚩 NO usar Tailwind v4
-      V4 tiene breaking changes activos y documentación incompleta.
-      Usar v3.4 para esta migración.
+      V4 tiene breaking changes activos. Usar v3.4.
 
    🚩 NO dejar jsPDF + xlsx en CDN
-      Importarlos como npm packages. window.jspdf NO existe en Vite.
+      window.jspdf NO existe en Vite. Instalar como npm.
 
-   🚩 NO poner el guard de auth en top-level
-      El AuthGuard debe ser un componente dentro del árbol de React,
-      NO código suelto que corre antes del mount.
+   🚩 NO poner guard de auth en top-level
+      ProtectedRoute dentro del árbol React, no fuera.
 
-   🚩 NO olvidar el cleanup de Chart.js
-      Cada chart creado en useEffect debe tener su destroy()
-      en la función de retorno. Memory leaks garantizados.
+   🚩 NO olvidar cleanup de Chart.js
+      Cada chart.destroy() en el return del useEffect.
+
+   🚩 NO tocar Punto-Park-Web
+      Es solo referencia de lectura. Nunca modificar.
 
 
 ════════════════════════════════════════════════════════
@@ -574,46 +655,45 @@
    │ Fase                           │ Tiempo   │ Dificultad   │
    ├────────────────────────────────┼──────────┼──────────────┤
    │ Fase 0 — Preparación           │ 1-2 h    │ 🟢 Fácil    │
-   │ Fase 1 — Login + Registro     │ 2-3 h    │ 🟢 Fácil    │
+   │ Fase 1 — Login + Registro      │ 2-3 h    │ 🟢 Fácil    │
    │ Fase 2 — Páginas públicas      │ 2-3 h    │ 🟢 Fácil    │
    │ Fase 3 — Dashboard usuario     │ 2-3 h    │ 🟡 Media    │
-   │ Fase 4 — Dashboard admin       │ 4-5 h    │ 🔴 Difícil │
-   │ Fase 5 — Service layer         │ 1-2 h    │ 🟢 Fácil    │
+   │ Fase 4 — Dashboard admin       │ 4-5 h    │ 🔴 Difícil  │
+   │ Fase 5 — Backend + MongoDB     │ 2-3 h    │ 🟢 Fácil    │
    ├────────────────────────────────┼──────────┼──────────────┤
-   │ TOTAL                          │ 12-18 h  │              │
+   │ TOTAL                          │ 13-19 h  │             │
    └────────────────────────────────┴──────────┴──────────────┘
 
-   Nota: A 2-3 horas diarias, la migración completa toma
-   aproximadamente 1-2 semanas, dependiendo de la complejidad
-   del dashboard admin (Fase 4).
+   A 2-3 horas diarias: ~1-2 semanas.
 
 
 ════════════════════════════════════════════════════════
  11. CONCLUSIÓN
 ════════════════════════════════════════════════════════
 
-   El proyecto actual es funcional pero con deuda técnica típica
-   de un MVP en vanilla (auth fragmentada, charts sin cleanup,
-   CDN, CSS global, rutas con espacios).
+   El proyecto actual es funcional pero con deuda técnica
+   típica de un MVP educativo en vanilla.
 
-   La migración a React + TypeScript + Tailwind + Zustand no solo
-   resuelve los problemas de producción sino que prepara el código
-   para la integración con Flux AI (backend Node.js, WebSockets,
-   módulos Python independientes).
+   La migración a React + TypeScript + Tailwind + Zustand
+   resuelve los problemas de producción y prepara el código
+   para Flux AI (backend Node.js, WebSockets, Python).
 
-   La estrategia es Strangler Fig:
-   1. React se construye AL LADO del vanilla, no lo reemplaza de golpe
-   2. Login + Registro primero (establecen infraestructura de auth)
-   3. Páginas públicas después
-   4. Dashboard usuario
-   5. Dashboard admin al final (con charts y lógica compleja)
-   6. Service layer desacoplado para cuando llegue el backend
+   Estrategia: Strangler Fig
+   → React se construye AL LADO del vanilla, no lo reemplaza
+   → Login + Registro primero (infraestructura de auth)
+   → Páginas públicas
+   → Dashboard usuario
+   → Dashboard admin (charts, lógica compleja)
+   → Backend Node.js + MongoDB Atlas en Fase 5
 
-   Stack final confirmado:
+   Stack final confirmado v3.0:
    ├── React 18 + Vite + TypeScript
    ├── Zustand (estado global + persist)
-   ├── Tailwind v3.4
+   ├── Tailwind CSS v3.4
    ├── React Router v6
    ├── Chart.js + react-chartjs-2 (con cleanup)
    ├── jsPDF + xlsx (npm, no CDN)
-   └── Node.js + Express (backend futuro)
+   ├── MongoDB Atlas + Mongoose (free tier)
+   └── Node.js + Express + JWT + bcryptjs
+
+   Jarvis  sonett 4.6 — Junio 2026 — v3.0

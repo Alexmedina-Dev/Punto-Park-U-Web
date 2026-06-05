@@ -1,19 +1,19 @@
 ╔══════════════════════════════════════════════════════════════╗
-║           PLAN DE IMPLEMENTACIÓN: FLUX AI                   ║
+║           PLAN DE IMPLEMENTACIÓN: FLUX AI v2.0             ║
 ║         Sistema de IA Propietario para Punto Park U         ║
 ╚══════════════════════════════════════════════════════════════╝
 
-📅  Fecha: Mayo 2026
+📅  Fecha: Junio 2026 (v2.0 — herramientas free tier, MongoDB)
 👤  Autor: Jarvis (Arquitecto Senior)
-🎯  Objetivo: Implementar IA propia para la migración a React
+🎯  Objetivo: IA propia para Punto Park U — 100% free tier en MVP
 
 
 ╔══════════════════════════════════════════════════════════════╗
 ║  1. VISIÓN GENERAL                                         ║
 ╚══════════════════════════════════════════════════════════════╝
 
-  Flux AI no será un solo modelo, sino un ecosistema de 3
-  módulos de inteligencia artificial trabajando en conjunto:
+  Flux AI es un ecosistema de 3 módulos de inteligencia
+  artificial trabajando en conjunto:
 
   ┌─────────────────────────────────────────────────────┐
   │                   FLUX AI                           │
@@ -29,39 +29,49 @@
   │  └──────────────────────────────────────────┘      │
   └─────────────────────────────────────────────────────┘
 
+  ⚠️  Nota de implementación:
+      Este es un proyecto educativo. Todo el MVP se construye
+      con herramientas gratuitas (free tier). Los costos de
+      producción solo aplican si se despliega para un cliente real.
+
 
 ╔══════════════════════════════════════════════════════════════╗
-║  2. MÓDULO 1: VISIÓN COMPUTACIONAL (Python + OpenCV)      ║
+║  2. MÓDULO 1: VISIÓN COMPUTACIONAL (Python + OpenCV)       ║
 ╚══════════════════════════════════════════════════════════════╝
 
   📸  ¿Qué hace?
       Reconocimiento de matrículas, marca, modelo y color
-      de vehículos usando una cámara IP en la entrada.
+      de vehículos usando una cámara en la entrada.
 
-  🛠️  Stack técnico:
-      - Python 3.11+
-      - OpenCV (captura y procesamiento de frames)
-      - EasyOCR / PaddleOCR (reconocimiento de texto en matrículas)
-      - YOLOv8 (detección y clasificación de vehículos)
-      - Modelo propio fine-tuned con dataset colombiano
+  🛠️  Stack técnico (100% gratuito):
+      - Python 3.11+ (gratis)
+      - OpenCV (gratis, open source)
+      - EasyOCR (gratis, open source)
+      - YOLOv8 de Ultralytics (gratis para uso no comercial)
+      - FastAPI (gratis, open source)
 
   📦  Dataset:
-      - 50,000+ imágenes de vehículos colombianos
-      - Matrículas amarillas (público) y azules (diplomático/oficial)
-      - Formatos: ABC-123, ABC-12D, etc.
-      - Fuentes: scraping permitido + fotos propias del parqueadero
+      - Matrículas colombianas: formato ABC-123 / ABC-12D
+      - Matrículas amarillas (público), blancas (particular)
+      - Recolección: fotos propias + Google Images con permiso
+      - Etiquetado: LabelImg (gratis) o Roboflow free tier
 
   🧠  Entrenamiento:
-      - Modelo base: YOLOv8 pre-entrenado
-      - Fine-tuning con dataset colombiano (transfer learning)
-      - Entrenar en Google Colab o servidor con GPU
-      - Exportar a formato TensorRT para inferencia rápida
+      - Modelo base: YOLOv8n (nano — más liviano, funciona en CPU)
+      - Entrenamiento: Google Colab FREE (GPU T4, 12h gratis/día)
+      - Exportar a formato ONNX (compatible con CPU, sin GPU)
+      - Alternativa sin entrenamiento: EasyOCR directo funciona
+        bien para matrículas colombianas sin fine-tuning
 
   ⚡  Inferencia:
-      - Tiempo objetivo: < 0.5 segundos por vehículo
-      - Se ejecuta como microservicio Python independiente
-      - Backend Node.js se comunica vía HTTP/REST con el
-        servicio de visión
+      - Tiempo objetivo: < 1 segundo por vehículo (CPU)
+      - Se ejecuta como microservicio FastAPI independiente
+      - Backend Node.js se comunica vía HTTP/REST
+
+  🎯  Para el MVP educativo:
+      - Comenzar con EasyOCR puro (sin YOLOv8)
+      - Probar con fotos estáticas antes de cámara en vivo
+      - Agregar YOLOv8 en iteración posterior
 
 
 ╔══════════════════════════════════════════════════════════════╗
@@ -73,62 +83,59 @@
       múltiples variables en tiempo real.
 
   🛠️  Stack técnico:
-      - Node.js (integración directa con el backend React)
-      - Algoritmo propio de optimización (no requiere ML)
+      - Node.js + Express (gratis)
+      - Algoritmo propio de puntuación (sin ML, solo lógica)
+      - socket.io para actualización en tiempo real (gratis)
 
   📊  Variables de entrada:
-      - Tipo de vehículo (auto, moto, camioneta, bici)
-      - Dimensiones del vehículo (detectadas por Módulo 1)
+      - Tipo de vehículo (auto, moto, bici)
       - Ocupación actual de cada espacio
       - Tiempo estimado de estadía
-      - Preferencias del usuario (cerca de salida, sombra, etc.)
+      - Preferencias del usuario
 
   🧠  Lógica del algoritmo:
       1. Filtrar espacios disponibles por tipo de vehículo
-      2. Puntuar cada espacio según:
+      2. Puntuar cada espacio:
          - Cercanía a la salida (+10 pts)
-         - Cobertura de cámara (+8 pts)
-         - Tamaño adecuado (+15 pts si justo, -5 si sobra)
-         - Sombra / cubierto (+5 pts)
-      3. Seleccionar el espacio con mayor puntuación
-      4. Si el usuario es frecuente, priorizar su zona preferida
+         - Tamaño adecuado (+15 pts si justo)
+         - Cubierto / con sombra (+5 pts)
+      3. Seleccionar espacio con mayor puntuación
+      4. Emitir por WebSocket al dashboard en tiempo real
 
   ⚡  Performance:
       - Ejecución en < 100ms (Node.js puro, sin Python)
-      - Responde vía WebSocket para actualización en tiempo real
+      - 100% gratuito, corre en Railway / Render free tier
 
 
 ╔══════════════════════════════════════════════════════════════╗
-║  4. MÓDULO 3: ANALÍTICA PREDICTIVA (Python + ML)          ║
+║  4. MÓDULO 3: ANALÍTICA PREDICTIVA (Python + ML)           ║
 ╚══════════════════════════════════════════════════════════════╝
 
   📈  ¿Qué hace?
-      Predice horas pico, detecta anomalías y optimiza
-      la operación del parqueadero automáticamente.
+      Predice horas pico y detecta anomalías en el parqueadero.
 
-  🛠️  Stack técnico:
-      - Python 3.11+
-      - Scikit-learn (modelos clásicos: Random Forest, XGBoost)
-      - Prophet (predicción de series temporales)
-      - Joblib (serialización de modelos entrenados)
+  🛠️  Stack técnico (100% gratuito):
+      - Python 3.11+ (gratis)
+      - Scikit-learn (gratis, open source)
+      - Prophet de Meta (gratis, open source)
+      - Joblib para serializar modelos (gratis)
+      - FastAPI para servir predicciones (gratis)
 
   🧠  Modelo de Predicción de Ocupación:
-      - Inputs: hora del día, día de la semana, mes,
-                clima actual, eventos cercanos
-      - Output: % de ocupación esperada por hora
-      - Entrenamiento: con datos históricos del parqueadero
-      - Re-entrenamiento: semanal automático
+      - Input: hora, día de semana, mes
+      - Output: % de ocupación esperada
+      - Entrenamiento: datos históricos del parqueadero
+      - Primera versión: reglas heurísticas simples
+        (lunes-viernes 8am-10am = hora pico)
+      - Segunda versión: Prophet con datos reales acumulados
 
-  🧠  Modelo de Detección de Anomalías:
-      - Inputs: flujo de entrada/salida, duración de estadía
-      - Detecta: vehículos que exceden tiempo, accesos
-        sospechosos, patrones de uso inusuales
-      - Alerta: notificación en el panel de administración
+  🧠  Detección de Anomalías:
+      - Detecta vehículos que exceden tiempo permitido
+      - Alerta visible en el panel de administración
 
-  ⚡  Performance:
-      - Predicciones en < 50ms
-      - Se ejecuta como job programado (cron) cada hora
-      - API REST para consultar predicciones desde React
+  ⚡  Entrenamiento:
+      - Google Colab FREE (suficiente para estos modelos)
+      - No requiere GPU — CPU es suficiente para Scikit-learn
 
 
 ╔══════════════════════════════════════════════════════════════╗
@@ -136,33 +143,33 @@
 ╚══════════════════════════════════════════════════════════════╝
 
   ┌─────────────────────────────────────────────────────────┐
-  │                    FRONTEND (React)                     │
+  │               FRONTEND (React + Vite + TS)              │
   │  Dashboard Admin  │  Panel Usuario  │  Landing Page    │
   └──────────────────────┬──────────────────────────────────┘
-                         │ REST / WebSocket
+                         │ REST / WebSocket (Axios + socket.io)
   ┌──────────────────────▼──────────────────────────────────┐
   │              BACKEND (Node.js + Express)                │
   │  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐  │
-  │  │ Auth     │  │ Parkings │  │ Flux API Gateway     │  │
-  │  │ (JWT)    │  │ CRUD     │  │ (orquesta módulos)   │  │
+  │  │ Auth JWT │  │ Parkings │  │ Flux API Gateway     │  │
+  │  │ bcryptjs │  │ CRUD     │  │ (orquesta módulos)   │  │
   │  └──────────┘  └──────────┘  └──────┬───────────────┘  │
   └──────────────────────────────────────┼──────────────────┘
                                          │
               ┌──────────────────────────┼──────────────────┐
               │                          │                  │
-     ┌────────▼────────┐       ┌────────▼────────┐  ┌─────▼──────┐
-     │  Visión Comp.   │       │  Analítica      │  │  Base de   │
-     │  (Python API)   │       │  Predictiva     │  │  Datos     │
-     │  Puerto 4001    │       │  (Python API)   │  │  Postgres  │
-     └─────────────────┘       │  Puerto 4002    │  └────────────┘
+     ┌────────▼────────┐       ┌────────▼────────┐  ┌─────▼──────────┐
+     │  Visión Comp.   │       │  Analítica      │  │  MongoDB Atlas │
+     │  (Python/FastAPI│       │  Predictiva     │  │  Free tier     │
+     │  Puerto 4001)   │       │  (Python/FastAPI│  │  512MB         │
+     └─────────────────┘       │  Puerto 4002)   │  └────────────────┘
                                └─────────────────┘
 
-  📦  Infraestructura (despliegue):
-      - Frontend: Vercel (React + Next.js)
-      - Backend Node.js: Seenode o AWS EC2
-      - Módulos Python: AWS EC2 o contenedores Docker
-      - Base de datos: PostgreSQL (Supabase o AWS RDS)
-      - Cámaras IP: conectadas vía RTSP al servidor Python
+  📦  Infraestructura MVP (todo gratuito):
+      - Frontend:     Vercel free tier
+      - Backend Node: Railway free tier / Render free tier
+      - Módulos Python: Render free tier (un servicio por módulo)
+      - Base de datos: MongoDB Atlas M0 (512MB, gratis permanente)
+      - Entrenamiento: Google Colab FREE
 
 
 ╔══════════════════════════════════════════════════════════════╗
@@ -170,71 +177,84 @@
 ╚══════════════════════════════════════════════════════════════╝
 
   ┌─────────────────────────────────────────────────────────┐
-  │  FASE 1  (Semana 1-2)  — Fundación                     │
+  │  FASE 1  (Semanas 1-2)  — Fundación React               │
   ├─────────────────────────────────────────────────────────┤
-  │  • Migrar frontend actual a React + Next.js            │
-  │  • Crear backend Node.js con Express + PostgreSQL      │
-  │  • Sistema de autenticación JWT                        │
-  │  • CRUD de usuarios, vehículos y reservas              │
-  │  • Módulo 2 (Asignación Inteligente) en Node.js        │
+  │  • Migrar frontend a React + Vite + TypeScript          │
+  │  • Backend Node.js + Express + MongoDB Atlas            │
+  │  • Auth JWT + bcryptjs                                  │
+  │  • CRUD: usuarios, vehículos, reservas                  │
+  │  • Módulo 2 (Asignación Inteligente) en Node.js         │
+  │  • Deploy: Vercel (frontend) + Railway (backend)        │
   └─────────────────────────────────────────────────────────┘
 
   ┌─────────────────────────────────────────────────────────┐
-  │  FASE 2  (Semana 3-4)  — Visión Computacional          │
+  │  FASE 2  (Semanas 3-4)  — Visión Computacional          │
   ├─────────────────────────────────────────────────────────┤
-  │  • Configurar entorno Python con OpenCV + YOLOv8       │
-  │  • Recopilar y etiquetar dataset de matrículas         │
-  │  • Entrenar modelo de reconocimiento de matrículas     │
-  │  • Crear API Python (FastAPI) para el servicio         │
-  │  • Integrar con cámara IP de prueba                    │
-  │  • Probar inferencia en tiempo real                    │
+  │  • Configurar Python + EasyOCR + OpenCV                 │
+  │  • MVP: reconocimiento de matrículas con fotos          │
+  │  • Crear API FastAPI para el servicio                   │
+  │  • Integrar con backend Node.js                         │
+  │  • Opcional: agregar YOLOv8 nano si EasyOCR no es       │
+  │    suficientemente preciso                              │
+  │  • Deploy: Render free tier                             │
   └─────────────────────────────────────────────────────────┘
 
   ┌─────────────────────────────────────────────────────────┐
-  │  FASE 3  (Semana 5-6)  — Analítica Predictiva          │
+  │  FASE 3  (Semanas 5-6)  — Analítica Predictiva          │
   ├─────────────────────────────────────────────────────────┤
-  │  • Configurar entorno Python con Prophet + Scikit-learn│
-  │  • Alimentar modelo con datos históricos               │
-  │  • Entrenar modelo de predicción de ocupación          │
-  │  • Entrenar modelo de detección de anomalías           │
-  │  • Crear API Python (FastAPI) para predicciones        │
+  │  • MVP: reglas heurísticas de horas pico               │
+  │  • Acumular datos históricos en MongoDB                 │
+  │  • Cuando haya suficientes datos: entrenar Prophet      │
+  │    en Google Colab FREE                                 │
+  │  • Crear API FastAPI para predicciones                  │
   │  • Conectar al dashboard de administración             │
+  │  • Deploy: Render free tier                             │
   └─────────────────────────────────────────────────────────┘
 
   ┌─────────────────────────────────────────────────────────┐
-  │  FASE 4  (Semana 7-8)  — Integración y Despliegue      │
+  │  FASE 4  (Semanas 7-8)  — Integración y Despliegue     │
   ├─────────────────────────────────────────────────────────┤
   │  • Integrar los 3 módulos en el API Gateway             │
-  │  • Dashboard en tiempo real con WebSockets              │
-  │  • Pruebas de carga y optimización de rendimiento       │
-  │  • Dockerizar todos los servicios                       │
-  │  • Desplegar en producción                              │
+  │  • Dashboard en tiempo real con socket.io               │
+  │  • Pruebas end-to-end                                   │
   │  • Documentación técnica y manual de usuario            │
+  │  ⚠️ Docker: opcional para MVP educativo                  │
+  │     Priorizar funcionalidad sobre infraestructura       │
   └─────────────────────────────────────────────────────────┘
 
 
 ╔══════════════════════════════════════════════════════════════╗
-║  7. RECURSOS NECESARIOS                                     ║
+║  7. RECURSOS — MVP EDUCATIVO (COSTO $0)                    ║
 ╚══════════════════════════════════════════════════════════════╝
 
-  👨‍💻  Equipo:
-      - 1 Fullstack Developer (React + Node.js)
-      - 1 Data Scientist / ML Engineer (Python, CV, ML)
-      - 1 DevOps (despliegue Docker + cloud)
+  🛠️  Todo gratuito para el MVP:
 
-  💰  Costos estimados (mensuales):
-      - Vercel Pro: $20 USD (frontend)
-      - Servidor backend: $15-30 USD (Seenode / AWS EC2)
-      - Servidor GPU (entrenamiento): $0.5-1 USD/hora (Colab)
-      - Cámara IP: $60-120 USD (una vez)
-      - Base de datos: $10-25 USD (Supabase / AWS RDS)
-      - Total: ~$50-80 USD/mes + costos únicos
+  ┌──────────────────────────────┬──────────────┬─────────────┐
+  │ Servicio                     │ Plan         │ Costo       │
+  ├──────────────────────────────┼──────────────┼─────────────┤
+  │ Vercel (frontend)            │ Free tier    │ $0          │
+  │ Railway (backend Node.js)    │ Free tier    │ $0          │
+  │ Render (módulos Python)      │ Free tier    │ $0          │
+  │ MongoDB Atlas (base de datos)│ M0 free      │ $0          │
+  │ Google Colab (entrenamiento) │ Free         │ $0          │
+  │ LabelImg (etiquetado)        │ Open source  │ $0          │
+  │ Roboflow (dataset mgmt)      │ Free tier    │ $0          │
+  │ Hugging Face (modelos base)  │ Free         │ $0          │
+  ├──────────────────────────────┼──────────────┼─────────────┤
+  │ TOTAL MVP EDUCATIVO          │              │ $0/mes      │
+  └──────────────────────────────┴──────────────┴─────────────┘
 
-  🛠️  Herramientas gratuitas:
-      - Google Colab (GPU para entrenar modelos)
-      - LabelImg (etiquetado de imágenes)
-      - Roboflow (gestión de datasets)
-      - Hugging Face (modelos base)
+  ⚠️  Limitaciones del free tier a tener en cuenta:
+  - Railway: 500 horas/mes, se duerme con inactividad
+  - Render: servicio se duerme después de 15min sin tráfico
+  - MongoDB Atlas M0: 512MB — suficiente para el proyecto
+  - Google Colab: 12h de GPU por sesión (más que suficiente)
+
+  💰  Costos si se despliega para cliente real (referencia):
+  - Vercel Pro: $20 USD/mes
+  - Railway Dev: $5-20 USD/mes
+  - MongoDB Atlas M10: $57 USD/mes
+  - Total producción: ~$80-100 USD/mes
 
 
 ╔══════════════════════════════════════════════════════════════╗
@@ -242,38 +262,49 @@
 ╚══════════════════════════════════════════════════════════════╝
 
   ⚠️  Riesgo: Precisión del OCR en matrículas colombianas
-     ✅ Mitigación: Fine-tuning con dataset local, aumentar
-        variedad de condiciones de luz y ángulo
+     ✅ Mitigación: EasyOCR funciona bien sin fine-tuning.
+        Si no es suficiente, agregar YOLOv8 nano en Colab.
 
-  ⚠️  Riesgo: Latencia alta en visión computacional
-     ✅ Mitigación: Usar TensorRT para optimizar inferencia,
-        ejecutar en GPU dedicada si es necesario
+  ⚠️  Riesgo: Servicios free tier se duermen
+     ✅ Mitigación: Usar UptimeRobot (gratis) para hacer
+        ping cada 14 minutos y mantener los servicios activos.
 
   ⚠️  Riesgo: Datos insuficientes para modelo predictivo
-     ✅ Mitigación: Empezar con reglas heurísticas mientras
-        se recolectan datos, luego migrar a ML
+     ✅ Mitigación: Empezar con reglas heurísticas simples.
+        Migrar a Prophet solo cuando haya datos reales.
 
-  ⚠️  Riesgo: Costo de infraestructura
-     ✅ Mitigación: Empezar con servicios free tier,
-        escalar solo cuando sea necesario
+  ⚠️  Riesgo: MongoDB Atlas 512MB insuficiente
+     ✅ Mitigación: Para un parqueadero educativo es más que
+        suficiente. Monitorear con Atlas Dashboard gratuito.
+
+  ⚠️  Riesgo: Google Colab desconecta en entrenamiento largo
+     ✅ Mitigación: Guardar checkpoints cada epoch en
+        Google Drive. Retomar desde el último checkpoint.
 
 
 ╔══════════════════════════════════════════════════════════════╗
 ║  9. CONCLUSIÓN                                             ║
 ╚══════════════════════════════════════════════════════════════╝
 
-  Flux AI no es un proyecto de un fin de semana. Es un
-  sistema de IA propietario que diferencia a Punto Park U
-  de cualquier competidor.
+  Flux AI es el diferenciador de Punto Park U frente a
+  cualquier sistema de parqueadero convencional.
 
-  Recomendación: empezar por la FASE 1 (migración a React +
-  backend + asignación inteligente) que es la base de todo,
-  e ir agregando los módulos de IA progresivamente.
+  Para el MVP educativo: $0 en infraestructura.
+  Para cliente real: escalar a planes pagos según demanda.
 
-  La visión computacional (FASE 2) es el módulo más impactante
-  y el que más valor agrega al usuario. Priorizarlo después
-  de tener el backend funcionando.
+  Orden de prioridad:
+  1. FASE 1 (React + Node.js + MongoDB) — base de todo
+  2. FASE 2 (Visión Computacional) — mayor impacto visual
+  3. FASE 3 (Analítica Predictiva) — inteligencia operativa
+  4. FASE 4 (Integración final) — producto completo
 
-╔══════════════════════════════════════════════════════════════╗
-║  Fin del Plan — Jarvis — Mayo 2026                         ║
-╚══════════════════════════════════════════════════════════════╝
+  Stack Flux AI confirmado v2.0:
+  ├── Python 3.11+ (gratis)
+  ├── EasyOCR + OpenCV (gratis)
+  ├── YOLOv8 nano (gratis, uso educativo)
+  ├── Scikit-learn + Prophet (gratis)
+  ├── FastAPI (gratis)
+  ├── MongoDB Atlas M0 (gratis)
+  └── Google Colab FREE (entrenamiento)
+
+  Jarvis sonnet 4.6 — Junio 2026 — v2.0
